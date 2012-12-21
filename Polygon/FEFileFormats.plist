@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DropboxSupportedFileFormats</key>
+	<array>
+		<string>cdb</string>
+		<string>dat</string>
+		<string>inp</string>
+		<string>zip</string>
+		<string>ans</string>
+	</array>
+	<key>AnsysFileFormats</key>
+	<array>
+		<string>cdb</string>
+		<string>dat</string>
+		<string>inp</string>
+		<string>ans</string>
+	</array>
+	<key>NastranFileFormats</key>
+	<array>
+		<string>bdf</string>
+		<string>nas</string>
+	</array>
+	<key>LSPrePostFileFormats</key>
+	<array>
+		<string>k</string>
+	</array>
+	<key>ParsableFormats</key>
+	<array>
+		<string>dat</string>
+		<string>cdb</string>
+		<string>inp</string>
+		<string>ans</string>
+	</array>
+</dict>
+</plist>
