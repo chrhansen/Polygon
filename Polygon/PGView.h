@@ -14,7 +14,7 @@
 @interface PGView : NSManagedObject
 
 @property (nonatomic, retain) NSDate * dateModified;
-@property (nonatomic, retain) NSData * image;
+@property (nonatomic, retain) UIImage * image;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * wAngle;
 @property (nonatomic, retain) NSNumber * xLocation;

@@ -1,14 +1,14 @@
 //
-//  FEModel+Management.m
+//  PGModel+Management.m
 //  Polygon
 //
 //  Created by Christian Hansen on 14/12/12.
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "FEModel+Management.h"
+#import "PGModel+Management.h"
 
-@implementation FEModel (Management)
+@implementation PGModel (Management)
 
 - (NSString *)fullModelFilePath
 {
@@ -22,7 +22,9 @@
 
 - (BOOL)isDownloaded
 {
-    return (self.dateAdded.unsignedLongLongValue > 0);
+//    return (self.dateAdded.unsignedLongLongValue > 0);
+    NSArray *pathComponents = [self.filePath pathComponents];
+    return (pathComponents.count > 0 && [pathComponents[0] isEqualToString:@"Documents"]);
 }
 
 #pragma mark - Image getters/setters
@@ -71,6 +73,44 @@
     return ModelTypeUnknown;
 }
 
+- (NSDictionary *)subitems
+{
+    NSString *origFilePath = self.fullModelFilePath;
+    
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSDirectoryEnumerator *dirEnum = [fileManager enumeratorAtPath:self.enclosingFolder];
+    NSMutableDictionary *items = [NSMutableDictionary new];
+    NSString *file;
+    while (file = [dirEnum nextObject])
+    {
+        NSString *filePath = [self.enclosingFolder stringByAppendingPathComponent:file];
+        if ([filePath isEqualToString:origFilePath]) {
+            continue;
+        }
+        NSError *error;
+        NSDictionary *fileInfo = [fileManager attributesOfItemAtPath:filePath error:&error];
+        if (!error && fileInfo[NSFileType] == NSFileTypeRegular) {
+            [items setValue:fileInfo forKey:filePath];
+        }
+    }
+    return items;
+}
+
+
+- (NSDate *)dateAddedAsDate
+{
+    return [NSDate dateWithTimeIntervalSince1970:(double)self.dateAdded.unsignedLongLongValue];
+}
+
+
+- (NSString *)dateAddedAsLocalizedString
+{
+    NSDate *date = [self dateAddedAsDate];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"MMM dd, YYYY, HH:mm"];
+    return [format stringFromDate:date];
+}
+
 #pragma mark - Custom import methods
 - (BOOL)importModelSize:(id)data
 {
@@ -102,14 +142,14 @@
         for (NSManagedObjectID *anID in objectIDs)
         {
             NSError *error;
-            FEModel *aModel = (FEModel *)[localContext existingObjectWithID:anID error:&error];
+            PGModel *aModel = (PGModel *)[localContext existingObjectWithID:anID error:&error];
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(error);
                 });
                 return;
             }
-            error = [FEModel deleteModel:aModel];
+            error = [PGModel deleteModel:aModel];
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(error);
@@ -125,7 +165,7 @@
 }
 
 
-+ (NSError *)deleteModel:(FEModel *)aModel
++ (NSError *)deleteModel:(PGModel *)aModel
 {
     NSError *error;
     [NSFileManager.defaultManager removeItemAtPath:aModel.enclosingFolder error:&error];

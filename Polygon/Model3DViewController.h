@@ -8,14 +8,13 @@
 
 #import "ModelViewController.h"
 
-@class FEModel;
+@class PGModel;
 
 @interface Model3DViewController : UIViewController
 
-- (IBAction)doneTapped:(UIBarButtonItem *)sender;
-
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
-@property (nonatomic, strong) FEModel *feModel;
+@property (nonatomic, strong) PGModel *model;
+@property (nonatomic, weak) id<ModelViewControllerDelegate> modelViewDelegate;
 
 @end

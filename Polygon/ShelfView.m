@@ -14,7 +14,16 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor blueColor];
+        if (IS_IPAD) {
+            self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"clean-shelf"]];
+        } else {
+            self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"clean-shelf-iphone"]];
+        }
+//
+//        UIImage *backGround = [UIImage imageNamed:@"clena-shelf-minimized"];
+//        UIEdgeInsets insets = UIEdgeInsetsMake(0, 80.0f, 0, 80.0f);
+//        UIImage *resizedImage = [backGround resizableImageWithCapInsets:insets];
+//        self.backgroundColor = [UIColor colorWithPatternImage:resizedImage];
         // Initialization code
     }
     return self;

@@ -1,22 +1,24 @@
 //
-//  FEModel.m
+//  PGModel.m
 //  Polygon
 //
-//  Created by Christian Hansen on 16/12/12.
+//  Created by Christian Hansen on 21/12/12.
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "FEModel.h"
+#import "PGModel.h"
+#import "PGView.h"
 
 
-@implementation FEModel
+@implementation PGModel
 
 @dynamic dateAdded;
-@dynamic fEModelID;
+@dynamic pGModelID;
 @dynamic filePath;
 @dynamic globalURL;
 @dynamic modelImage;
 @dynamic modelName;
 @dynamic modelSize;
+@dynamic views;
 
 @end

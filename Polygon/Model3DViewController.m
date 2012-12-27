@@ -7,8 +7,10 @@
 //
 
 #import "Model3DViewController.h"
-#import "FEModel+Management.h"
+#import "PGModel+Management.h"
 #import <NinevehGL/NinevehGL.h>
+#import "ViewsTableViewController.h"
+#import "TSPopoverController.h"
 
 @interface Model3DViewController () <NGLViewDelegate, NGLMeshDelegate>
 
@@ -51,7 +53,7 @@
                               kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
 							  nil];
 	
-	_mesh = [[NGLMesh alloc] initWithFile:self.feModel.fullModelFilePath settings:settings delegate:self];
+	_mesh = [[NGLMesh alloc] initWithFile:self.model.fullModelFilePath settings:settings delegate:self];
 	
 	// Initializing the camera and placing it into a good initial position.
 	_camera = [[NGLCamera alloc] initWithMeshes:_mesh, nil];
@@ -86,12 +88,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)viewsTapped:(UIBarButtonItem *)barButton
+{
+    CGPoint popoverLocation = CGPointMake(30, 22);
+    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"viewsTableViewControllerNavigationController"];
+    navigationController.view.frame = CGRectMake(0,0, 280, 350);
+
+    ViewsTableViewController *viewsTableViewController = (ViewsTableViewController *)navigationController.topViewController;
+    viewsTableViewController.model = self.model;
+    TSPopoverController *popoverController = [[TSPopoverController alloc] initWithContentViewController:navigationController];
+//    if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
+    popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;
+    popoverController.arrowPosition = TSPopoverArrowPositionVertical;
+    [popoverController showPopoverWithRect:CGRectMake(popoverLocation.x, popoverLocation.y, 1, 1)];
+}
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self.feModel.managedObjectContext saveInBackgroundCompletion:nil];
-    }];
+    [(NGLView *)self.view setDelegate:nil];
+    [self.modelViewDelegate modelViewController:self didTapDone:[self currentViewAsModelScreenshot] model:self.model];
+}
+
+
+- (UIImage *)currentViewAsModelScreenshot
+{
+    return [(NGLView *)self.view drawToImage];
 }
 
 @end

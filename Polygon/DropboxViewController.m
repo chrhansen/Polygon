@@ -10,7 +10,7 @@
 #import "DownloadManager.h"
 #import "DropboxCell.h"
 #import "NSString+_Format.h"
-#import "FEModel+Management.h"
+#import "PGModel+Management.h"
 #import "UIBarButtonItem+Customview.h"
 
 @interface DropboxViewController () <DownloadManagerDelegate>
@@ -193,7 +193,7 @@
     else
     {
         // is a file (not directory)
-        if ([FEModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
+        if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
         {
             dropboxCell.userInteractionEnabled = NO;
             dropboxCell.folderFileName.textColor = [UIColor lightGrayColor];
@@ -232,7 +232,7 @@
     else
     {
         // is a file (not directory)
-        if ([FEModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
+        if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
         {
             dropboxCell.folderFileImage.image = nil;
         }
@@ -295,7 +295,7 @@
 
 - (void)_handleSelectedModelFile:(DBMetadata *)metadata atIndexPath:(NSIndexPath *)indexPath
 {
-    switch ([FEModel modelTypeForFileName:metadata.filename ])
+    switch ([PGModel modelTypeForFileName:metadata.filename ])
     {
         case ModelTypeAnsys:
         case ModelTypeNastran:

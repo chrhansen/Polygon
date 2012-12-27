@@ -6,16 +6,19 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "FEModel.h"
+#import "PGModel.h"
 
-@interface FEModel (Management)
+@interface PGModel (Management)
 
 + (void)deleteModels:(NSArray *)modelsToDelete completion:(void (^)(NSError *error))completion;
 + (ModelType)modelTypeForFileName:(NSString *)fileNameWithExtension;
 
 @property (nonatomic, readonly) NSString *fullModelFilePath;
+@property (nonatomic, readonly) NSDictionary *subitems;
 @property (nonatomic, readonly) NSString *enclosingFolder;
 @property (nonatomic, readonly) ModelType modelType;
 @property (nonatomic, readonly) BOOL isDownloaded;
+@property (nonatomic, weak, readonly) NSDate *dateAddedAsDate;
+@property (nonatomic, weak, readonly) NSString *dateAddedAsLocalizedString;
 
 @end

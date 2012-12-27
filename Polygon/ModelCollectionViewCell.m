@@ -7,6 +7,8 @@
 //
 
 #import "ModelCollectionViewCell.h"
+#import <QuartzCore/QuartzCore.h>
+#define SHADOW_PART 0.95
 
 @implementation ModelCollectionViewCell
 
@@ -14,7 +16,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        
+        self.layer.cornerRadius = 20.0;
+
     }
     return self;
 }

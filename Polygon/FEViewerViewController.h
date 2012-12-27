@@ -10,19 +10,12 @@
 #import "Structs.h"
 
 
-@interface FEViewerViewController : ModelViewController
+@interface FEViewerViewController : GLKViewController <ModelViewControllerProtocol>
 
-
-- (IBAction)doneTapped:(UIBarButtonItem *)sender;
-- (IBAction)viewsTapped:(UIBarButtonItem *)sender;
-
-
-- (IBAction)tool1Tapped:(id)sender;
-- (IBAction)tool2Tapped:(id)sender;
-- (IBAction)tool3Tapped:(id)sender;
-- (IBAction)tool4Tapped:(id)sender;
-- (IBAction)tool5Tapped:(id)sender;
- 
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
 @property (weak, nonatomic) IBOutlet UIView *toolView;
+@property (nonatomic, strong) PGModel *model;
+@property (nonatomic, weak) id<ModelViewControllerDelegate> modelViewDelegate;
 
 @end

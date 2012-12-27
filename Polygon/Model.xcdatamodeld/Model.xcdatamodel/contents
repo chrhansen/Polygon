@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C3006" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="FEModel" representedClassName="FEModel" syncable="YES">
+    <entity name="PGModel" representedClassName="PGModel" syncable="YES">
         <attribute name="dateAdded" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="fEModelID" optional="YES" attributeType="String" syncable="YES">
-            <userInfo>
-                <entry key="mappedKeyName" value="metadata.rev"/>
-            </userInfo>
-        </attribute>
         <attribute name="filePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="globalURL" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -20,8 +15,28 @@
             </userInfo>
         </attribute>
         <attribute name="modelSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="pGModelID" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="metadata.rev"/>
+            </userInfo>
+        </attribute>
+        <relationship name="views" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="PGView" inverseName="viewOf" inverseEntity="PGView" syncable="YES"/>
+    </entity>
+    <entity name="PGView" representedClassName="PGView" syncable="YES">
+        <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wAngle" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="xLocation" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="xRotation" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="yLocation" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="yRotation" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="zLocation" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="zRotation" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="viewOf" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PGModel" inverseName="views" inverseEntity="PGModel" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FEModel" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="PGModel" positionX="-189" positionY="-126" width="128" height="163"/>
+        <element name="PGView" positionX="-9" positionY="-9" width="128" height="210"/>
     </elements>
 </model>

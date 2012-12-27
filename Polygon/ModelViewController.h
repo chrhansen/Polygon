@@ -9,14 +9,23 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 
-@class FEModel;
+@class PGModel;
 
-@interface ModelViewController : GLKViewController
+@protocol ModelViewControllerDelegate <NSObject>
+
+- (void)modelViewController:(id)sender didTapDone:(UIImage *)screenshot model:(PGModel *)model;
+
+@end
+
+@protocol ModelViewControllerProtocol <NSObject>
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender;
+- (IBAction)viewsTapped:(UIBarButtonItem *)sender;
 
-@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
-@property (nonatomic, strong) FEModel *feModel;
+- (IBAction)tool1Tapped:(id)sender;
+- (IBAction)tool2Tapped:(id)sender;
+- (IBAction)tool3Tapped:(id)sender;
+- (IBAction)tool4Tapped:(id)sender;
+- (IBAction)tool5Tapped:(id)sender;
 
 @end

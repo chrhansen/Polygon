@@ -9,12 +9,6 @@
 #import "ROI3D.h"
 
 @implementation ROI3D
-@synthesize title = _title;
-@synthesize description = _description;
-@synthesize location = _location;
-@synthesize orientation = _orientation;
-@synthesize snapshot = _snapshot;
-@synthesize snapshotFileName = _snapshotFileName;
 
 + (ROI3D *)createROIAt:(GLKVector3)location andOrientation:(GLKQuaternion)orientation
 {

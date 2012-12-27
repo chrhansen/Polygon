@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <DropboxSDK/DropboxSDK.h>
 
-@class DownloadManager, FEModel;
+@class DownloadManager, PGModel;
 
 @protocol DownloadManagerDelegate <NSObject>
 
@@ -20,17 +20,17 @@
 
 @protocol DownloadManagerProgressDelegate <NSObject>
 @optional
-- (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forModel:(FEModel *)model;
-- (void)downloadManager:(DownloadManager *)sender finishedDownloadingModel:(FEModel *)model;
-- (void)downloadManager:(DownloadManager *)sender failedDownloadingModel:(FEModel *)model;
+- (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forModel:(PGModel *)model;
+- (void)downloadManager:(DownloadManager *)sender finishedDownloadingModel:(PGModel *)model;
+- (void)downloadManager:(DownloadManager *)sender failedDownloadingModel:(PGModel *)model;
 @end
 
 @interface DownloadManager : NSObject <DBRestClientDelegate>
 
 + (DownloadManager *)sharedInstance;
 
-- (FEModel *)downloadFile:(DBMetadata *)fileMetadata;
-- (FEModel *)downloadFilesAndDirectories:(NSArray *)metadatas rootFile:(DBMetadata *)rootMetadata;
+- (PGModel *)downloadFile:(DBMetadata *)fileMetadata;
+- (PGModel *)downloadFilesAndDirectories:(NSArray *)metadatas rootFile:(DBMetadata *)rootMetadata;
 
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<DownloadManagerDelegate> delegate;

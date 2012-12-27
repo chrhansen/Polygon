@@ -7,7 +7,7 @@
 //
 
 #import "FEViewerViewController.h"
-#import "FEModel+Management.h"
+#import "PGModel+Management.h"
 #import "AnsysModel.h"
 #import "BackgroundVertices.h"
 #import <QuartzCore/QuartzCore.h>
@@ -19,6 +19,7 @@
 #import "MBProgressHUD.h"
 //#import "ViewsTableViewController.h"
 #import <CoreMotion/CoreMotion.h>
+#import "UIImage+RoundedCorner.h"
 
 @interface FEViewerViewController ()  <UIGestureRecognizerDelegate, OptionsTableViewControllerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, ElementTypeTableViewControllerDelegate, ColorTableViewControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate>
 {    
@@ -160,7 +161,7 @@
     [self setNavigationBar:nil];
     [self setToolView:nil];
     [self tearDownGL];
-    
+
     if ([EAGLContext currentContext] == self.context)
     {
         [EAGLContext setCurrentContext:nil];
@@ -213,7 +214,7 @@
     [self showAnnularProgressHUD];
     self.elementTransparency = 1.0;
     NSDictionary *initialSettings = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:self.elementTransparency], @"transparency", nil];
-    self.modelPath = self.feModel.fullModelFilePath;
+    self.modelPath = self.model.fullModelFilePath;
     if (!self.modelPath) {
         return;
     }
@@ -784,35 +785,31 @@ const CGFloat previousWeight = 0.75;
 }
 
 
-- (void)makeModelScreenshot
+- (UIImage *)currentViewAsModelScreenshot
 {
-    self.feModel.modelImage = [(GLKView *)self.view snapshot];
+    return [(GLKView *)self.view snapshot];
 }
 
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender
 {
-    [self makeModelScreenshot];
     if (self.thePopoverController.isPopoverVisible) {
         [self.thePopoverController dismissPopoverAnimated:YES];
         self.thePopoverController = nil;
     }
-    [self dismissViewControllerAnimated:YES completion:^{
-        _anAnsysModel = nil;
-        [self.feModel.managedObjectContext saveInBackgroundCompletion:nil];
-    }];
+    [self.modelViewDelegate modelViewController:self didTapDone:[self currentViewAsModelScreenshot] model:self.model];
 }
 
-- (IBAction)viewsTapped:(UIBarButtonItem *)sender 
+- (IBAction)viewsTapped:(UIBarButtonItem *)sender
 {
     [self dismissPopopoverIfVisible];
-    if (!self.thePopoverController.isPopoverVisible) 
+    if (!self.thePopoverController.isPopoverVisible)
     {
         NSLog(@"IMplement show the views table view controller popover");
-//        ViewsTableViewController *viewsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Views Table View Controller"];
-//        viewsTableViewController.delegate = self;
-//        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewsTableViewController];
-//        self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
+        //        ViewsTableViewController *viewsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Views Table View Controller"];
+        //        viewsTableViewController.delegate = self;
+        //        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewsTableViewController];
+        //        self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
 //        self.thePopoverController.delegate = self;
 //        [self.thePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
     }

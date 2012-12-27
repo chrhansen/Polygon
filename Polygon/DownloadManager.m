@@ -7,7 +7,7 @@
 //
 
 #import "DownloadManager.h"
-#import "FEModel+Management.h"
+#import "PGModel+Management.h"
 #import "NSString+UUID.h"
 
 @interface DownloadManager ()
@@ -69,7 +69,7 @@
 }
 
 
-- (FEModel *)downloadFile:(DBMetadata *)metadata
+- (PGModel *)downloadFile:(DBMetadata *)metadata
 {
     NSString *uniqueID = [NSString getUUID];
     NSError *error;
@@ -84,8 +84,9 @@
     NSString *relativePath = [directoryPath stringByAppendingPathComponent:metadata.filename];
     NSDictionary *objectDetails = @{
     @"metadata" : metadata,
-    @"filePath" : relativePath};
-    FEModel *newModel = [FEModel MR_importFromObject:objectDetails];
+    @"filePath" : relativePath,
+    @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
+    PGModel *newModel = [PGModel MR_importFromObject:objectDetails];
     NSString *destinationPath = [HOME_DIR stringByAppendingPathComponent:relativePath];
     NSAssert(newModel, @"Failed importing model based on dictionary");
     [self.currentDownloads setValue:newModel forKey:destinationPath];
@@ -94,9 +95,9 @@
     return newModel;
 }
 
-- (FEModel *)downloadFilesAndDirectories:(NSArray *)metadatas rootFile:(DBMetadata *)rootMetadata
+- (PGModel *)downloadFilesAndDirectories:(NSArray *)metadatas rootFile:(DBMetadata *)rootMetadata
 {
-    FEModel *model = [self downloadFile:rootMetadata];
+    PGModel *model = [self downloadFile:rootMetadata];
     if (!model) return nil;
     NSMutableArray *mutableMetadata = metadatas.mutableCopy;
     [mutableMetadata removeObject:rootMetadata];
@@ -106,7 +107,8 @@
     return model;
 }
 
-- (void)downloadFilesAndDirectories:(NSArray *)metadatas forModel:(FEModel *)model
+
+- (void)downloadFilesAndDirectories:(NSArray *)metadatas forModel:(PGModel *)model
 {
     for (DBMetadata* child in metadatas)
     {
@@ -149,7 +151,6 @@
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata
 {
     if (self.waitingSubItems[metadata.path]) {
-        NSLog(@"Waiting sub-dir: %@ (to local dir: %@)", metadata.path, self.waitingSubItems[metadata.path]);
         [self downloadDirectoryAndSubDirectories:metadata toDirectory:self.waitingSubItems[metadata.path]];
         return;
     }
@@ -176,7 +177,7 @@
 #pragma mark Download callbacks
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata
 {
-    FEModel *modelDownloaded = self.currentDownloads[destPath];
+    PGModel *modelDownloaded = self.currentDownloads[destPath];
     if (modelDownloaded)
     {
     [self.currentDownloads removeObjectForKey:destPath];
@@ -184,9 +185,8 @@
         NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
         NSDictionary *objectDetails = @{
         @"metadata" : metadata,
-        @"filePath" : newRelativePath,
-        @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
-        [FEModel importFromObject:objectDetails inContext:localContext];
+        @"filePath" : newRelativePath};
+        [PGModel importFromObject:objectDetails inContext:localContext];
     } completion:^{
         [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];
         if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingModel:)]) {

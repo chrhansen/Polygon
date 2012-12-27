@@ -66,6 +66,7 @@ extern NSString * const PolygonROIs;
 
 #define BIG_MODEL_LIMIT 5000
 
+#define IS_IPAD (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 
 typedef enum {
     kLowMem,

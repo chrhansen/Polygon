@@ -22,7 +22,7 @@
 		E5376B9F167B5CB100738979 /* ModelsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376B9E167B5CB100738979 /* ModelsCollectionViewController.m */; };
 		E5376BA3167B5CE600738979 /* ModelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA2167B5CE600738979 /* ModelCollectionViewCell.m */; };
 		E5376BA7167B5E7C00738979 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA5167B5E7C00738979 /* Model.xcdatamodeld */; };
-		E5376BAE167B5F6800738979 /* FEModel+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BAD167B5F6800738979 /* FEModel+Management.m */; };
+		E5376BAE167B5F6800738979 /* PGModel+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BAD167B5F6800738979 /* PGModel+Management.m */; };
 		E5376BB5167B603F00738979 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376BB4167B603F00738979 /* CoreData.framework */; };
 		E5376BF3167B60DB00738979 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BBB167B60DB00738979 /* MagicalImportFunctions.m */; };
 		E5376BF4167B60DB00738979 /* NSAttributeDescription+MagicalDataImport.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BBD167B60DB00738979 /* NSAttributeDescription+MagicalDataImport.m */; };
@@ -82,12 +82,21 @@
 		E5376CF5167B890C00738979 /* ROIDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CF4167B890C00738979 /* ROIDetailTableViewController.m */; };
 		E5376CF8167B892600738979 /* NSString+_Format.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CF7167B892500738979 /* NSString+_Format.m */; };
 		E5376D07167B934C00738979 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376D06167B934C00738979 /* MBProgressHUD.m */; };
+		E58FB65E16852FEC00085E7D /* PGInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E58FB65D16852FEC00085E7D /* PGInfoTableViewController.m */; };
+		E58FB6B5168682A500085E7D /* TSPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = E58FB6AC168682A500085E7D /* TSPopoverController.m */; };
+		E58FB6B6168682A500085E7D /* TSPopoverPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = E58FB6AE168682A500085E7D /* TSPopoverPopoverView.m */; };
+		E58FB6B7168682A500085E7D /* TSPopoverTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = E58FB6B1168682A500085E7D /* TSPopoverTouchView.m */; };
+		E58FB6B8168682A500085E7D /* UIBarButtonItem+WEPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = E58FB6B3168682A500085E7D /* UIBarButtonItem+WEPopover.m */; };
 		E5A4F028167E1BB7007DE0CB /* Model3DViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */; };
-		E5A4F037167E4AA0007DE0CB /* FEModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A4F036167E4AA0007DE0CB /* FEModel.m */; };
-		E5A4F03A167E4D2E007DE0CB /* ModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A4F039167E4D2E007DE0CB /* ModelViewController.m */; };
 		E5A4F042167E5F8D007DE0CB /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */; };
 		E5A4F043167E5F8D007DE0CB /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F041167E5F8D007DE0CB /* 39-circle-check@2x.png */; };
 		E5A4F11C167FFB90007DE0CB /* NinevehGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4F11B167FFB90007DE0CB /* NinevehGL.framework */; };
+		E5B7681F1686B04B00B9EBEB /* ViewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B7681E1686B04B00B9EBEB /* ViewsTableViewController.m */; };
+		E5B768261686B4DE00B9EBEB /* TSActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B768251686B4DE00B9EBEB /* TSActionSheet.m */; };
+		E5B76845168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B76843168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png */; };
+		E5B76846168B6CEE00B9EBEB /* clena-shelf-minimized.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B76844168B6CEE00B9EBEB /* clena-shelf-minimized.png */; };
+		E5B7684A168B725800B9EBEB /* clean-shelf-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B76848168B725800B9EBEB /* clean-shelf-iphone.png */; };
+		E5B76850168B7B2100B9EBEB /* clean-shelf-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B7684F168B7B2100B9EBEB /* clean-shelf-iphone@2x.png */; };
 		E5BB286516813E57000E68FE /* DropboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB286416813E57000E68FE /* DropboxCell.m */; };
 		E5BB286B1681404A000E68FE /* dropbox_fileitem.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28671681404A000E68FE /* dropbox_fileitem.png */; };
 		E5BB286C1681404A000E68FE /* dropbox_fileitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28681681404A000E68FE /* dropbox_fileitem@2x.png */; };
@@ -103,12 +112,14 @@
 		E5BB28831681F359000E68FE /* clean-shelf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB287D1681F359000E68FE /* clean-shelf@2x.png */; };
 		E5BB288A1681F490000E68FE /* icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28891681F48F000E68FE /* icon_114.png */; };
 		E5BB288C1681F492000E68FE /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB288B1681F492000E68FE /* icon_57.png */; };
-		E5BB28E31682AF94000E68FE /* Shelf_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28E21682AF94000E68FE /* Shelf_iPad.xib */; };
 		E5BB29001682BB43000E68FE /* ShelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB28FF1682BB43000E68FE /* ShelfView.m */; };
 		E5BB29031682BF4F000E68FE /* CHFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB29021682BF4E000E68FE /* CHFlowLayout.m */; };
 		E5BB29471683EE7B000E68FE /* dropbox_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB29451683EE7A000E68FE /* dropbox_logo.png */; };
 		E5BB29481683EE7B000E68FE /* dropbox_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB29461683EE7A000E68FE /* dropbox_logo@2x.png */; };
 		E5C64DA9167C1208000D850B /* gradient_1600x1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5C64DA8167C1208000D850B /* gradient_1600x1.jpg */; };
+		E5EA5B0816852523008729C3 /* PGView+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EA5B0716852523008729C3 /* PGView+Management.m */; };
+		E5EA5B1716852707008729C3 /* PGModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EA5B1616852707008729C3 /* PGModel.m */; };
+		E5F5B106168CB3F0006205E9 /* PGView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F5B105168CB3F0006205E9 /* PGView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,8 +144,8 @@
 		E5376BA1167B5CE600738979 /* ModelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelCollectionViewCell.h; sourceTree = "<group>"; };
 		E5376BA2167B5CE600738979 /* ModelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelCollectionViewCell.m; sourceTree = "<group>"; };
 		E5376BA6167B5E7C00738979 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		E5376BAC167B5F6800738979 /* FEModel+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FEModel+Management.h"; path = "Polygon/FEModel+Management.h"; sourceTree = "<group>"; };
-		E5376BAD167B5F6800738979 /* FEModel+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FEModel+Management.m"; path = "Polygon/FEModel+Management.m"; sourceTree = "<group>"; };
+		E5376BAC167B5F6800738979 /* PGModel+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PGModel+Management.h"; path = "Polygon/PGModel+Management.h"; sourceTree = "<group>"; };
+		E5376BAD167B5F6800738979 /* PGModel+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PGModel+Management.m"; path = "Polygon/PGModel+Management.m"; sourceTree = "<group>"; };
 		E5376BB4167B603F00738979 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E5376BBA167B60DB00738979 /* MagicalImportFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalImportFunctions.h; sourceTree = "<group>"; };
 		E5376BBB167B60DB00738979 /* MagicalImportFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalImportFunctions.m; sourceTree = "<group>"; };
@@ -245,15 +256,31 @@
 		E5376CF7167B892500738979 /* NSString+_Format.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+_Format.m"; sourceTree = "<group>"; };
 		E5376D05167B934C00738979 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		E5376D06167B934C00738979 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		E58FB65C16852FEC00085E7D /* PGInfoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGInfoTableViewController.h; sourceTree = "<group>"; };
+		E58FB65D16852FEC00085E7D /* PGInfoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGInfoTableViewController.m; sourceTree = "<group>"; };
+		E58FB6AB168682A500085E7D /* TSPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverController.h; sourceTree = "<group>"; };
+		E58FB6AC168682A500085E7D /* TSPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPopoverController.m; sourceTree = "<group>"; };
+		E58FB6AD168682A500085E7D /* TSPopoverPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverPopoverView.h; sourceTree = "<group>"; };
+		E58FB6AE168682A500085E7D /* TSPopoverPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPopoverPopoverView.m; sourceTree = "<group>"; };
+		E58FB6AF168682A500085E7D /* TSPopoverTouchesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverTouchesDelegate.h; sourceTree = "<group>"; };
+		E58FB6B0168682A500085E7D /* TSPopoverTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverTouchView.h; sourceTree = "<group>"; };
+		E58FB6B1168682A500085E7D /* TSPopoverTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPopoverTouchView.m; sourceTree = "<group>"; };
+		E58FB6B2168682A500085E7D /* UIBarButtonItem+WEPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WEPopover.h"; sourceTree = "<group>"; };
+		E58FB6B3168682A500085E7D /* UIBarButtonItem+WEPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WEPopover.m"; sourceTree = "<group>"; };
 		E5A4F026167E1BB7007DE0CB /* Model3DViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DViewController.h; sourceTree = "<group>"; };
 		E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model3DViewController.m; sourceTree = "<group>"; };
-		E5A4F035167E4AA0007DE0CB /* FEModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FEModel.h; path = Polygon/FEModel.h; sourceTree = "<group>"; };
-		E5A4F036167E4AA0007DE0CB /* FEModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FEModel.m; path = Polygon/FEModel.m; sourceTree = "<group>"; };
-		E5A4F038167E4D2D007DE0CB /* ModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelViewController.h; sourceTree = "<group>"; };
-		E5A4F039167E4D2E007DE0CB /* ModelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelViewController.m; sourceTree = "<group>"; };
 		E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check.png"; sourceTree = "<group>"; };
 		E5A4F041167E5F8D007DE0CB /* 39-circle-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check@2x.png"; sourceTree = "<group>"; };
 		E5A4F11B167FFB90007DE0CB /* NinevehGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NinevehGL.framework; sourceTree = "<group>"; };
+		E5B7681D1686B04B00B9EBEB /* ViewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewsTableViewController.h; sourceTree = "<group>"; };
+		E5B7681E1686B04B00B9EBEB /* ViewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewsTableViewController.m; sourceTree = "<group>"; };
+		E5B768211686B0DB00B9EBEB /* ModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelViewController.h; sourceTree = "<group>"; };
+		E5B768241686B4DE00B9EBEB /* TSActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSActionSheet.h; sourceTree = "<group>"; };
+		E5B768251686B4DE00B9EBEB /* TSActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSActionSheet.m; sourceTree = "<group>"; };
+		E5B76843168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clena-shelf-minimized@2x.png"; sourceTree = "<group>"; };
+		E5B76844168B6CEE00B9EBEB /* clena-shelf-minimized.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clena-shelf-minimized.png"; sourceTree = "<group>"; };
+		E5B76848168B725800B9EBEB /* clean-shelf-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone.png"; sourceTree = "<group>"; };
+		E5B7684F168B7B2100B9EBEB /* clean-shelf-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone@2x.png"; sourceTree = "<group>"; };
 		E5BB286316813E57000E68FE /* DropboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxCell.h; sourceTree = "<group>"; };
 		E5BB286416813E57000E68FE /* DropboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxCell.m; sourceTree = "<group>"; };
 		E5BB28671681404A000E68FE /* dropbox_fileitem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_fileitem.png; sourceTree = "<group>"; };
@@ -270,7 +297,6 @@
 		E5BB287D1681F359000E68FE /* clean-shelf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf@2x.png"; sourceTree = "<group>"; };
 		E5BB28891681F48F000E68FE /* icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_114.png; path = ../icon_114.png; sourceTree = "<group>"; };
 		E5BB288B1681F492000E68FE /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_57.png; path = ../icon_57.png; sourceTree = "<group>"; };
-		E5BB28E21682AF94000E68FE /* Shelf_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Shelf_iPad.xib; sourceTree = "<group>"; };
 		E5BB28FE1682BB43000E68FE /* ShelfView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShelfView.h; sourceTree = "<group>"; };
 		E5BB28FF1682BB43000E68FE /* ShelfView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShelfView.m; sourceTree = "<group>"; };
 		E5BB29011682BF4E000E68FE /* CHFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFlowLayout.h; sourceTree = "<group>"; };
@@ -278,6 +304,12 @@
 		E5BB29451683EE7A000E68FE /* dropbox_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_logo.png; sourceTree = "<group>"; };
 		E5BB29461683EE7A000E68FE /* dropbox_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox_logo@2x.png"; sourceTree = "<group>"; };
 		E5C64DA8167C1208000D850B /* gradient_1600x1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradient_1600x1.jpg; sourceTree = "<group>"; };
+		E5EA5B0616852523008729C3 /* PGView+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PGView+Management.h"; path = "Polygon/PGView+Management.h"; sourceTree = "<group>"; };
+		E5EA5B0716852523008729C3 /* PGView+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PGView+Management.m"; path = "Polygon/PGView+Management.m"; sourceTree = "<group>"; };
+		E5EA5B1516852707008729C3 /* PGModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGModel.h; path = Polygon/PGModel.h; sourceTree = "<group>"; };
+		E5EA5B1616852707008729C3 /* PGModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGModel.m; path = Polygon/PGModel.m; sourceTree = "<group>"; };
+		E5F5B104168CB3F0006205E9 /* PGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PGView.h; path = Polygon/PGView.h; sourceTree = "<group>"; };
+		E5F5B105168CB3F0006205E9 /* PGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PGView.m; path = Polygon/PGView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -381,7 +413,6 @@
 		E5376BA4167B5CEB00738979 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E5BB28E21682AF94000E68FE /* Shelf_iPad.xib */,
 				E5BB28FE1682BB43000E68FE /* ShelfView.h */,
 				E5BB28FF1682BB43000E68FE /* ShelfView.m */,
 				E5BB286316813E57000E68FE /* DropboxCell.h */,
@@ -396,11 +427,11 @@
 			isa = PBXGroup;
 			children = (
 				E5376BA5167B5E7C00738979 /* Model.xcdatamodeld */,
-				E5A4F035167E4AA0007DE0CB /* FEModel.h */,
-				E5A4F036167E4AA0007DE0CB /* FEModel.m */,
 				E5376BAF167B5F6F00738979 /* CoreDat Managed Classes */,
-				E5376BAC167B5F6800738979 /* FEModel+Management.h */,
-				E5376BAD167B5F6800738979 /* FEModel+Management.m */,
+				E5376BAC167B5F6800738979 /* PGModel+Management.h */,
+				E5376BAD167B5F6800738979 /* PGModel+Management.m */,
+				E5EA5B0616852523008729C3 /* PGView+Management.h */,
+				E5EA5B0716852523008729C3 /* PGView+Management.m */,
 			);
 			name = Model;
 			path = ..;
@@ -409,6 +440,10 @@
 		E5376BAF167B5F6F00738979 /* CoreDat Managed Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E5EA5B1516852707008729C3 /* PGModel.h */,
+				E5EA5B1616852707008729C3 /* PGModel.m */,
+				E5F5B104168CB3F0006205E9 /* PGView.h */,
+				E5F5B105168CB3F0006205E9 /* PGView.m */,
 			);
 			name = "CoreDat Managed Classes";
 			sourceTree = "<group>";
@@ -416,6 +451,7 @@
 		E5376BB6167B60CF00738979 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E58FB6A8168682A500085E7D /* TSPopover */,
 				E5A4F11B167FFB90007DE0CB /* NinevehGL.framework */,
 				E5376CEC167B888200738979 /* MBProgressHUD */,
 				E5376C34167B640300738979 /* DropboxSDK.framework */,
@@ -531,6 +567,8 @@
 				E5376CE5167B880100738979 /* 3D View Controllers */,
 				E5376B9D167B5CB100738979 /* ModelsCollectionViewController.h */,
 				E5376B9E167B5CB100738979 /* ModelsCollectionViewController.m */,
+				E58FB65C16852FEC00085E7D /* PGInfoTableViewController.h */,
+				E58FB65D16852FEC00085E7D /* PGInfoTableViewController.m */,
 				E5BB29011682BF4E000E68FE /* CHFlowLayout.h */,
 				E5BB29021682BF4E000E68FE /* CHFlowLayout.m */,
 				E5376C8E167B7BC900738979 /* DropboxViewController.h */,
@@ -623,12 +661,13 @@
 		E5376CE5167B880100738979 /* 3D View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E5A4F038167E4D2D007DE0CB /* ModelViewController.h */,
-				E5A4F039167E4D2E007DE0CB /* ModelViewController.m */,
+				E5B768211686B0DB00B9EBEB /* ModelViewController.h */,
 				E5376CB7167B860700738979 /* FEViewerViewController.h */,
 				E5376CB8167B860700738979 /* FEViewerViewController.m */,
 				E5A4F026167E1BB7007DE0CB /* Model3DViewController.h */,
 				E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */,
+				E5B7681D1686B04B00B9EBEB /* ViewsTableViewController.h */,
+				E5B7681E1686B04B00B9EBEB /* ViewsTableViewController.m */,
 				E5A4F03B167E5562007DE0CB /* Sub Views */,
 			);
 			name = "3D View Controllers";
@@ -641,6 +680,24 @@
 				E5376D06167B934C00738979 /* MBProgressHUD.m */,
 			);
 			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		E58FB6A8168682A500085E7D /* TSPopover */ = {
+			isa = PBXGroup;
+			children = (
+				E5B768241686B4DE00B9EBEB /* TSActionSheet.h */,
+				E5B768251686B4DE00B9EBEB /* TSActionSheet.m */,
+				E58FB6AB168682A500085E7D /* TSPopoverController.h */,
+				E58FB6AC168682A500085E7D /* TSPopoverController.m */,
+				E58FB6AD168682A500085E7D /* TSPopoverPopoverView.h */,
+				E58FB6AE168682A500085E7D /* TSPopoverPopoverView.m */,
+				E58FB6AF168682A500085E7D /* TSPopoverTouchesDelegate.h */,
+				E58FB6B0168682A500085E7D /* TSPopoverTouchView.h */,
+				E58FB6B1168682A500085E7D /* TSPopoverTouchView.m */,
+				E58FB6B2168682A500085E7D /* UIBarButtonItem+WEPopover.h */,
+				E58FB6B3168682A500085E7D /* UIBarButtonItem+WEPopover.m */,
+			);
+			path = TSPopover;
 			sourceTree = "<group>";
 		};
 		E5A4F03B167E5562007DE0CB /* Sub Views */ = {
@@ -661,10 +718,14 @@
 		E5BB28771681F34D000E68FE /* Shelf */ = {
 			isa = PBXGroup;
 			children = (
+				E5B76844168B6CEE00B9EBEB /* clena-shelf-minimized.png */,
+				E5B76843168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png */,
 				E5BB28781681F359000E68FE /* background_shelf_landscape.png */,
 				E5BB28791681F359000E68FE /* background_shelf_portrait.png */,
 				E5BB287C1681F359000E68FE /* clean-shelf.png */,
 				E5BB287D1681F359000E68FE /* clean-shelf@2x.png */,
+				E5B76848168B725800B9EBEB /* clean-shelf-iphone.png */,
+				E5B7684F168B7B2100B9EBEB /* clean-shelf-iphone@2x.png */,
 				E5BB287A1681F359000E68FE /* clean-shelf-landscape.png */,
 				E5BB287B1681F359000E68FE /* clean-shelf-landscape@2x.png */,
 			);
@@ -763,9 +824,12 @@
 				E5BB28831681F359000E68FE /* clean-shelf@2x.png in Resources */,
 				E5BB288A1681F490000E68FE /* icon_114.png in Resources */,
 				E5BB288C1681F492000E68FE /* icon_57.png in Resources */,
-				E5BB28E31682AF94000E68FE /* Shelf_iPad.xib in Resources */,
 				E5BB29471683EE7B000E68FE /* dropbox_logo.png in Resources */,
 				E5BB29481683EE7B000E68FE /* dropbox_logo@2x.png in Resources */,
+				E5B76845168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png in Resources */,
+				E5B76846168B6CEE00B9EBEB /* clena-shelf-minimized.png in Resources */,
+				E5B7684A168B725800B9EBEB /* clean-shelf-iphone.png in Resources */,
+				E5B76850168B7B2100B9EBEB /* clean-shelf-iphone@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,7 +845,7 @@
 				E5376B9F167B5CB100738979 /* ModelsCollectionViewController.m in Sources */,
 				E5376BA3167B5CE600738979 /* ModelCollectionViewCell.m in Sources */,
 				E5376BA7167B5E7C00738979 /* Model.xcdatamodeld in Sources */,
-				E5376BAE167B5F6800738979 /* FEModel+Management.m in Sources */,
+				E5376BAE167B5F6800738979 /* PGModel+Management.m in Sources */,
 				E5376BF3167B60DB00738979 /* MagicalImportFunctions.m in Sources */,
 				E5376BF4167B60DB00738979 /* NSAttributeDescription+MagicalDataImport.m in Sources */,
 				E5376BF5167B60DB00738979 /* NSEntityDescription+MagicalDataImport.m in Sources */,
@@ -830,11 +894,19 @@
 				E5376D07167B934C00738979 /* MBProgressHUD.m in Sources */,
 				E52A2A25167B9608001F3A1E /* Constants.m in Sources */,
 				E5A4F028167E1BB7007DE0CB /* Model3DViewController.m in Sources */,
-				E5A4F037167E4AA0007DE0CB /* FEModel.m in Sources */,
-				E5A4F03A167E4D2E007DE0CB /* ModelViewController.m in Sources */,
 				E5BB286516813E57000E68FE /* DropboxCell.m in Sources */,
 				E5BB29001682BB43000E68FE /* ShelfView.m in Sources */,
 				E5BB29031682BF4F000E68FE /* CHFlowLayout.m in Sources */,
+				E5EA5B0816852523008729C3 /* PGView+Management.m in Sources */,
+				E5EA5B1716852707008729C3 /* PGModel.m in Sources */,
+				E58FB65E16852FEC00085E7D /* PGInfoTableViewController.m in Sources */,
+				E58FB6B5168682A500085E7D /* TSPopoverController.m in Sources */,
+				E58FB6B6168682A500085E7D /* TSPopoverPopoverView.m in Sources */,
+				E58FB6B7168682A500085E7D /* TSPopoverTouchView.m in Sources */,
+				E58FB6B8168682A500085E7D /* UIBarButtonItem+WEPopover.m in Sources */,
+				E5B7681F1686B04B00B9EBEB /* ViewsTableViewController.m in Sources */,
+				E5B768261686B4DE00B9EBEB /* TSActionSheet.m in Sources */,
+				E5F5B106168CB3F0006205E9 /* PGView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

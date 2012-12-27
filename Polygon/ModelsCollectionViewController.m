@@ -7,17 +7,22 @@
 //
 
 #import "ModelsCollectionViewController.h"
-#import "FEModel+Management.h"
+#import "PGModel+Management.h"
 #import "UIBarButtonItem+Customview.h"
 #import "ModelCollectionViewCell.h"
 #import "DownloadManager.h"
 #import "FEViewerViewController.h"
 #import "Model3DViewController.h"
 #import "CHFlowLayout.h"
+#import "PGInfoTableViewController.h"
+#import "TSPopoverController.h"
+#import "UIImage+RoundedCorner.h"
+#import "UIImage+Resize.h"
 
-@interface ModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout>
+@interface ModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, ModelViewControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) UIPopoverController *infoPopoverController;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic, strong) NSMutableArray *editItems;
@@ -73,14 +78,13 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    FEModel *model = [self.fetchedResultsController objectAtIndexPath:self.collectionView.indexPathsForSelectedItems.lastObject];
-
-    if ([segue.identifier isEqualToString:@"Show FE Model"])
-    {
-        [(FEViewerViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setFeModel:model];
-    } else if ([segue.identifier isEqualToString:@"Show 3D Model"])
-    {
-        [(Model3DViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setFeModel:model];
+    PGModel *model = [self.fetchedResultsController objectAtIndexPath:self.collectionView.indexPathsForSelectedItems.lastObject];
+    if ([segue.identifier isEqualToString:@"Show FE Model"]) {
+        [(FEViewerViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
+        [(FEViewerViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
+    } else if ([segue.identifier isEqualToString:@"Show 3D Model"]) {
+        [(Model3DViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
+        [(Model3DViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
     }
 }
 
@@ -101,11 +105,13 @@
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    FEModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     ModelCollectionViewCell *modelCell = (ModelCollectionViewCell *)cell;
     modelCell.nameLabel.text = aModel.modelName;
-    modelCell.modelImageView.image = aModel.modelImage;
+    CGFloat scale = [[UIScreen mainScreen] scale]; //Retina vs. non-retina
+    modelCell.modelImageView.image = [aModel.modelImage roundedCornerImage:(5.f * scale) borderSize:0];
     modelCell.infoButton.hidden = self.isEditing;
+    [modelCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     modelCell.checkMarkImageView.hidden = ![self.editItems containsObject:aModel];
     if (aModel.dateAdded.unsignedLongLongValue > 0) {
         modelCell.downloadProgressView.hidden = YES;
@@ -115,6 +121,42 @@
     }
 }
 
+#pragma - Info Popover
+- (void)infoButtonTapped:(UIButton *)infoButton
+{
+    CGPoint popoverLocation = [infoButton.superview convertPoint:infoButton.center toView:self.view];
+    CGPoint buttonLocationInCollectionView = [infoButton.superview convertPoint:infoButton.center toView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonLocationInCollectionView];
+    PGModel *model = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    PGInfoTableViewController *infoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"infoTableViewController"];
+    infoViewController.model = model;
+    infoViewController.view.frame = CGRectMake(0,0, 320, 400);
+    TSPopoverController *popoverController = [[TSPopoverController alloc] initWithContentViewController:infoViewController];
+    if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
+    popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;
+    popoverController.arrowPosition = TSPopoverArrowPositionVertical;
+    [popoverController showPopoverWithRect:CGRectMake(popoverLocation.x, popoverLocation.y, 1, 1)];
+}
+
+
+
+#pragma mark - DEMO - UITableView Delegate Methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 25;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    cell.textLabel.text = @"text";
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.f];
+    
+    return cell;
+}
 
 - (void)uploadTapped:(UIBarButtonItem *)button
 {
@@ -147,7 +189,7 @@
     NSArray *deleteItems = [self.editItems copy];
     [self.editItems removeAllObjects];
     [self _toggleBarButtonStateOnChangedEditItems];
-    [FEModel deleteModels:deleteItems completion:^(NSError *error) {
+    [PGModel deleteModels:deleteItems completion:^(NSError *error) {
         if (error) NSLog(@"Error: %@", error.localizedDescription);
     }];
 }
@@ -158,9 +200,33 @@
     [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
 }
 
+#pragma mark - ModelViewController Delegate
+- (void)modelViewController:(id)sender didTapDone:(UIImage *)screenshot model:(PGModel *)model
+{
+    [self _configureImage:screenshot forModel:model];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [model.managedObjectContext saveInBackgroundCompletion:nil];
+    }];
+}
+
+
+- (void)_configureImage:(UIImage *)image forModel:(PGModel *)model
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        CGFloat scale = [[UIScreen mainScreen] scale]; //Retina vs. non-retina
+        CGSize itemSize = [(UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout itemSize];
+        UIImage *resizedImage = [image resizedImage:CGSizeMake(itemSize.width * scale, itemSize.height * scale) interpolationQuality:kCGInterpolationDefault];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (resizedImage) {
+                model.modelImage = resizedImage;
+                [model.managedObjectContext saveInBackgroundCompletion:nil];
+            }
+        });
+    });
+}
 
 #pragma mark - Download Manager delegate
-- (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forModel:(FEModel *)model
+- (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forModel:(PGModel *)model
 {
     NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:model];
     ModelCollectionViewCell *downloadCell = (ModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
@@ -168,7 +234,7 @@
 }
 
 
-- (void)downloadManager:(DownloadManager *)sender finishedDownloadingModel:(FEModel *)model
+- (void)downloadManager:(DownloadManager *)sender finishedDownloadingModel:(PGModel *)model
 {
     NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:model];
     ModelCollectionViewCell *downloadCell = (ModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
@@ -177,7 +243,7 @@
 }
 
 
-- (void)downloadManager:(DownloadManager *)sender failedDownloadingModel:(FEModel *)model
+- (void)downloadManager:(DownloadManager *)sender failedDownloadingModel:(PGModel *)model
 {
     NSString *message = [model.modelName stringByAppendingFormat:@" %@", NSLocalizedString(@"could not be downloaded", nil)];
     UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Failed downloading", nil) message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles:nil];
@@ -283,7 +349,7 @@
 #pragma mark UICollectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FEModel *selectedModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    PGModel *selectedModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
 
     switch (self.isEditing)
@@ -301,7 +367,7 @@
 }
 
 
-- (void)_presentModel:(FEModel *)model sender:(id)sender
+- (void)_presentModel:(PGModel *)model sender:(id)sender
 {
     if (!model.isDownloaded) {
         return;
@@ -332,7 +398,7 @@
     }
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:@"FEModel" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]]];
+    [request setEntity:[NSEntityDescription entityForName:@"PGModel" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]]];
     [request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateAdded" ascending:NO]]];
     
     NSFetchedResultsController *newController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
@@ -425,7 +491,10 @@
             for (NSDictionary *change in _objectChanges)
             {
                 [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-                    
+                    if ([(NSIndexPath *)obj row] > 10
+                        || [(NSIndexPath *)obj section] >10) {
+                        NSLog(@"obj: %@, %@", obj, [obj class]);
+                    }
                     NSFetchedResultsChangeType type = [key unsignedIntegerValue];
                     switch (type)
                     {
