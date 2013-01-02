@@ -71,7 +71,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bx0-Bg-uzU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1869" y="-2953"/>
+            <point key="canvasLocation" x="-1941" y="-2705"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E1x-zd-iV5">
@@ -91,7 +91,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6nd-Pv-dNJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2577" y="-2965"/>
+            <point key="canvasLocation" x="-2649" y="-2717"/>
         </scene>
         <!--Viewer View Controller-->
         <scene sceneID="7JF-aO-JpM">
@@ -106,6 +106,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Views" id="ASo-jl-Qkd">
                             <connections>
                                 <action selector="viewsTapped:" destination="sjy-CR-9mg" id="N0G-K6-aDj"/>
+                                <segue destination="LzG-LT-aDT" kind="modal" identifier="Show Views" id="Di2-KF-Dll"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="IUd-tt-LBV">
@@ -121,7 +122,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xIk-7m-Ahm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2119" y="-2176"/>
+            <point key="canvasLocation" x="-2191" y="-1928"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yUx-lY-Ltt">
@@ -141,7 +142,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dy9-wt-fP6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2577" y="-2176"/>
+            <point key="canvasLocation" x="-2649" y="-1928"/>
         </scene>
         <!--Model3D View Controller-->
         <scene sceneID="Ija-CB-Mbj">
@@ -156,6 +157,7 @@
                         <barButtonItem key="leftBarButtonItem" title="VIews" id="Gy4-vj-4he">
                             <connections>
                                 <action selector="viewsTapped:" destination="3Cj-u6-ei0" id="RDV-ft-yKu"/>
+                                <segue destination="LzG-LT-aDT" kind="modal" identifier="Show Views" id="Ndl-LX-hy6"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="70f-DY-S8n">
@@ -171,7 +173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4by-Wz-zoK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2123" y="-1446"/>
+            <point key="canvasLocation" x="-2195" y="-1198"/>
         </scene>
         <!--Models Collection View Controller-->
         <scene sceneID="xEz-9w-EJW">
@@ -268,7 +270,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpm-UH-sAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3347" y="-2164"/>
+            <point key="canvasLocation" x="-3419" y="-1916"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fRK-D5-jqA">
@@ -287,7 +289,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="al4-vZ-sf4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3885" y="-2176"/>
+            <point key="canvasLocation" x="-3957" y="-1928"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6A7-t3-REb">
@@ -306,7 +308,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QdG-zk-GHE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2577" y="-1446"/>
+            <point key="canvasLocation" x="-2649" y="-1198"/>
         </scene>
         <!--Info Table View Controller-->
         <scene sceneID="rFL-4W-isR">
@@ -446,7 +448,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2rN-Kz-Ncf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2405" y="-3649"/>
+            <point key="canvasLocation" x="-2477" y="-3401"/>
         </scene>
         <!--Views Table View Controller - Saved Views-->
         <scene sceneID="aPQ-LS-dM5">
@@ -509,6 +511,12 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="47x-FS-duB">
                             <connections>
                                 <action selector="addROI:" destination="bZp-1V-W56" id="5Vi-XQ-Ei5"/>
+                                <segue destination="LR2-tM-Ycg" kind="modal" identifier="Show Add View" modalTransitionStyle="coverVertical" id="wk4-7D-LL5"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="BxQ-mf-6AS">
+                            <connections>
+                                <action selector="doneTapped:" destination="bZp-1V-W56" id="CJI-sb-W9p"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -522,21 +530,52 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ha4-vB-sSx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1029" y="-1802"/>
+            <point key="canvasLocation" x="-1101" y="-1554"/>
         </scene>
-        <!--Detail Table View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="mKa-ya-y0y">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="LR2-tM-Ycg" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5rj-68-uH6">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="7bh-tI-zEE" kind="relationship" relationship="rootViewController" id="VQ0-iP-zd5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YoM-rw-Lz2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-769" y="-2270"/>
+        </scene>
+        <!--View Detail Table View Controller-->
         <scene sceneID="aou-Vk-bCH">
             <objects>
-                <tableViewController modalPresentationStyle="currentContext" id="7bh-tI-zEE" customClass="ROIDetailTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="viewDetailTableViewController" modalPresentationStyle="currentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7bh-tI-zEE" customClass="PGViewDetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ByR-Yo-KJv">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="amR-B6-jXy">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ms6-bx-eli">
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="135" id="Oi6-ei-nEU"/>
+                                        <constraint firstAttribute="height" constant="135" id="P7g-iy-zWt"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="Ms6-bx-eli" firstAttribute="centerX" secondItem="amR-B6-jXy" secondAttribute="centerX" type="default" id="7H3-TV-zpj"/>
+                                <constraint firstItem="Ms6-bx-eli" firstAttribute="top" secondItem="amR-B6-jXy" secondAttribute="top" constant="7" id="t47-ST-plY"/>
+                            </constraints>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="" id="Nye-Gb-JIB">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="LU0-ZJ-JqF">
-                                        <rect key="frame" x="0.0" y="10" width="320" height="46"/>
+                                        <rect key="frame" x="0.0" y="160" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -564,34 +603,7 @@
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="" id="TZ4-bw-C9g">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="198" id="J2u-5o-JWI">
-                                        <rect key="frame" x="0.0" y="76" width="320" height="200"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="300" height="197"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Description" translatesAutoresizingMaskIntoConstraints="NO" id="yps-p3-WB2">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="300" id="aDh-Aq-abe"/>
-                                                        <constraint firstAttribute="height" constant="197" id="v91-uB-Iaa"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="7bh-tI-zEE" id="WKc-ne-uoF"/>
-                                                    </connections>
-                                                </textView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="yps-p3-WB2" firstAttribute="top" secondItem="J2u-5o-JWI" secondAttribute="top" constant="1" id="Vuv-PP-cCP"/>
-                                            <constraint firstItem="yps-p3-WB2" firstAttribute="centerX" secondItem="J2u-5o-JWI" secondAttribute="centerX" type="default" id="ni9-0B-y1Q"/>
-                                        </constraints>
-                                    </tableViewCell>
-                                </cells>
+                                <cells/>
                             </tableViewSection>
                         </sections>
                         <connections>
@@ -603,13 +615,13 @@
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="300"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="descriptionTextView" destination="yps-p3-WB2" id="Oie-qW-PdZ"/>
+                        <outlet property="screenshotImageView" destination="Ms6-bx-eli" id="jft-66-kVc"/>
                         <outlet property="titleTextView" destination="Lkx-mx-jjC" id="em7-B2-56l"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rhe-jP-hdf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-515" y="-1802"/>
+            <point key="canvasLocation" x="-587" y="-1554"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ctj-xE-oae">
@@ -627,7 +639,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ox5-Dd-gWB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1555" y="-1802"/>
+            <point key="canvasLocation" x="-1627" y="-1554"/>
         </scene>
     </scenes>
     <resources>
@@ -656,17 +668,13 @@
                 <relationship kind="action" name="tool5Tapped:"/>
                 <relationship kind="action" name="viewsTapped:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
                 <relationship kind="outlet" name="toolView" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="Model3DViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/Model3DViewController.h"/>
             <relationships>
-                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
-                <relationship kind="action" name="viewsTapped:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
             </relationships>
         </class>
         <class className="ModelCollectionViewCell" superclassName="UICollectionViewCell">
@@ -694,13 +702,11 @@
         <class className="PGInfoTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PGInfoTableViewController.h"/>
         </class>
-        <class className="ROIDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ROIDetailTableViewController.h"/>
+        <class className="PGViewDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGViewDetailTableViewController.h"/>
             <relationships>
-                <relationship kind="action" name="cancelTapped:"/>
-                <relationship kind="action" name="saveTapped:"/>
-                <relationship kind="outlet" name="addROINavigationBar" candidateClass="UINavigationBar"/>
                 <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="screenshotImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="titleTextView" candidateClass="UITextView"/>
             </relationships>
         </class>
@@ -719,7 +725,7 @@
         <class className="ViewsTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewsTableViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addROI:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="doneTapped:"/>
                 <relationship kind="outlet" name="addButtonItem" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
@@ -729,4 +735,8 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="VCq-Md-Rgo"/>
+        <segue reference="Ndl-LX-hy6"/>
+    </inferredMetricsTieBreakers>
 </document>

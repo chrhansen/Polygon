@@ -7,11 +7,10 @@
 //
 
 #import "PGView+Management.h"
-#import <GLKit/GLKit.h>
 
 @implementation PGView (Management)
 
-+ (PGView *)createWith:(GLKVector3)location andOrientation:(GLKQuaternion)orientation
++ (PGView *)createWith:(GLKVector3)location orientation:(GLKQuaternion)orientation screenShot:(UIImage *)image;
 {
     PGView *newView = [PGView createEntity];
     newView.xLocation = [NSNumber numberWithFloat:location.x];
@@ -21,9 +20,55 @@
     newView.xRotation = [NSNumber numberWithFloat:orientation.x];
     newView.yRotation = [NSNumber numberWithFloat:orientation.y];
     newView.zRotation = [NSNumber numberWithFloat:orientation.z];
-//    newView.angle = [NSNumber numberWithFloat:orientation.w];
-    return nil;
+    newView.wAngle    = [NSNumber numberWithFloat:orientation.w];
+    
+    newView.image = image;
+
+    return newView;
 }
+
+
+- (PGView *)copyEntity
+{
+    PGView *viewCopy = [PGView createInContext:[NSManagedObjectContext contextForCurrentThread]];
+    for (NSAttributeDescription *attribute in self.entity.properties)
+    {
+        id value = [self valueForKey:attribute.name];
+        if (value) [viewCopy setValue:value forKey:attribute.name];
+    }
+    return viewCopy;
+}
+
++ (void)deleteView:(PGView *)viewToDelete completion:(void (^)(NSError *error))completion
+{
+    NSManagedObjectContext *context = viewToDelete.managedObjectContext;
+    NSError *permanentIDError;
+    [context obtainPermanentIDsForObjects:@[viewToDelete] error:&permanentIDError];
+    if (permanentIDError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) completion(permanentIDError);
+        });
+        return;
+    }
+    NSManagedObjectID *objectID = viewToDelete.objectID;
+    
+    [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
+        NSError *error;
+        PGView *localView = (PGView *)[localContext existingObjectWithID:objectID error:&error];
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (completion) completion(error);
+            });
+            return;
+        }
+        [localView deleteInContext:localContext];
+    } completion:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) completion(nil);
+        });
+    }];
+}
+
 
 #pragma mark - Image getters/setters
 - (void)setImage:(UIImage *)image

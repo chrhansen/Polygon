@@ -56,14 +56,14 @@
     NSUInteger numberOfVisibleRows = 5;
 //    NSLog(@"rect: %@, firstShelfRow: %d, numberOfVisibleRows: %d", NSStringFromCGRect(rect), firstShelfRow, numberOfVisibleRows);
 
-    for (NSUInteger row = firstShelfRow; row < firstShelfRow + numberOfVisibleRows; row++)
-    {
-        UICollectionViewLayoutAttributes *attributes =
-        [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:@"ShelfView" withIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-        attributes.frame = CGRectMake(0, row * 222, self.collectionView.bounds.size.width, 222);
-//        NSLog(@"attributes.frame: %@", NSStringFromCGRect(attributes.frame));
-        [array addObject:attributes];
-    }
+//    for (NSUInteger row = firstShelfRow; row < firstShelfRow + numberOfVisibleRows; row++)
+//    {
+//        UICollectionViewLayoutAttributes *attributes =
+//        [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:@"ShelfView" withIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+//        attributes.frame = CGRectMake(0, row * 222, self.collectionView.bounds.size.width, 222);
+////        NSLog(@"attributes.frame: %@", NSStringFromCGRect(attributes.frame));
+//        [array addObject:attributes];
+//    }
     
     return array;
 }

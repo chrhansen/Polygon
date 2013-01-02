@@ -22,7 +22,6 @@
 
 - (BOOL)isDownloaded
 {
-//    return (self.dateAdded.unsignedLongLongValue > 0);
     NSArray *pathComponents = [self.filePath pathComponents];
     return (pathComponents.count > 0 && [pathComponents[0] isEqualToString:@"Documents"]);
 }
@@ -112,14 +111,14 @@
 }
 
 #pragma mark - Custom import methods
-- (BOOL)importModelSize:(id)data
+- (BOOL)importGlobalURL:(id)data
 {
     self.globalURL = [SourceDropbox stringByAppendingPathComponent:data];
     return YES;
 }
 
 
-- (BOOL)importGlobalURL:(unsigned long long)data
+- (BOOL)importModelSize:(unsigned long long)data
 {
     self.modelSize = [NSNumber numberWithUnsignedLongLong:data];
     return YES;
@@ -131,6 +130,15 @@
 
 + (void)deleteModels:(NSArray *)modelsToDelete completion:(void (^)(NSError *error))completion;
 {
+    NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
+    NSError *permanentIDError;
+    [context obtainPermanentIDsForObjects:modelsToDelete error:&permanentIDError];
+    if (permanentIDError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) completion(permanentIDError);
+        });
+        return;
+    }
     NSMutableArray *objectIDs = [NSMutableArray array];
     for (NSManagedObject *anObject in modelsToDelete)
     {
@@ -145,21 +153,21 @@
             PGModel *aModel = (PGModel *)[localContext existingObjectWithID:anID error:&error];
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(error);
+                    if (completion) completion(error);
                 });
                 return;
             }
             error = [PGModel deleteModel:aModel];
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(error);
+                    if (completion) completion(error);
                 });
                 return;
             }
         }
     } completion:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            completion(nil);
+            if (completion) completion(nil);
         });
     }];
 }

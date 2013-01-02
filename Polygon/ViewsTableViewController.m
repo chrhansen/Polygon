@@ -12,13 +12,21 @@
 #import "PGModel+Management.h"
 #import "PGView+Management.h"
 
-@interface ViewsTableViewController ()
+@interface ViewsTableViewController () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) NSIndexPath *indexPathForSelectedAccessoryView;
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSMutableDictionary *images;
+@property (nonatomic, strong) PGView *currentView;
 
 @end
 
 @implementation ViewsTableViewController
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.images = [NSMutableDictionary new];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -37,19 +45,14 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped:)];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (!self.rois) 
-    {
-        self.roisFilePath = [[self.delegate directoryForROIList:self] stringByAppendingPathComponent:PolygonROIs];
-        [self readStoredROIsFromFile:self.roisFilePath];
-    }
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self _getCurrentView];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -60,216 +63,201 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Show Add ROI"]) 
+    if ([segue.identifier isEqualToString:@"Show Add View"]) 
     {
-        ROIDetailTableViewController *roiDetailTableViewController = segue.destinationViewController;
-        roiDetailTableViewController.delegate = self;
-        roiDetailTableViewController.roi = [self.delegate currentROI:self];
-        roiDetailTableViewController.showKeyboard = YES;
+        UINavigationController *navigationController = segue.destinationViewController;
+        PGViewDetailTableViewController *viewDetailTableViewController = (PGViewDetailTableViewController *)navigationController.topViewController;
+        viewDetailTableViewController.delegate = self;
+        viewDetailTableViewController.editing = YES;
+        viewDetailTableViewController.savedView = self.currentView;
+        viewDetailTableViewController.isEditingExistingViewViewController = NO;
     }
     else if ([segue.identifier isEqualToString:@"Show ROI"]) 
     {
-        ROIDetailTableViewController *roiDetailTableViewController = segue.destinationViewController;
-        roiDetailTableViewController.delegate = self;
-        NSDictionary *roiAsDictionary = [self.rois objectAtIndex:self.indexPathForSelectedAccessoryView.row];
-        roiDetailTableViewController.roi = [ROI3D createFromDictionary:roiAsDictionary];
+        PGViewDetailTableViewController *viewDetailTableViewController = segue.destinationViewController;
+        viewDetailTableViewController.delegate = self;
     }
 }
 
 
-- (void)readStoredROIsFromFile:(NSString *)roisFile
+- (IBAction)doneTapped:(id)sender
 {
-    self.rois = [NSMutableArray arrayWithContentsOfFile:roisFile];
-    if (!self.rois)
-    {
-        self.rois = [NSMutableArray array];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)_getCurrentView
+{
+    self.currentView = [self.delegate viewsTableViewController:self currentViewForModel:self.model];
+    NSError *permanentIDError;
+    [self.currentView.managedObjectContext obtainPermanentIDsForObjects:@[self.currentView] error:&permanentIDError];
+    if (permanentIDError) NSLog(@"Error: Couldn't obtain permanent ID for view: %@", self.currentView);
+}
+
+#pragma mark - PGViewDetailTableViewController delegate
+- (void)viewDetailTableViewController:(PGViewDetailTableViewController *)viewDetailTableViewController didSaveView:(PGView *)savedView
+{
+    savedView.viewOf = self.model;
+    [savedView.managedObjectContext save];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    PGView *savedView = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    UILabel *titleLabel = (UILabel *)[cell viewWithTag:1];
+    UIImageView *snapshotImageView = (UIImageView *)[cell viewWithTag:3];
+    
+    titleLabel.text = savedView.title;
+    
+    UIImage *image = self.images[savedView.objectID.URIRepresentation.path];
+    snapshotImageView.image = image;
+    if (!image) {
+        [self loadViewImage:savedView forIndexPath:indexPath];
     }
 }
 
 
-- (void)storeROIs:(NSMutableArray *)rois toFile:(NSString *)filePath
+- (void)loadViewImage:(PGView *)savedView forIndexPath:(NSIndexPath *)indexPath
 {
-    [rois writeToFile:filePath atomically:NO];
+    NSManagedObjectID *viewID = [savedView objectID];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSManagedObjectContext *localContext = [NSManagedObjectContext contextForCurrentThread];
+        PGView *localView = (PGView *)[localContext objectWithID:viewID];
+        UIImage *image = localView.image;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (image) {
+                [self.images setValue:image forKey:viewID.URIRepresentation.path];
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                [self configureCell:cell atIndexPath:indexPath];
+            }
+        });
+    });
 }
-
-
-- (void)setRois:(NSMutableArray *)rois
-{
-    if (_rois != rois) 
-    {
-        _rois = rois;
-        [self.tableView reloadData];
-    }
-}
-
-
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated
-{
-    [super setEditing:editing animated:animated];
-    [self.addButtonItem setEnabled:!editing];
-}
-
 
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.rois.count;
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    return sectionInfo.numberOfObjects;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"ROI Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    UILabel *titleLabel = (UILabel *)[cell viewWithTag:1];
-    UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:2];
-    UIImageView *snapshotImageView = (UIImageView *)[cell viewWithTag:3];
-    snapshotImageView.clipsToBounds = YES;
+    if (cell) {
+        [self configureCell:cell atIndexPath:indexPath];
+    } else
+    {
+        NSLog(@"cell for indexpath %@ is nil", indexPath);
+    }
     
-    titleLabel.text = [[self.rois objectAtIndex:indexPath.row] objectForKey:@"title"];
-    descriptionLabel.text = [[self.rois objectAtIndex:indexPath.row] objectForKey:@"description"];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *fileName = [[self.rois objectAtIndex:indexPath.row] objectForKey:@"snapshotFileName"];
-        NSString *imagePath = [[[self currentFolder] stringByAppendingPathComponent:fileName] stringByAppendingString:@".png"];
-        UIImage *snapshot = [UIImage imageWithData:[NSData dataWithContentsOfFile:imagePath]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            snapshotImageView.image = snapshot;
-        });
-    });    
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - Fetched Results Controller
+- (NSFetchedResultsController *)fetchedResultsController
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"viewOf == %@", self.model];
+    NSFetchedResultsController *newController = [PGView fetchAllSortedBy:@"dateModified" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
+    self.fetchedResultsController = newController;
+    return _fetchedResultsController;
 }
-*/
+
+
+#pragma mark Fetched Results Controller Delegate methods
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath {
+    
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath]
+                    atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
+}
 
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        ROI3D *deletedROI =  [ROI3D createFromDictionary:[self.rois objectAtIndex:indexPath.row]];
-        [self deleteSnapshotWithFileName:[deletedROI.snapshotFileName stringByAppendingString:@".png"]];
-        [self.rois removeObjectAtIndex:indexPath.row];
-        [self storeROIs:_rois toFile:_roisFilePath];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-    }   
+        PGView *savedView = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        [PGView deleteView:savedView completion:nil];
+//        [savedView deleteInContext:[NSManagedObjectContext defaultContext]];
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
 
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-    id object1 = [self.rois objectAtIndex:fromIndexPath.row];
-    id object2 = [self.rois objectAtIndex:toIndexPath.row];
-    [self.rois replaceObjectAtIndex:toIndexPath.row withObject:object1];
-    [self.rois replaceObjectAtIndex:fromIndexPath.row withObject:object2];
-    [self storeROIs:_rois toFile:_roisFilePath];
-}
-
-
-
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    return NO;
 }
 
 
-- (NSString *)currentFolder
-{
-    return [self.roisFilePath stringByDeletingLastPathComponent];
-}
-
-#pragma mark - Table view delegate
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     self.indexPathForSelectedAccessoryView = indexPath;
     [self performSegueWithIdentifier:@"Show ROI" sender:self];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSDictionary *aRoi = [self.rois objectAtIndex:indexPath.row];
-    ROI3D *theROI = [ROI3D createFromDictionary:aRoi];
-    [self.delegate didSelectROI:theROI];
-}
-
-
-- (NSString *)objectCountAsString
-{
-    if (self.rois.count < 9) 
-    {
-        return [NSString stringWithFormat:@"0%i", self.rois.count+1];
-    }
-    return [NSString stringWithFormat:@"%i", self.rois.count+1];
-}
-
-
-- (void)saveROISnapshot:(UIImage *)snapshot toFileAtPath:(NSString *)filePath
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Write image to PNG
-        UIImage *thumbNail = [snapshot thumbnailImage:102.0 transparentBorder:0 cornerRadius:5 interpolationQuality:0];
-        [UIImagePNGRepresentation(thumbNail) writeToFile:[filePath stringByAppendingString:@".png"] atomically:NO];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self reloadCellsWithNoImage];
-        });
-    });   
-     
-}
-
-
-- (void)reloadCellsWithNoImage
-{
-    for (UITableViewCell *aCell in self.tableView.visibleCells) 
-    {
-        UIImageView *imageView = (UIImageView *)[aCell viewWithTag:3];
-        if (imageView.image == nil) {
-           // NSLog(@"a cell had no image");
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[self.tableView indexPathForCell:aCell]] 
-                                  withRowAnimation:UITableViewRowAnimationNone];
-        }
-    }
-}
-
-- (void)deleteSnapshotWithFileName:(NSString *)fileName
-{
-    [[NSFileManager defaultManager] removeItemAtPath:[[self currentFolder] stringByAppendingPathComponent:fileName] error:nil];
-}
-
-#pragma mark - ROI Detail Table View Controller delegate methods
-- (void)didSaveROI:(ROI3D *)aROI sender:(id)sender
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-
-    aROI.snapshotFileName = [NSString stringWithFormat:@"%@_%@",[self objectCountAsString], aROI.title];
-    [self saveROISnapshot:[self.delegate currentSnapshot:self] 
-             toFileAtPath:[[self.roisFilePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:aROI.snapshotFileName]];
-    [self.rois addObject:[ROI3D dictionaryRepresenation:aROI]];
-    [self storeROIs:_rois toFile:_roisFilePath];
-    [self.tableView reloadData];
-}
-
-- (void)didEditROI:(ROI3D *)updatedROI sender:(id)sender
-{
-    NSDictionary *updatedROIDictionary = [ROI3D dictionaryRepresenation:updatedROI];
-    [self.rois replaceObjectAtIndex:self.tableView.indexPathForSelectedRow.row withObject:updatedROIDictionary];
-    [self storeROIs:_rois toFile:_roisFilePath];
-    [self.tableView reloadData];
-}
-
-- (IBAction)addROI:(UIBarButtonItem *)sender
-{
-    PGView *newView = [PGView createEntity];
-    
-    NSLog(@"add roi");
-}
 @end

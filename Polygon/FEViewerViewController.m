@@ -17,11 +17,12 @@
 #import "ElementTypeTableViewController.h"
 #import "ColorTableViewController.h"
 #import "MBProgressHUD.h"
-//#import "ViewsTableViewController.h"
+#import "ViewsTableViewController.h"
 #import <CoreMotion/CoreMotion.h>
 #import "UIImage+RoundedCorner.h"
+#import "PGView+Management.h"
 
-@interface FEViewerViewController ()  <UIGestureRecognizerDelegate, OptionsTableViewControllerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, ElementTypeTableViewControllerDelegate, ColorTableViewControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate>
+@interface FEViewerViewController ()  <UIGestureRecognizerDelegate, OptionsTableViewControllerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, ElementTypeTableViewControllerDelegate, ColorTableViewControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, ViewsTableViewControllerDelegate>
 {    
     NSArray *_names;
     NSArray *_paths;
@@ -130,10 +131,10 @@
 //    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"ToolsView" owner:self options:nil];
 //    [self.toolView addSubview:[subviewArray objectAtIndex:0]];
     
-    self.navigationBar.topItem.title = self.title;
-    [self.view bringSubviewToFront:self.navigationBar];
-    [self.navigationBar setTintColor:[UIColor lightGrayColor]];
-    [self.navigationBar setTranslucent:YES];
+    self.navigationController.navigationBar.topItem.title = self.title;
+    [self.view bringSubviewToFront:self.navigationController.navigationBar];
+    [self.navigationController.navigationBar setTintColor:[UIColor lightGrayColor]];
+    [self.navigationController.navigationBar setTranslucent:YES];
     [self.doneBarButton setTintColor:[UIColor lightGrayColor]];
     [self setupBasicGL];
     [self makeGradientBackground];
@@ -158,7 +159,6 @@
 
 - (void)dealloc
 {
-    [self setNavigationBar:nil];
     [self setToolView:nil];
     [self tearDownGL];
 
@@ -206,6 +206,15 @@
     [super didReceiveMemoryWarning];
 }
 
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show Views"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        [(ViewsTableViewController *)navigationController.topViewController setDelegate:self];
+        [(ViewsTableViewController *)navigationController.topViewController setModel:self.model];
+    }
+}
 
 - (void)loadModelFile
 {
@@ -1104,6 +1113,20 @@ const CGFloat previousWeight = 0.75;
 
 
 #pragma mark - Views Table View Controller Delegate
+- (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
+{
+    GLKVector3 currentPosition = GLKVector3Make(viewTranslateMatrix.m30, viewTranslateMatrix.m31, viewTranslateMatrix.m32);
+    GLKQuaternion currentOrientation = GLKQuaternionMakeWithMatrix4(viewRotationMatrix);
+    PGView *currentView = [PGView createWith:currentPosition orientation:currentOrientation screenShot:[self currentViewAsModelScreenshot]];
+    return currentView;
+}
+
+
+- (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
+{
+    
+}
+
 //- (ROI3D *)currentROI:(ViewsTableViewController *)sender
 //{
 //    GLKVector3 currentPosition = GLKVector3Make(viewTranslateMatrix.m30, viewTranslateMatrix.m31, viewTranslateMatrix.m32);

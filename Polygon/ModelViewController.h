@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
 
-@class PGModel;
+@class PGModel, PGView;
 
 @protocol ModelViewControllerDelegate <NSObject>
 

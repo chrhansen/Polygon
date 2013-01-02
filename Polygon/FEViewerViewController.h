@@ -12,7 +12,6 @@
 
 @interface FEViewerViewController : GLKViewController <ModelViewControllerProtocol>
 
-@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
 @property (weak, nonatomic) IBOutlet UIView *toolView;
 @property (nonatomic, strong) PGModel *model;

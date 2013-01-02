@@ -14,7 +14,11 @@
                 <entry key="mappedKeyName" value="metadata.filename"/>
             </userInfo>
         </attribute>
-        <attribute name="modelSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modelSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="metadata.totalBytes"/>
+            </userInfo>
+        </attribute>
         <attribute name="pGModelID" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="metadata.rev"/>
@@ -36,7 +40,7 @@
         <relationship name="viewOf" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="PGModel" inverseName="views" inverseEntity="PGModel" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PGModel" positionX="-189" positionY="-126" width="128" height="163"/>
+        <element name="PGModel" positionX="-189" positionY="-126" width="128" height="165"/>
         <element name="PGView" positionX="-9" positionY="-9" width="128" height="210"/>
     </elements>
 </model>

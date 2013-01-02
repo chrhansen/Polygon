@@ -79,7 +79,7 @@
 		E5376CE4167B87E600738979 /* ElementTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CE3167B87E500738979 /* ElementTypeTableViewController.m */; };
 		E5376CE8167B885400738979 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CE7167B885400738979 /* UIImage+Alpha.m */; };
 		E5376CEB167B886E00738979 /* ColorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CEA167B886E00738979 /* ColorTableViewController.m */; };
-		E5376CF5167B890C00738979 /* ROIDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CF4167B890C00738979 /* ROIDetailTableViewController.m */; };
+		E5376CF5167B890C00738979 /* PGViewDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CF4167B890C00738979 /* PGViewDetailTableViewController.m */; };
 		E5376CF8167B892600738979 /* NSString+_Format.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CF7167B892500738979 /* NSString+_Format.m */; };
 		E5376D07167B934C00738979 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376D06167B934C00738979 /* MBProgressHUD.m */; };
 		E58FB65E16852FEC00085E7D /* PGInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E58FB65D16852FEC00085E7D /* PGInfoTableViewController.m */; };
@@ -250,8 +250,8 @@
 		E5376CE7167B885400738979 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
 		E5376CE9167B886E00738979 /* ColorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorTableViewController.h; sourceTree = "<group>"; };
 		E5376CEA167B886E00738979 /* ColorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorTableViewController.m; sourceTree = "<group>"; };
-		E5376CF3167B890C00738979 /* ROIDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROIDetailTableViewController.h; sourceTree = "<group>"; };
-		E5376CF4167B890C00738979 /* ROIDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROIDetailTableViewController.m; sourceTree = "<group>"; };
+		E5376CF3167B890C00738979 /* PGViewDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGViewDetailTableViewController.h; sourceTree = "<group>"; };
+		E5376CF4167B890C00738979 /* PGViewDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGViewDetailTableViewController.m; sourceTree = "<group>"; };
 		E5376CF6167B892500738979 /* NSString+_Format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+_Format.h"; sourceTree = "<group>"; };
 		E5376CF7167B892500738979 /* NSString+_Format.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+_Format.m"; sourceTree = "<group>"; };
 		E5376D05167B934C00738979 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
@@ -709,8 +709,8 @@
 				E5376CE0167B87C600738979 /* OptionsTableViewController.m */,
 				E5376CE9167B886E00738979 /* ColorTableViewController.h */,
 				E5376CEA167B886E00738979 /* ColorTableViewController.m */,
-				E5376CF3167B890C00738979 /* ROIDetailTableViewController.h */,
-				E5376CF4167B890C00738979 /* ROIDetailTableViewController.m */,
+				E5376CF3167B890C00738979 /* PGViewDetailTableViewController.h */,
+				E5376CF4167B890C00738979 /* PGViewDetailTableViewController.m */,
 			);
 			name = "Sub Views";
 			sourceTree = "<group>";
@@ -889,7 +889,7 @@
 				E5376CE4167B87E600738979 /* ElementTypeTableViewController.m in Sources */,
 				E5376CE8167B885400738979 /* UIImage+Alpha.m in Sources */,
 				E5376CEB167B886E00738979 /* ColorTableViewController.m in Sources */,
-				E5376CF5167B890C00738979 /* ROIDetailTableViewController.m in Sources */,
+				E5376CF5167B890C00738979 /* PGViewDetailTableViewController.m in Sources */,
 				E5376CF8167B892600738979 /* NSString+_Format.m in Sources */,
 				E5376D07167B934C00738979 /* MBProgressHUD.m in Sources */,
 				E52A2A25167B9608001F3A1E /* Constants.m in Sources */,

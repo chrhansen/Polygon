@@ -12,7 +12,7 @@
 #import "ViewsTableViewController.h"
 #import "TSPopoverController.h"
 
-@interface Model3DViewController () <NGLViewDelegate, NGLMeshDelegate>
+@interface Model3DViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate>
 
 @property (nonatomic, strong) NGLMesh *mesh;
 @property (nonatomic, strong) NGLCamera *camera;
@@ -88,19 +88,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)viewsTapped:(UIBarButtonItem *)barButton
-{
-    CGPoint popoverLocation = CGPointMake(30, 22);
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"viewsTableViewControllerNavigationController"];
-    navigationController.view.frame = CGRectMake(0,0, 280, 350);
 
-    ViewsTableViewController *viewsTableViewController = (ViewsTableViewController *)navigationController.topViewController;
-    viewsTableViewController.model = self.model;
-    TSPopoverController *popoverController = [[TSPopoverController alloc] initWithContentViewController:navigationController];
-//    if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
-    popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;
-    popoverController.arrowPosition = TSPopoverArrowPositionVertical;
-    [popoverController showPopoverWithRect:CGRectMake(popoverLocation.x, popoverLocation.y, 1, 1)];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show Views"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        [(ViewsTableViewController *)navigationController.topViewController setModel:self.model];
+        [(ViewsTableViewController *)navigationController.topViewController setDelegate:self];
+    }
 }
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender
@@ -113,6 +108,21 @@
 - (UIImage *)currentViewAsModelScreenshot
 {
     return [(NGLView *)self.view drawToImage];
+}
+
+#pragma mark - Views Table View Controller Delegate
+- (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
+{
+//    GLKVector3 currentPosition = GLKVector3Make(viewTranslateMatrix.m30, viewTranslateMatrix.m31, viewTranslateMatrix.m32);
+//    GLKQuaternion currentOrientation = GLKQuaternionMakeWithMatrix4(viewRotationMatrix);
+    
+    return nil; //[PGView createWith:currentPosition orientation:currentOrientation screenShot:[self currentViewAsModelScreenshot]];
+}
+
+
+- (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
+{
+    
 }
 
 @end

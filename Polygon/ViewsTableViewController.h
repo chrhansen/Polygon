@@ -7,23 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ROIDetailTableViewController.h"
+#import "PGViewDetailTableViewController.h"
 
-@class ViewsTableViewController, PGModel;
+@class ViewsTableViewController, PGModel, PGView;
 
 @protocol ViewsTableViewControllerDelegate <NSObject>
 
-- (NSString *)directoryForROIList:(ViewsTableViewController *)sender;
-- (ROI3D *)currentROI:(ViewsTableViewController *)sender;
-- (UIImage *)currentSnapshot:(ViewsTableViewController *)sender;
-
-- (void)didSelectROI:(ROI3D *)aRoi;
+- (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model;
+- (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView;
 
 @end
 
-@interface ViewsTableViewController : UITableViewController <ROIDetailTableViewControllerDelegate>
-
-- (IBAction)addROI:(UIBarButtonItem *)sender;
+@interface ViewsTableViewController : UITableViewController <PGViewDetailTableViewControllerDelegate>
 
 @property (nonatomic, weak) id<ViewsTableViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSString *roisFilePath;
