@@ -35,24 +35,27 @@
     _ansysModel.readMode = [[settings valueForKey:@"MemoryReadFormat"] intValue];
     _ansysModel.readMode = kFullMem;
     
-    [_ansysModel.delegate parsingProgress:0.02];
+    [_ansysModel _notifyParsingProgressOnMainQueue:0.02f];
 
-    [_ansysModel.delegate startedParsingNodes];
-    [_ansysModel nodesWithAnsysFile:path fileSize:fileSize];    
-    [_ansysModel.delegate finishedParsingNodes:_ansysModel.numOfVertices];
+    dispatch_async(dispatch_get_main_queue(), ^{ [_ansysModel.delegate startedParsingNodes]; });;
+    [_ansysModel nodesWithAnsysFile:path fileSize:fileSize];
+    dispatch_async(dispatch_get_main_queue(), ^{ [_ansysModel.delegate finishedParsingNodes:_ansysModel.numOfVertices]; });;
     
-    if (_ansysModel.modelParsingShouldContinue) 
+    if (_ansysModel.modelParsingShouldContinue)
     {
         [_ansysModel elementsWithAnsysFile:path fileSize:fileSize];
-        [_ansysModel.delegate finishedParsingElements:_ansysModel.numOfSolidCubeVertices / 36 + _ansysModel.numOfSolidTetraVertices / 12 + _ansysModel.numOfQuadFaces + _ansysModel.numOfTriFaces + _ansysModel.numOfBeams];
-        [_ansysModel.delegate parsingProgress:0.87];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_ansysModel.delegate finishedParsingElements:_ansysModel.numOfSolidCubeVertices / 36 + _ansysModel.numOfSolidTetraVertices / 12 + _ansysModel.numOfQuadFaces + _ansysModel.numOfTriFaces + _ansysModel.numOfBeams];
+        });
+        
+        [_ansysModel _notifyParsingProgressOnMainQueue:0.87f];
         [_ansysModel replaceOriginalIndexesWithNew];
-        [_ansysModel.delegate parsingProgress:0.90];
+        [_ansysModel _notifyParsingProgressOnMainQueue:0.90f];
         [_ansysModel calculateBoundingBoxOfVertices];
-        [_ansysModel.delegate parsingProgress:0.93];
+        [_ansysModel _notifyParsingProgressOnMainQueue:0.93f];
         [_ansysModel pullOutVerticesAsTriangles];
         [_ansysModel pullOutQuadsAsTriangles];
-        [_ansysModel.delegate parsingProgress:0.97];
+        [_ansysModel _notifyParsingProgressOnMainQueue:0.97f];
         [_ansysModel combineTrisAndQuads];
         [_ansysModel pullOutIndexesForEdges];
         _ansysModel.colorMode = kMaterialColor;
@@ -60,16 +63,25 @@
         {
             [_ansysModel setColorsOfLines];
         }
-        [_ansysModel.delegate parsingProgress:0.99];
+        [_ansysModel _notifyParsingProgressOnMainQueue:0.99f];
         if (_ansysModel.readMode == kMediumMem || _ansysModel.readMode == kFullMem)
         {
             [_ansysModel setColorsOfElementsWithTranparency:[[settings objectForKey:@"transparency"] floatValue]];
         }
-        [_ansysModel.delegate parsingProgress:1.0];
+        [_ansysModel _notifyParsingProgressOnMainQueue:1.0f];
     }
     
     return _ansysModel;
 }
+
+
+- (void)_notifyParsingProgressOnMainQueue:(CGFloat)progress
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate parsingProgress:progress];
+    });
+}
+
 
 #define MEM_VERTICES 10000
 #define MEM_ELEMENTS 10000

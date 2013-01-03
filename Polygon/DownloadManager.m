@@ -180,23 +180,23 @@
     PGModel *modelDownloaded = self.currentDownloads[destPath];
     if (modelDownloaded)
     {
-    [self.currentDownloads removeObjectForKey:destPath];
-    [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
-        NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
-        NSDictionary *objectDetails = @{
-        @"metadata" : metadata,
-        @"filePath" : newRelativePath};
-        [PGModel importFromObject:objectDetails inContext:localContext];
-    } completion:^{
-        [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];
-        if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingModel:)]) {
-            [self.progressDelegate downloadManager:self finishedDownloadingModel:modelDownloaded];
-        }
-        NSArray *subItemsToDownload = self.waitingSubItems[modelDownloaded.enclosingFolder.lastPathComponent];
-        if (subItemsToDownload) {
-            [self downloadFilesAndDirectories:subItemsToDownload forModel:modelDownloaded];
-        }
-    }];
+        [self.currentDownloads removeObjectForKey:destPath];
+        [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
+            NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
+            NSDictionary *objectDetails = @{
+            @"metadata" : metadata,
+            @"filePath" : newRelativePath};
+            [PGModel importFromObject:objectDetails inContext:localContext];
+        } completion:^{
+            [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];
+            if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingModel:)]) {
+                [self.progressDelegate downloadManager:self finishedDownloadingModel:modelDownloaded];
+            }
+            NSArray *subItemsToDownload = self.waitingSubItems[modelDownloaded.enclosingFolder.lastPathComponent];
+            if (subItemsToDownload) {
+                [self downloadFilesAndDirectories:subItemsToDownload forModel:modelDownloaded];
+            }
+        }];
     }
     else
     {

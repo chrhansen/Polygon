@@ -12,11 +12,9 @@
 #import "BackgroundVertices.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Resize.h"
-#import "NodePicker.h"
 #import "OptionsTableViewController.h"
 #import "ElementTypeTableViewController.h"
 #import "ColorTableViewController.h"
-#import "MBProgressHUD.h"
 #import "ViewsTableViewController.h"
 #import <CoreMotion/CoreMotion.h>
 #import "UIImage+RoundedCorner.h"
@@ -114,10 +112,8 @@
 @property (nonatomic) BOOL plotNodes;
 @property (nonatomic) CGFloat elementTransparency;
 @property (nonatomic) NSUInteger colorType;
-@property (nonatomic, strong) NSString *modelPath;
 
 - (void)tearDownGL;
-- (void)setGestureRecognizers;
 @end
 
 @implementation FEViewerViewController
@@ -199,10 +195,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-    NSLog(@"Memory warning for model: %@", self.modelPath);
-    if (self.readingModelData == NO) {
-        NSLog(@"would have released _modelData");
-    }
+    NSLog(@"Memory warning for model: %@", self.model.fullModelFilePath);
     [super didReceiveMemoryWarning];
 }
 
@@ -223,28 +216,25 @@
     [self showAnnularProgressHUD];
     self.elementTransparency = 1.0;
     NSDictionary *initialSettings = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:self.elementTransparency], @"transparency", nil];
-    self.modelPath = self.model.fullModelFilePath;
-    if (!self.modelPath) {
+    if (!self.model.fullModelFilePath) {
         return;
     }
+    NSString *modelPath = [self.model.fullModelFilePath copy];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSLog(@"model parsing start");
-        _anAnsysModel = [AnsysModel ansysFileWithPath:self.modelPath andDelegate:self andSettings:initialSettings];
+        _anAnsysModel = [AnsysModel ansysFileWithPath:modelPath andDelegate:self andSettings:initialSettings];
         NSLog(@"model parsing end");
-        if (_anAnsysModel) 
-        {
+        if (_anAnsysModel) {
             boundingBox = _anAnsysModel.boundingBox[0];
             NSLog(@"boundingBox: %f", boundingBox.lengthMax);
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loadModelDataToGL];
                 self.readingModelData = NO;
-                [self setGestureRecognizers];
+                [self _addGestureRecognizers];
                 [self animateToReset];
             });
-        }
-        else
-        {
+        } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.readingModelData = NO;
             });
@@ -266,10 +256,8 @@
     _backgroundModelViewMatrix = GLKMatrix4MakeTranslation(0, 0, -5);
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-        if (!self.context) 
-    {
-        NSLog(@"Failed to create ES context");
-    }
+    if (!self.context) NSLog(@"Failed to create ES context");
+
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     
@@ -484,11 +472,6 @@
     self.effect.transform.modelviewMatrix  = _modelViewMatrix;
 }
 
-// culling maybe, only one side
-// depth buffer resolution could help lines
-// change thickness of beams dynamically
-// alpha channel for thick lines go to zero in distance
-
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
@@ -508,8 +491,7 @@
     [self.effect prepareToDraw];
     
     
-    if (self.plotSolids) 
-    {
+    if (self.plotSolids) {
         glBindVertexArrayOES(solidCubeVertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, solidCubeVertexBuffer);
         glEnable (GL_BLEND);
@@ -529,8 +511,7 @@
         glDrawArrays(GL_TRIANGLES, 0, _anAnsysModel.numOfSolidTetraVertices);
     }
         
-    if (self.plotShells) 
-    {
+    if (self.plotShells) {
         // Render the quads with GLKit
         glBindVertexArrayOES(facesVertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, facesVertexBuffer);
@@ -539,8 +520,7 @@
         glDrawArrays(GL_TRIANGLES, 0, _anAnsysModel.numOfQuadFaces*6+_anAnsysModel.numOfTriFaces*3);
     }
   
-    if (self.plotEdges) 
-    {
+    if (self.plotEdges) {
 
         glLineWidth(2.0f);
         glColor4f(0, 0, 0, 1);
@@ -549,8 +529,7 @@
         glDrawArrays(GL_LINES, 0, _anAnsysModel.numOfEdges*2);
     }
 
-    if (self.plotBeams) 
-    {
+    if (self.plotBeams) {
         //Bind all vertices
         glBindVertexArrayOES(allVertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, allVertexBuffer);
@@ -567,8 +546,7 @@
         glDrawElements(GL_LINES, _anAnsysModel.numOfBeams*2, GL_UNSIGNED_INT, 0);
     }
     
-    if (self.plotNodes) 
-    {
+    if (self.plotNodes) {
         glPointSize(2.0f);
         glBindVertexArrayOES(allVertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, allVertexBuffer);
@@ -613,7 +591,6 @@
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(vertexDataTextured), (char *)24);
     
-    
     glActiveTexture(GL_TEXTURE0);
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gradient_1600x1" ofType:@"jpg"];
     
@@ -621,35 +598,17 @@
     NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:GLKTextureLoaderOriginBottomLeft];
     
     self.background = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    if (self.background == nil)
-        NSLog(@"Error loading texture: %@", [error localizedDescription]);
+    if (self.background == nil || error != nil) NSLog(@"Error loading texture: %@", [error localizedDescription]);
     
-    GLKEffectPropertyTexture *tex = [[GLKEffectPropertyTexture alloc] init];
-    tex.enabled = YES;
-    tex.name = self.background.name;
-    self.effect.texture2d0.name = tex.name;
+    GLKEffectPropertyTexture *texture = [[GLKEffectPropertyTexture alloc] init];
+    texture.enabled = YES;
+    texture.name = self.background.name;
+    self.effect.texture2d0.name = texture.name;
 }
-
-
-- (void)beganAGesture
-{
-    if (self.activeGestures == 1) {
-//        GLKView *view = (GLKView *)self.view;
-//        view.drawableMultisample = GLKViewDrawableMultisampleNone;
-    }
-}
-
-
-- (void)endedAllGestures
-{
-//    GLKView *view = (GLKView *)self.view;
-//    view.drawableMultisample = GLKViewDrawableMultisample4X;
-}
-
 
 #pragma mark - 
 #pragma mark - Gesture recognizers
-- (void)setGestureRecognizers
+- (void)_addGestureRecognizers
 {
     UIPanGestureRecognizer *panMoveGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     panMoveGesture.minimumNumberOfTouches = 1;
@@ -675,117 +634,103 @@
     doubleTapGesture.numberOfTapsRequired = 2;
     [self.view  addGestureRecognizer:doubleTapGesture];
     [doubleTapGesture setDelegate:self];
+    
+    [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
 }
 
 # pragma mark - Gesture actions
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture
-{   
-    if (panGesture.state == UIGestureRecognizerStateBegan) {
-        self.activeGestures += 1;
-        [self beganAGesture];
-    }
-    if ((panGesture.state == UIGestureRecognizerStateChanged || 
-         panGesture.state == UIGestureRecognizerStateEnded)) 
+{
+    switch (panGesture.state)
     {
-        if(panGesture.numberOfTouches == 2) 
+        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateEnded:
         {
-            self.panTranslation = [panGesture translationInView:self.view] ;
-            //self.panTranslation = CGPointMake(self.panTranslation.x, self.panTranslation.y);
-            [panGesture setTranslation:CGPointZero inView:self.view];
-        } 
-        else if(panGesture.numberOfTouches == 1) 
-        {
-            //self.myRotation = [panGesture translationInView:self.view];
-            [self addVelocitySample:[panGesture translationInView:self.view]];
-            //self.myRotation = CGPointMake(self.myRotation.y, self.myRotation.x);
-            [panGesture setTranslation:CGPointZero inView:self.view];
+            if(panGesture.numberOfTouches == 2)
+            {
+                _panTranslation = [panGesture translationInView:self.view] ;
+                [panGesture setTranslation:CGPointZero inView:self.view];
+            }
+            else if(panGesture.numberOfTouches == 1)
+            {
+                [self addVelocitySample:[panGesture translationInView:self.view]];
+                [panGesture setTranslation:CGPointZero inView:self.view];
+            }
         }
-    }
-    if (panGesture.state == UIGestureRecognizerStateEnded) {
-        self.activeGestures -= 1;
-        if (self.activeGestures == 0)
-        {
-            [self endedAllGestures];
-        }
+            break;
+            
+        default:
+            break;
     }
 }
 
-const CGFloat previousWeight = 0.75;
+#define PREVIOUSWEIGHT 0.75f
 
 - (void)addVelocitySample:(CGPoint)velocitySample
 {
-    _myRotation.x *= previousWeight;
-    _myRotation.y *= previousWeight;
-    _myRotation.x += (1 - previousWeight) * velocitySample.x;
-    _myRotation.y += (1 - previousWeight) * velocitySample.y;
+    _myRotation.x *= PREVIOUSWEIGHT;
+    _myRotation.y *= PREVIOUSWEIGHT;
+    _myRotation.x += (1 - PREVIOUSWEIGHT) * velocitySample.x;
+    _myRotation.y += (1 - PREVIOUSWEIGHT) * velocitySample.y;
 }
 
 -(void)handlePinchGesture:(UIPinchGestureRecognizer *)pinchGesture 
 {
-    if (pinchGesture.state == UIGestureRecognizerStateBegan) 
+    switch (pinchGesture.state)
     {
-        self.activeGestures += 1;
-        [self beganAGesture];
-        initialOrthoSidelength = orthoSideLength;
-        lastDistance = 1.0;
-        lastPinch = 1.0;
-        self.pinchScale = 1.0;
-    }
-    else if (pinchGesture.state == UIGestureRecognizerStateChanged ||
-        pinchGesture.state == UIGestureRecognizerStateEnded) 
-    {
-        //self.pinchScale = [pinchGesture scale];
-        [self addPinchVelocitySample:pinchGesture.scale];
-        orthoSideLength = initialOrthoSidelength / _pinchScale;
+        case UIGestureRecognizerStateBegan:
+            initialOrthoSidelength = orthoSideLength;
+            lastDistance = 1.0;
+            lastPinch = 1.0;
+            self.pinchScale = 1.0;
+            
+            break;
+            
+        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateEnded:
+            [self addPinchVelocitySample:pinchGesture.scale];
+            orthoSideLength = initialOrthoSidelength / _pinchScale;
+
+            break;
+            
+        default:
+            break;
     }
 }
 
 - (void)addPinchVelocitySample:(CGFloat)pinchVelocitySample
 {
-    _pinchScale *= previousWeight;
-    _pinchScale += (1 - previousWeight) * pinchVelocitySample;
+    _pinchScale *= PREVIOUSWEIGHT;
+    _pinchScale += (1 - PREVIOUSWEIGHT) * pinchVelocitySample;
 }
 
-#define RADIANS_TO_DEGREES 180.0 / 3.14159265
-
+#define RADIANS_TO_DEGREES 57.2957805
 
 -(void)handleRotationGesture:(UIRotationGestureRecognizer *)rotationGesture
 {
-    if (rotationGesture.state == UIGestureRecognizerStateBegan) 
+    switch (rotationGesture.state)
     {
-        self.activeGestures += 1;
-        [self beganAGesture];
+        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateEnded:
+            _zRotation = - 2.0f * rotationGesture.rotation;
+            rotationGesture.rotation = 0.0;
+            break;
+            
+        default:
+            break;
     }
-    if ((rotationGesture.state == UIGestureRecognizerStateChanged || 
-         rotationGesture.state == UIGestureRecognizerStateEnded)) 
-    {
-        self.zRotation = - 2.0f * rotationGesture.rotation;
-        rotationGesture.rotation = 0.0;
-    }
-    if (rotationGesture.state == UIGestureRecognizerStateEnded) {
-        self.activeGestures -= 1;
-        if (self.activeGestures == 0) {
-            [self endedAllGestures];
-        }
-    };
 }
 
 
 - (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture
 {
-    if (singleTapGesture.state == UIGestureRecognizerStateEnded)
-    {
-        //NSLog(@"single tap gesture");
-    }
+    if (singleTapGesture.state == UIGestureRecognizerStateEnded) NSLog(@"single tap gesture");
 }
 
 
 - (void)handleDoubleTapGesture:(UITapGestureRecognizer *)doubleTapGesture
 {
-    if (doubleTapGesture.state == UIGestureRecognizerStateEnded)
-    {
-        
-    }
+    if (doubleTapGesture.state == UIGestureRecognizerStateEnded) NSLog(@"double tap gesture");
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer

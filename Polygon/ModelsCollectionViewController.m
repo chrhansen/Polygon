@@ -199,6 +199,12 @@
     [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
 }
 
+
+- (void)_loadBundleModel
+{
+    [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
+}
+
 #pragma mark - ModelViewController Delegate
 - (void)modelViewController:(id)sender didTapDone:(UIImage *)screenshot model:(PGModel *)model
 {
@@ -250,7 +256,6 @@
 }
 
 
-
 #pragma mark - Editing state
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
 {
@@ -265,8 +270,8 @@
     }
     else
     {
-        UIBarButtonItem *addFilesBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"dropbox_logo"] style:UIBarButtonItemStylePlain target:self action:@selector(addFilesFromDropbox)];
-        [self.navigationItem setLeftBarButtonItems:@[addFilesBarButton] animated:YES];
+        UIBarButtonItem *addBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"dropbox_logo"] style:UIBarButtonItemStylePlain target:self action:@selector(addFilesFromDropbox)];
+        [self.navigationItem setLeftBarButtonItems:@[addBarButton] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     }
 }

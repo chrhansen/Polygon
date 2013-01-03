@@ -12,10 +12,15 @@
 #import "ViewsTableViewController.h"
 #import "TSPopoverController.h"
 
-@interface Model3DViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate>
+@interface Model3DViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NGLMesh *mesh;
 @property (nonatomic, strong) NGLCamera *camera;
+@property (nonatomic) CGPoint panTranslation;
+@property (nonatomic) CGPoint xyRotation;
+@property (nonatomic) CGFloat zRotation;
+@property (nonatomic) CGFloat lastPinch;
+@property (nonatomic) CGFloat pinchScale;
 
 @end
 
@@ -39,7 +44,7 @@
 {
     [super viewDidLoad];
 	self.view.multipleTouchEnabled = YES;
-	
+	[self _addGestureRecognizers];
 	//*************************
 	//	NinevehGL Stuff
 	//*************************
@@ -123,6 +128,131 @@
 - (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
 {
     
+}
+
+
+#pragma mark -
+#pragma mark - Gesture recognizers
+- (void)_addGestureRecognizers
+{
+    UIPanGestureRecognizer *panMoveGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    panMoveGesture.minimumNumberOfTouches = 1;
+    panMoveGesture.maximumNumberOfTouches = 2;
+    [self.view  addGestureRecognizer:panMoveGesture];
+    [panMoveGesture setDelegate:self];
+    
+    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
+    [self.view  addGestureRecognizer:pinchGesture];
+    [pinchGesture setDelegate:self];
+    
+    UIRotationGestureRecognizer *rotationGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotationGesture:)];
+    [self.view  addGestureRecognizer:rotationGesture];
+    [rotationGesture setDelegate:self];
+    
+    UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    singleTapGesture.numberOfTapsRequired = 1;
+    [singleTapGesture setDelegate:self];
+    
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    [self.view  addGestureRecognizer:doubleTapGesture];
+    [doubleTapGesture setDelegate:self];
+    
+    [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
+}
+
+# pragma mark - Gesture actions
+- (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture
+{
+    if ((panGesture.state == UIGestureRecognizerStateChanged ||
+         panGesture.state == UIGestureRecognizerStateEnded)) {
+        if(panGesture.numberOfTouches == 2)
+        {
+            _panTranslation = [panGesture translationInView:self.view] ;
+            [panGesture setTranslation:CGPointZero inView:self.view];
+        }
+        else if(panGesture.numberOfTouches == 1)
+        {
+            [self addVelocitySample:[panGesture translationInView:self.view]];
+            [panGesture setTranslation:CGPointZero inView:self.view];
+        }
+    }
+}
+
+#define PREVIOUSWEIGHT 0.75f
+
+- (void)addVelocitySample:(CGPoint)velocitySample
+{
+    _xyRotation.x *= PREVIOUSWEIGHT;
+    _xyRotation.y *= PREVIOUSWEIGHT;
+    _xyRotation.x += (1 - PREVIOUSWEIGHT) * velocitySample.x;
+    _xyRotation.y += (1 - PREVIOUSWEIGHT) * velocitySample.y;
+}
+
+-(void)handlePinchGesture:(UIPinchGestureRecognizer *)pinchGesture
+{
+    switch (pinchGesture.state)
+    {
+        case UIGestureRecognizerStateBegan:
+            _lastPinch = 1.0;
+            _pinchScale = 1.0;
+            break;
+            
+        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateEnded:
+            [self addPinchVelocitySample:pinchGesture.scale];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)addPinchVelocitySample:(CGFloat)pinchVelocitySample
+{
+    _pinchScale *= PREVIOUSWEIGHT;
+    _pinchScale += (1.0f - PREVIOUSWEIGHT) * pinchVelocitySample;
+}
+
+#define RADIANS_TO_DEGREES 57.2957805
+
+
+-(void)handleRotationGesture:(UIRotationGestureRecognizer *)rotationGesture
+{
+    switch (rotationGesture.state)
+    {
+        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateEnded:
+            _zRotation = - 2.0f * rotationGesture.rotation;
+            rotationGesture.rotation = 0.0;
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+- (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture
+{
+    if (singleTapGesture.state == UIGestureRecognizerStateEnded)
+    {
+        NSLog(@"single tap gesture");
+    }
+}
+
+
+- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)doubleTapGesture
+{
+    if (doubleTapGesture.state == UIGestureRecognizerStateEnded)
+    {
+        NSLog(@"double tap gesture");
+    }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 @end

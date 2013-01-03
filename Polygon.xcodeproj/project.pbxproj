@@ -66,9 +66,7 @@
 		E5376CBB167B865500738979 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376CBA167B865400738979 /* GLKit.framework */; };
 		E5376CBD167B865900738979 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376CBC167B865900738979 /* OpenGLES.framework */; };
 		E5376CC8167B86F500738979 /* ColorArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CC0167B86E800738979 /* ColorArrays.m */; };
-		E5376CC9167B86F500738979 /* NodePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CC2167B86EC00738979 /* NodePicker.m */; };
 		E5376CCA167B86F500738979 /* ROI3D.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CC4167B86F200738979 /* ROI3D.m */; };
-		E5376CCB167B86F500738979 /* SpaceBall.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CC6167B86F300738979 /* SpaceBall.m */; };
 		E5376CD4167B874600738979 /* AnsysHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CCF167B874600738979 /* AnsysHelper.m */; };
 		E5376CD5167B874600738979 /* AnsysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CD1167B874600738979 /* AnsysModel.m */; };
 		E5376CD6167B874600738979 /* FEFileFormats.plist in Resources */ = {isa = PBXBuildFile; fileRef = E5376CD2167B874600738979 /* FEFileFormats.plist */; };
@@ -225,12 +223,8 @@
 		E5376CBE167B86E500738979 /* BackgroundVertices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundVertices.h; sourceTree = "<group>"; };
 		E5376CBF167B86E600738979 /* ColorArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorArrays.h; sourceTree = "<group>"; };
 		E5376CC0167B86E800738979 /* ColorArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorArrays.m; sourceTree = "<group>"; };
-		E5376CC1167B86E800738979 /* NodePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodePicker.h; sourceTree = "<group>"; };
-		E5376CC2167B86EC00738979 /* NodePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodePicker.m; sourceTree = "<group>"; };
 		E5376CC3167B86ED00738979 /* ROI3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROI3D.h; sourceTree = "<group>"; };
 		E5376CC4167B86F200738979 /* ROI3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROI3D.m; sourceTree = "<group>"; };
-		E5376CC5167B86F300738979 /* SpaceBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceBall.h; sourceTree = "<group>"; };
-		E5376CC6167B86F300738979 /* SpaceBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpaceBall.m; sourceTree = "<group>"; };
 		E5376CC7167B86F500738979 /* Structs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Structs.h; sourceTree = "<group>"; };
 		E5376CCE167B874600738979 /* AnsysHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnsysHelper.h; sourceTree = "<group>"; };
 		E5376CCF167B874600738979 /* AnsysHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnsysHelper.m; sourceTree = "<group>"; };
@@ -634,12 +628,8 @@
 				E5376CBE167B86E500738979 /* BackgroundVertices.h */,
 				E5376CBF167B86E600738979 /* ColorArrays.h */,
 				E5376CC0167B86E800738979 /* ColorArrays.m */,
-				E5376CC1167B86E800738979 /* NodePicker.h */,
-				E5376CC2167B86EC00738979 /* NodePicker.m */,
 				E5376CC3167B86ED00738979 /* ROI3D.h */,
 				E5376CC4167B86F200738979 /* ROI3D.m */,
-				E5376CC5167B86F300738979 /* SpaceBall.h */,
-				E5376CC6167B86F300738979 /* SpaceBall.m */,
 				E5376CC7167B86F500738979 /* Structs.h */,
 			);
 			name = OpenGL;
@@ -878,9 +868,7 @@
 				E5376C90167B7BC900738979 /* DropboxViewController.m in Sources */,
 				E5376CB9167B860700738979 /* FEViewerViewController.m in Sources */,
 				E5376CC8167B86F500738979 /* ColorArrays.m in Sources */,
-				E5376CC9167B86F500738979 /* NodePicker.m in Sources */,
 				E5376CCA167B86F500738979 /* ROI3D.m in Sources */,
-				E5376CCB167B86F500738979 /* SpaceBall.m in Sources */,
 				E5376CD4167B874600738979 /* AnsysHelper.m in Sources */,
 				E5376CD5167B874600738979 /* AnsysModel.m in Sources */,
 				E5376CDA167B876A00738979 /* UIImage+Resize.m in Sources */,
