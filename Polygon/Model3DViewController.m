@@ -11,6 +11,7 @@
 #import <NinevehGL/NinevehGL.h>
 #import "ViewsTableViewController.h"
 #import "TSPopoverController.h"
+#import "PGView+Management.h"
 
 @interface Model3DViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate>
 
@@ -118,10 +119,13 @@
 #pragma mark - Views Table View Controller Delegate
 - (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
 {
-//    GLKVector3 currentPosition = GLKVector3Make(viewTranslateMatrix.m30, viewTranslateMatrix.m31, viewTranslateMatrix.m32);
-//    GLKQuaternion currentOrientation = GLKQuaternionMakeWithMatrix4(viewRotationMatrix);
-    
-    return nil; //[PGView createWith:currentPosition orientation:currentOrientation screenShot:[self currentViewAsModelScreenshot]];
+    NGLvec3 *position = _camera.position;
+    NGLvec3 *rotation = _camera.rotation;
+
+    PGView *currentView = [PGView createWithLocationX:position->x locationY:position->y locationZ:position->z
+                                          quaternionX:rotation->x quaternionY:rotation->y quaternionZ:rotation->z
+                                          quaternionW:-1.0f screenShot:[self currentViewAsModelScreenshot]];
+    return currentView;
 }
 
 
@@ -155,7 +159,7 @@
     
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
     doubleTapGesture.numberOfTapsRequired = 2;
-    [self.view  addGestureRecognizer:doubleTapGesture];
+    [self.view addGestureRecognizer:doubleTapGesture];
     [doubleTapGesture setDelegate:self];
     
     [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];

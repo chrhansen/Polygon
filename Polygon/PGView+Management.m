@@ -10,23 +10,29 @@
 
 @implementation PGView (Management)
 
-+ (PGView *)createWith:(GLKVector3)location orientation:(GLKQuaternion)orientation screenShot:(UIImage *)image;
++ (PGView *)createWithLocationX:(CGFloat)xLocation
+                      locationY:(CGFloat)yLocation
+                      locationZ:(CGFloat)zLocation
+                    quaternionX:(CGFloat)xComponent
+                    quaternionY:(CGFloat)yComponent
+                    quaternionZ:(CGFloat)zComponent
+                    quaternionW:(CGFloat)wAngle
+                     screenShot:(UIImage *)image
 {
     PGView *newView = [PGView createEntity];
-    newView.xLocation = [NSNumber numberWithFloat:location.x];
-    newView.yLocation = [NSNumber numberWithFloat:location.y];
-    newView.zLocation = [NSNumber numberWithFloat:location.z];
+    newView.xLocation = [NSNumber numberWithFloat:xLocation];
+    newView.yLocation = [NSNumber numberWithFloat:yLocation];
+    newView.zLocation = [NSNumber numberWithFloat:zLocation];
     
-    newView.xRotation = [NSNumber numberWithFloat:orientation.x];
-    newView.yRotation = [NSNumber numberWithFloat:orientation.y];
-    newView.zRotation = [NSNumber numberWithFloat:orientation.z];
-    newView.wAngle    = [NSNumber numberWithFloat:orientation.w];
+    newView.xRotation = [NSNumber numberWithFloat:xComponent];
+    newView.yRotation = [NSNumber numberWithFloat:yComponent];
+    newView.zRotation = [NSNumber numberWithFloat:zComponent];
+    newView.wAngle    = [NSNumber numberWithFloat:wAngle];
     
     newView.image = image;
-
+    
     return newView;
 }
-
 
 - (PGView *)copyEntity
 {
@@ -41,6 +47,9 @@
 
 + (void)deleteView:(PGView *)viewToDelete completion:(void (^)(NSError *error))completion
 {
+    if (!viewToDelete) {
+        return;
+    }
     NSManagedObjectContext *context = viewToDelete.managedObjectContext;
     NSError *permanentIDError;
     [context obtainPermanentIDsForObjects:@[viewToDelete] error:&permanentIDError];

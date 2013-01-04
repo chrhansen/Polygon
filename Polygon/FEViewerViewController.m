@@ -1062,7 +1062,8 @@
 {
     GLKVector3 currentPosition = GLKVector3Make(viewTranslateMatrix.m30, viewTranslateMatrix.m31, viewTranslateMatrix.m32);
     GLKQuaternion currentOrientation = GLKQuaternionMakeWithMatrix4(viewRotationMatrix);
-    PGView *currentView = [PGView createWith:currentPosition orientation:currentOrientation screenShot:[self currentViewAsModelScreenshot]];
+    PGView *currentView = [PGView createWithLocationX:currentPosition.x locationY:currentPosition.y locationZ:currentPosition.z
+                                          quaternionX:currentOrientation.x quaternionY:currentOrientation.y quaternionZ:currentOrientation.z quaternionW:currentOrientation.w screenShot:[self currentViewAsModelScreenshot]];
     return currentView;
 }
 

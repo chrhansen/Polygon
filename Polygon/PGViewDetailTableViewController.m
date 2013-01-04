@@ -64,7 +64,6 @@
 {
     if (!self.isEditingExistingViewViewController) {
         [PGView deleteView:self.savedView completion:nil];
-//        [self.savedView deleteInContext:[NSManagedObjectContext defaultContext]];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }

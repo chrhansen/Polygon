@@ -7,15 +7,21 @@
 //
 
 #import "PGView.h"
-#import <GLKit/GLKit.h>
 
 @interface PGView (Management)
 
-+ (PGView *)createWith:(GLKVector3)location orientation:(GLKQuaternion)orientation screenShot:(UIImage *)image;
++ (PGView *)createWithLocationX:(CGFloat)xLocation
+                      locationY:(CGFloat)yLocation
+                      locationZ:(CGFloat)zLocation
+                    quaternionX:(CGFloat)xComponent
+                    quaternionY:(CGFloat)yComponent
+                    quaternionZ:(CGFloat)zComponent
+                    quaternionW:(CGFloat)wAngle
+                     screenShot:(UIImage *)image;
+
 - (PGView *)copyEntity;
 
 + (void)deleteView:(PGView *)viewToDelete completion:(void (^)(NSError *error))completion;
-
 
 @property (nonatomic, weak, readonly) NSString *dateAddedAsLocalizedString;
 

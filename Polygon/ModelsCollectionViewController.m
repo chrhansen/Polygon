@@ -56,7 +56,6 @@
     if(!success) {
         NSLog(@"Error = %@", error);
     }
-    [self.collectionView reloadData];
     DownloadManager.sharedInstance.progressDelegate = self;
 }
 
@@ -107,12 +106,11 @@
     PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     ModelCollectionViewCell *modelCell = (ModelCollectionViewCell *)cell;
     modelCell.nameLabel.text = aModel.modelName;
-    CGFloat scale = [[UIScreen mainScreen] scale]; //Retina vs. non-retina
-    modelCell.modelImageView.image = [aModel.modelImage roundedCornerImage:(5.f * scale) borderSize:0];
+    modelCell.modelImageView.image = aModel.modelImage;
     modelCell.infoButton.hidden = self.isEditing;
     [modelCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     modelCell.checkMarkImageView.hidden = ![self.editItems containsObject:aModel];
-    if (aModel.dateAdded.unsignedLongLongValue > 0) {
+    if (aModel.isDownloaded) {
         modelCell.downloadProgressView.hidden = YES;
     } else {
         modelCell.downloadProgressView.hidden = NO;
@@ -137,25 +135,6 @@
     [popoverController showPopoverWithRect:CGRectMake(popoverLocation.x, popoverLocation.y, 1, 1)];
 }
 
-
-
-#pragma mark - DEMO - UITableView Delegate Methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 25;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    cell.textLabel.text = @"text";
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.f];
-    
-    return cell;
-}
 
 - (void)uploadTapped:(UIBarButtonItem *)button
 {
@@ -495,10 +474,7 @@
             for (NSDictionary *change in _objectChanges)
             {
                 [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-                    if ([(NSIndexPath *)obj row] > 10
-                        || [(NSIndexPath *)obj section] >10) {
-                        NSLog(@"obj: %@, %@", obj, [obj class]);
-                    }
+
                     NSFetchedResultsChangeType type = [key unsignedIntegerValue];
                     switch (type)
                     {

@@ -72,9 +72,10 @@
         viewDetailTableViewController.savedView = self.currentView;
         viewDetailTableViewController.isEditingExistingViewViewController = NO;
     }
-    else if ([segue.identifier isEqualToString:@"Show ROI"]) 
+    else if ([segue.identifier isEqualToString:@"Show View"]) 
     {
         PGViewDetailTableViewController *viewDetailTableViewController = segue.destinationViewController;
+        viewDetailTableViewController.savedView = [self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedAccessoryView];
         viewDetailTableViewController.delegate = self;
     }
 }
@@ -240,7 +241,6 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         PGView *savedView = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [PGView deleteView:savedView completion:nil];
-//        [savedView deleteInContext:[NSManagedObjectContext defaultContext]];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -257,7 +257,7 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     self.indexPathForSelectedAccessoryView = indexPath;
-    [self performSegueWithIdentifier:@"Show ROI" sender:self];
+    [self performSegueWithIdentifier:@"Show View" sender:self];
 }
 
 @end
