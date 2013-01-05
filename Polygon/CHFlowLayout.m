@@ -21,7 +21,6 @@
 {
     self = [super init];
     if (self) {
-        self.itemSize = CGSizeMake(140, 150);
         self.scrollDirection = UICollectionViewScrollDirectionVertical;
         if (IS_IPAD) {
             self.itemSize = CGSizeMake(140, 150);

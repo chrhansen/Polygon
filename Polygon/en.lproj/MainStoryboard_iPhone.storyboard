@@ -183,14 +183,14 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.85871920620437958" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="TsJ-AU-pkB">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="20" id="TsJ-AU-pkB">
                             <size key="itemSize" width="140" height="150"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Model Cell" id="Rwt-Nl-Zbc" customClass="ModelCollectionViewCell">
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Model Cell" id="Rwt-Nl-Zbc" customClass="ModelCollectionViewCell">
                                 <rect key="frame" x="10" y="10" width="140" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -198,10 +198,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDX-2h-0jh"/>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="133" translatesAutoresizingMaskIntoConstraints="NO" id="ssB-Cl-NCZ">
+                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="134" translatesAutoresizingMaskIntoConstraints="NO" id="ssB-Cl-NCZ">
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="2PK-oe-APD"/>
-                                                <constraint firstAttribute="width" constant="133" id="lLJ-Y6-H4w"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -233,18 +232,19 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
+                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="leading" secondItem="Rwt-Nl-Zbc" secondAttribute="leading" type="default" id="16j-Hq-iTB"/>
                                     <constraint firstAttribute="bottom" secondItem="FrZ-Tn-AMl" secondAttribute="bottom" constant="8" id="5Lg-cK-Lzb"/>
-                                    <constraint firstItem="UEI-qp-C5f" firstAttribute="centerX" secondItem="NDX-2h-0jh" secondAttribute="centerX" type="default" id="GJP-zm-TpY"/>
+                                    <constraint firstItem="ssB-Cl-NCZ" firstAttribute="leading" secondItem="Rwt-Nl-Zbc" secondAttribute="leading" constant="3" type="user" id="7Va-8W-xOD"/>
                                     <constraint firstAttribute="bottom" secondItem="ssB-Cl-NCZ" secondAttribute="bottom" constant="1" id="JOI-gK-kSr"/>
                                     <constraint firstItem="OKR-U1-y6c" firstAttribute="centerX" secondItem="FrZ-Tn-AMl" secondAttribute="centerX" type="default" id="KUN-LT-82D"/>
-                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="bottom" secondItem="Rwt-Nl-Zbc" secondAttribute="bottom" type="default" id="Yr3-1b-A61"/>
                                     <constraint firstItem="UEI-qp-C5f" firstAttribute="centerX" secondItem="ssB-Cl-NCZ" secondAttribute="centerX" type="default" id="ZXz-hg-0EW"/>
+                                    <constraint firstAttribute="trailing" secondItem="ssB-Cl-NCZ" secondAttribute="trailing" constant="3" type="user" id="cSM-kU-XbV"/>
+                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="top" secondItem="Rwt-Nl-Zbc" secondAttribute="top" type="default" id="gd6-i3-5Xd"/>
                                     <constraint firstItem="UEI-qp-C5f" firstAttribute="bottom" secondItem="OKR-U1-y6c" secondAttribute="bottom" type="default" id="h6O-H9-Hy5"/>
-                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="top" secondItem="Rwt-Nl-Zbc" secondAttribute="top" type="default" id="kWr-j4-ie6"/>
+                                    <constraint firstItem="ssB-Cl-NCZ" firstAttribute="centerX" secondItem="NDX-2h-0jh" secondAttribute="centerX" type="default" id="iRP-5u-idm"/>
                                     <constraint firstAttribute="trailing" secondItem="FrZ-Tn-AMl" secondAttribute="trailing" constant="7" id="phx-du-e5p"/>
-                                    <constraint firstItem="UEI-qp-C5f" firstAttribute="centerX" secondItem="Rwt-Nl-Zbc" secondAttribute="centerX" type="default" id="thh-iH-VnE"/>
+                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="bottom" secondItem="Rwt-Nl-Zbc" secondAttribute="bottom" type="default" id="uV1-gL-18l"/>
                                     <constraint firstItem="OKR-U1-y6c" firstAttribute="centerY" secondItem="FrZ-Tn-AMl" secondAttribute="centerY" type="default" id="wZT-zy-eHT"/>
-                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="leading" secondItem="Rwt-Nl-Zbc" secondAttribute="leading" type="default" id="ypE-sR-GzM"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="checkMarkImageView" destination="OKR-U1-y6c" id="qoG-mJ-xbM"/>

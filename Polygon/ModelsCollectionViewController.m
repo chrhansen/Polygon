@@ -41,8 +41,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    CHFlowLayout *chFlowLayout = [CHFlowLayout.alloc init];
-    [self.collectionView setCollectionViewLayout:chFlowLayout animated:NO];
+    [self _setBackgroundShelfView];
+    [self _setLayoutItemSizes];
+//    CHFlowLayout *chFlowLayout = [CHFlowLayout.alloc init];
+//    [self.collectionView setCollectionViewLayout:chFlowLayout animated:NO];
     [self _configureBarButtonItemsForEditing:NO];
 }
 
@@ -84,6 +86,30 @@
         [(Model3DViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
         [(Model3DViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
     }
+}
+
+
+- (void)_setBackgroundShelfView
+{
+    if (IS_IPAD) {
+        self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"clean-shelf"]];
+    } else {
+        self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"clean-shelf-iphone"]];
+    }
+}
+
+
+- (void)_setLayoutItemSizes
+{
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    if (IS_IPAD) {
+        layout.itemSize = CGSizeMake(135, 150);
+        layout.sectionInset = UIEdgeInsetsMake(10.0, 70.0, 50, 70.0);
+    } else {
+        layout.itemSize = CGSizeMake(115, 129);
+        layout.sectionInset = UIEdgeInsetsMake(30.0, 30.0, 50, 30.0);
+    }
+    layout.minimumLineSpacing = 222.0f - layout.itemSize.height;
 }
 
 
