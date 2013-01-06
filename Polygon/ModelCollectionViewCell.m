@@ -13,7 +13,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.modelImageView.layer.cornerRadius = 7.0f;
+    self.modelImageView.layer.cornerRadius = 5.0f;
 }
 
 

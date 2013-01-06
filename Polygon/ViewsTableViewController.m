@@ -162,6 +162,15 @@
     return cell;
 }
 
+#pragma mark - Table view delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.delegate viewsTableViewController:self didSelectView:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+}
+
+
+
+
 #pragma mark - Fetched Results Controller
 - (NSFetchedResultsController *)fetchedResultsController
 {

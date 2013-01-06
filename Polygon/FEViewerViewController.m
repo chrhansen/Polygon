@@ -444,9 +444,9 @@
     } 
     else 
     {
-        GLKMatrix4 viewXRot = GLKMatrix4MakeXRotation(GLKMathDegreesToRadians(self.myRotation.y));
-        GLKMatrix4 viewYRot = GLKMatrix4MakeYRotation(GLKMathDegreesToRadians(self.myRotation.x));
-        GLKMatrix4 viewZRot = GLKMatrix4MakeZRotation(self.zRotation);
+        GLKMatrix4 viewXRot = GLKMatrix4MakeXRotation(GLKMathDegreesToRadians(_myRotation.y));
+        GLKMatrix4 viewYRot = GLKMatrix4MakeYRotation(GLKMathDegreesToRadians(_myRotation.x));
+        GLKMatrix4 viewZRot = GLKMatrix4MakeZRotation(_zRotation);
         viewRotationMatrix = GLKMatrix4Multiply(GLKMatrix4Multiply(viewZRot, GLKMatrix4Multiply(viewYRot, viewXRot)), viewRotationMatrix);
     }
     
@@ -1070,7 +1070,7 @@
 
 - (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
 {
-    
+    NSLog(@"didSelectView: %@", savedView);
 }
 
 //- (ROI3D *)currentROI:(ViewsTableViewController *)sender

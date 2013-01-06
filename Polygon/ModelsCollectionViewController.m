@@ -62,13 +62,6 @@
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    self.fetchedResultsController = nil;
-}
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

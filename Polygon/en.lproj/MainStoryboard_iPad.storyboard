@@ -449,7 +449,6 @@
         <class className="FEViewerViewController" superclassName="GLKViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FEViewerViewController.h"/>
             <relationships>
-                <relationship kind="action" name="viewsTapped:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="toolView" candidateClass="UIView"/>
             </relationships>

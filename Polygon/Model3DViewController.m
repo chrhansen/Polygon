@@ -20,8 +20,8 @@
 @property (nonatomic) CGPoint panTranslation;
 @property (nonatomic) CGPoint xyRotation;
 @property (nonatomic) CGFloat zRotation;
-@property (nonatomic) CGFloat lastPinch;
 @property (nonatomic) CGFloat pinchScale;
+@property (nonatomic) CGFloat initialCameraDistanceZ;
 
 @end
 
@@ -63,8 +63,8 @@
 	
 	// Initializing the camera and placing it into a good initial position.
 	_camera = [[NGLCamera alloc] initWithMeshes:_mesh, nil];
-	_camera.z = 2.0;
-	//_camera.rotateX = 8;
+	_initialCameraDistanceZ = 2.0;
+    _pinchScale = 1.0f;
 }
 
 
@@ -80,11 +80,17 @@
 	// Updating the camera rotations.
 //	_camera.rotateX += pan.x;
 //	_camera.rotateY -= pan.y;
-	
+	    
 	// Updating the camera movement.
-//	[_camera translateRelativeToX:0 toY:-0.001 toZ:-0.001];
+    CGFloat aspect = self.view.bounds.size.width / self.view.bounds.size.height;
+    CGFloat xMovement = aspect * _panTranslation.x / self.view.bounds.size.width * _camera.z;
+    CGFloat yMovement = - _panTranslation.y / self.view.bounds.size.height * _camera.z;
+	[_camera translateRelativeToX:xMovement toY:yMovement toZ:0.0f];
+    _camera.z = _initialCameraDistanceZ * 1.0f / _pinchScale;
 	[_mesh rotateRelativeToX:0.3 toY:0.3 toZ:0];
 	
+    [self _resetTranslationsAndRotations];
+    
 	[_camera drawCamera];
 }
 
@@ -116,22 +122,27 @@
     return [(NGLView *)self.view drawToImage];
 }
 
+- (void)_resetTranslationsAndRotations
+{
+    _panTranslation = CGPointZero;
+}
+
 #pragma mark - Views Table View Controller Delegate
 - (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
 {
     NGLvec3 *position = _camera.position;
     NGLvec3 *rotation = _camera.rotation;
-
+    
     PGView *currentView = [PGView createWithLocationX:position->x locationY:position->y locationZ:position->z
-                                          quaternionX:rotation->x quaternionY:rotation->y quaternionZ:rotation->z
-                                          quaternionW:-1.0f screenShot:[self currentViewAsModelScreenshot]];
+                                          quaternionX:rotation->x quaternionY:rotation->y quaternionZ:rotation->z quaternionW:-1.0f
+                                           screenShot:[self currentViewAsModelScreenshot]];
     return currentView;
 }
 
 
 - (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
 {
-    
+    NSLog(@"didSelectView: %@", savedView);
 }
 
 
@@ -189,8 +200,8 @@
 {
     _xyRotation.x *= PREVIOUSWEIGHT;
     _xyRotation.y *= PREVIOUSWEIGHT;
-    _xyRotation.x += (1 - PREVIOUSWEIGHT) * velocitySample.x;
-    _xyRotation.y += (1 - PREVIOUSWEIGHT) * velocitySample.y;
+    _xyRotation.x += (1.0f - PREVIOUSWEIGHT) * velocitySample.x;
+    _xyRotation.y += (1.0f - PREVIOUSWEIGHT) * velocitySample.y;
 }
 
 -(void)handlePinchGesture:(UIPinchGestureRecognizer *)pinchGesture
@@ -198,13 +209,17 @@
     switch (pinchGesture.state)
     {
         case UIGestureRecognizerStateBegan:
-            _lastPinch = 1.0;
-            _pinchScale = 1.0;
+            _initialCameraDistanceZ = _camera.z;
+            _pinchScale = pinchGesture.scale;
             break;
             
         case UIGestureRecognizerStateChanged:
+            _pinchScale = pinchGesture.scale;
+            break;
+
         case UIGestureRecognizerStateEnded:
-            [self addPinchVelocitySample:pinchGesture.scale];
+            _initialCameraDistanceZ = _camera.z;
+            _pinchScale = 1.0f;
             break;
             
         default:

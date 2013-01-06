@@ -705,9 +705,9 @@
                         GLKVector3 vertexI = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:0]];
                         GLKVector3 vertexJ = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:1]];
                         GLKVector3 vertexK = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:2]];
-                        GLKVector3 vertexM = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:4]];
-                        GLKVector3 vertexN = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:5]];
-                        GLKVector3 vertexO = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:6]];
+                        GLKVector3 vertexM = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:3]];
+                        GLKVector3 vertexN = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:4]];
+                        GLKVector3 vertexO = [self vertexPositionForNodeNumber:[elementIndicies objectAtIndex:5]];
                         
                         // rect 1
                         [self addTriangle:vertexJ
