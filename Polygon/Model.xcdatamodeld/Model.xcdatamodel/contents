@@ -16,7 +16,7 @@
         </attribute>
         <attribute name="modelSize" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES">
             <userInfo>
-                <entry key="mappedKeyName" value="metadata.totalBytes"/>
+                <entry key="mappedKeyName" value="metadata"/>
             </userInfo>
         </attribute>
         <attribute name="pGModelID" optional="YES" attributeType="String" syncable="YES">

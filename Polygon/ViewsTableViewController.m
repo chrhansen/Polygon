@@ -99,7 +99,7 @@
 - (void)viewDetailTableViewController:(PGViewDetailTableViewController *)viewDetailTableViewController didSaveView:(PGView *)savedView
 {
     savedView.viewOf = self.model;
-    [savedView.managedObjectContext save];
+    [savedView.managedObjectContext saveNestedContexts];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

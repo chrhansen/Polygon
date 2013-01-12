@@ -7,6 +7,7 @@
 //
 
 #import "PGModel+Management.h"
+#import <DropboxSDK/DBMetadata.h>
 
 @implementation PGModel (Management)
 
@@ -118,9 +119,13 @@
 }
 
 
-- (BOOL)importModelSize:(unsigned long long)data
+- (BOOL)importModelSize:(id)data
 {
-    self.modelSize = [NSNumber numberWithUnsignedLongLong:data];
+    long long size = 0;
+    if ([data isKindOfClass:[DBMetadata class]]) {
+        size = [(DBMetadata *)data totalBytes];
+    }
+    self.modelSize = [NSNumber numberWithLongLong:size];
     return YES;
 }
 

@@ -13,6 +13,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [TestFlight takeOff:@"f146de881ca21798ccf25e64e544d6a0_MTAyNjExMjAxMi0wNi0yNyAwNDozNTozNC4wOTMwNTk"];
     DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"zys929yd5i93w1u"
                                                     appSecret:@"46uevc5lcz77wat"
                                                          root:kDBRootDropbox];

@@ -35,10 +35,10 @@
     [super willMoveToSuperview:newSuperview];
     if (newSuperview)
     {
-        self.contentView.layer.shadowOpacity = 0.5;
+        self.contentView.layer.shadowOpacity = 0.7;
         self.contentView.layer.shadowRadius = 5;
-        self.contentView.layer.shadowOffset = CGSizeMake(0, 1);
-        self.contentView.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:CGRectInset(self.contentView.bounds,0,5) cornerRadius:self.modelImageView.layer.cornerRadius] CGPath];
+        self.contentView.layer.shadowOffset = CGSizeMake(0, 0);
+        self.contentView.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:CGRectInset(self.contentView.bounds,1,3) cornerRadius:self.modelImageView.layer.cornerRadius] CGPath];
     }
 }
 

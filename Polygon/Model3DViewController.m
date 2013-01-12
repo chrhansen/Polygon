@@ -87,7 +87,8 @@
     CGFloat yMovement = - _panTranslation.y / self.view.bounds.size.height * _camera.z;
 	[_camera translateRelativeToX:xMovement toY:yMovement toZ:0.0f];
     _camera.z = _initialCameraDistanceZ * 1.0f / _pinchScale;
-	[_mesh rotateRelativeToX:0.3 toY:0.3 toZ:0];
+        
+	[_mesh rotateRelativeToX:_xyRotation.x toY:_xyRotation.y toZ:_zRotation];
 	
     [self _resetTranslationsAndRotations];
     

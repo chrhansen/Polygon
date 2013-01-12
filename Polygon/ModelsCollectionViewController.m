@@ -43,8 +43,6 @@
     [super viewDidLoad];
     [self _setBackgroundShelfView];
     [self _setLayoutItemSizes];
-//    CHFlowLayout *chFlowLayout = [CHFlowLayout.alloc init];
-//    [self.collectionView setCollectionViewLayout:chFlowLayout animated:NO];
     [self _configureBarButtonItemsForEditing:NO];
 }
 
@@ -52,12 +50,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSError *error = nil;
-    BOOL success = [self.fetchedResultsController performFetch:&error];
-    
-    if(!success) {
-        NSLog(@"Error = %@", error);
-    }
     DownloadManager.sharedInstance.progressDelegate = self;
 }
 
@@ -111,7 +103,7 @@
     [super setEditing:editing animated:animated];
     [self _configureBarButtonItemsForEditing:editing];
     if (!editing) [self _discardEditItems];
-    [self _updateVisibilityForInfobuttons];
+    [self _updateVisibelCells];
 }
 
 #pragma mark - Save changes from other contexts
@@ -275,7 +267,7 @@
 }
 
 
-- (void)_toggleVisibleCheckmarkForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)_updateCheckmarkVisibilityForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     id anObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [(ModelCollectionViewCell *)cell checkMarkImageView].hidden = ![self.editItems containsObject:anObject];
@@ -305,14 +297,10 @@
 {
     [self.editItems removeAllObjects];
     self.editItems = nil;
-    for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems)
-    {
-        ModelCollectionViewCell *cell = (ModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-        [self configureCell:cell atIndexPath:indexPath];
-    }
+    [self _updateVisibelCells];
 }
 
-- (void)_updateVisibilityForInfobuttons
+- (void)_updateVisibelCells
 {
     for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems)
     {
@@ -358,7 +346,7 @@
     {
         case YES:
             [self _togglePresenceInEditItems:selectedModel];
-            [self _toggleVisibleCheckmarkForCell:cell atIndexPath:indexPath];
+            [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
             [self _toggleBarButtonStateOnChangedEditItems];
             break;
             
@@ -398,35 +386,28 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:[NSEntityDescription entityForName:@"PGModel" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]]];
-    [request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateAdded" ascending:NO]]];
-    
-    NSFetchedResultsController *newController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                                    managedObjectContext:[NSManagedObjectContext MR_defaultContext]
-                                                                                      sectionNameKeyPath:nil
-                                                                                               cacheName:nil];
-    newController.delegate = self;
-    self.fetchedResultsController = newController;
-    
+    _fetchedResultsController = [PGModel fetchAllGroupedBy:nil
+                                             withPredicate:nil
+                                                  sortedBy:@"dateAdded"
+                                                 ascending:NO
+                                                  delegate:self
+                                                 inContext:[NSManagedObjectContext MR_defaultContext]];
     return _fetchedResultsController;
 }
 
 
 #pragma mark Fetched Results Controller Delegate methods
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
     NSMutableDictionary *change = [NSMutableDictionary new];
-    
-    switch(type) {
+    switch(type)
+    {
         case NSFetchedResultsChangeInsert:
-            change[@(type)] = @[@(sectionIndex)];
+            change[@(type)] = @(sectionIndex);
             break;
         case NSFetchedResultsChangeDelete:
-            change[@(type)] = @[@(sectionIndex)];
+            change[@(type)] = @(sectionIndex);
             break;
     }
     [_sectionChanges addObject:change];
@@ -437,7 +418,6 @@
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-    
     NSMutableDictionary *change = [NSMutableDictionary new];
     switch(type)
     {
@@ -460,59 +440,72 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    if ([_sectionChanges count] > 0)
-    {
-        [self.collectionView performBatchUpdates:^{
-            
-            for (NSDictionary *change in _sectionChanges)
-            {
-                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-                    
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                    switch (type)
-                    {
-                        case NSFetchedResultsChangeInsert:
-                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[[obj lastObject] unsignedIntegerValue]]];
-                            break;
-                        case NSFetchedResultsChangeDelete:
-                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[[obj lastObject] unsignedIntegerValue]]];
-                            break;
-                        case NSFetchedResultsChangeUpdate:
-                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[[obj lastObject] unsignedIntegerValue]]];
-                            break;
-                    }
-                }];
-            }
-        } completion:nil];
-    }
-    
-    if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
-    {
-        [self.collectionView performBatchUpdates:^{
-            
-            for (NSDictionary *change in _objectChanges)
-            {
-                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+    [self _performOutstandingCollectionViewUpdates];
+}
 
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                    switch (type)
-                    {
-                        case NSFetchedResultsChangeInsert:
-                            [self.collectionView insertItemsAtIndexPaths:@[obj]];
-                            break;
-                        case NSFetchedResultsChangeDelete:
-                            [self.collectionView deleteItemsAtIndexPaths:@[obj]];
-                            break;
-                        case NSFetchedResultsChangeUpdate:
-                            [self.collectionView reloadItemsAtIndexPaths:@[obj]];
-                            break;
-                        case NSFetchedResultsChangeMove:
-                            [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-                            break;
-                    }
-                }];
-            }
-        } completion:nil];
+
+- (void)_performOutstandingCollectionViewUpdates
+{
+    if (self.navigationController.visibleViewController != self)
+    {
+        [self.collectionView reloadData];
+    }
+    else
+    {
+        if ([_sectionChanges count] > 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _sectionChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+        
+        if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _objectChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeMove:
+                                [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
     }
     
     [_sectionChanges removeAllObjects];

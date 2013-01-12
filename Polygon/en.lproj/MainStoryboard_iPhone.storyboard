@@ -206,6 +206,12 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" image="39-circle-check.png" translatesAutoresizingMaskIntoConstraints="NO" id="OKR-U1-y6c">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="14" id="sNJ-gV-ItA"/>
+                                                <constraint firstAttribute="height" constant="14" id="ztB-cJ-149"/>
+                                            </constraints>
+                                        </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FrZ-Tn-AMl">
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal">
@@ -216,12 +222,6 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <imageView hidden="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" image="39-circle-check.png" translatesAutoresizingMaskIntoConstraints="NO" id="OKR-U1-y6c">
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="14" id="sNJ-gV-ItA"/>
-                                                <constraint firstAttribute="height" constant="14" id="ztB-cJ-149"/>
-                                            </constraints>
-                                        </imageView>
                                         <progressView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEI-qp-C5f">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="113" id="zKs-ki-2yI"/>
@@ -233,18 +233,18 @@
                                 </view>
                                 <constraints>
                                     <constraint firstItem="NDX-2h-0jh" firstAttribute="leading" secondItem="Rwt-Nl-Zbc" secondAttribute="leading" type="default" id="16j-Hq-iTB"/>
-                                    <constraint firstAttribute="bottom" secondItem="FrZ-Tn-AMl" secondAttribute="bottom" constant="8" id="5Lg-cK-Lzb"/>
+                                    <constraint firstAttribute="trailing" secondItem="FrZ-Tn-AMl" secondAttribute="trailing" constant="7" id="36G-RJ-jwY"/>
                                     <constraint firstItem="ssB-Cl-NCZ" firstAttribute="leading" secondItem="Rwt-Nl-Zbc" secondAttribute="leading" constant="3" type="user" id="7Va-8W-xOD"/>
+                                    <constraint firstAttribute="bottom" secondItem="FrZ-Tn-AMl" secondAttribute="bottom" constant="7" id="9Iv-cC-HY1"/>
                                     <constraint firstAttribute="bottom" secondItem="ssB-Cl-NCZ" secondAttribute="bottom" constant="1" id="JOI-gK-kSr"/>
-                                    <constraint firstItem="OKR-U1-y6c" firstAttribute="centerX" secondItem="FrZ-Tn-AMl" secondAttribute="centerX" type="default" id="KUN-LT-82D"/>
+                                    <constraint firstItem="FrZ-Tn-AMl" firstAttribute="centerX" secondItem="OKR-U1-y6c" secondAttribute="centerX" type="default" id="WwY-tT-m9o"/>
                                     <constraint firstItem="UEI-qp-C5f" firstAttribute="centerX" secondItem="ssB-Cl-NCZ" secondAttribute="centerX" type="default" id="ZXz-hg-0EW"/>
                                     <constraint firstAttribute="trailing" secondItem="ssB-Cl-NCZ" secondAttribute="trailing" constant="3" type="user" id="cSM-kU-XbV"/>
+                                    <constraint firstAttribute="bottom" secondItem="OKR-U1-y6c" secondAttribute="bottom" constant="10" id="fQ4-6P-gtb"/>
                                     <constraint firstItem="NDX-2h-0jh" firstAttribute="top" secondItem="Rwt-Nl-Zbc" secondAttribute="top" type="default" id="gd6-i3-5Xd"/>
-                                    <constraint firstItem="UEI-qp-C5f" firstAttribute="bottom" secondItem="OKR-U1-y6c" secondAttribute="bottom" type="default" id="h6O-H9-Hy5"/>
                                     <constraint firstItem="ssB-Cl-NCZ" firstAttribute="centerX" secondItem="NDX-2h-0jh" secondAttribute="centerX" type="default" id="iRP-5u-idm"/>
-                                    <constraint firstAttribute="trailing" secondItem="FrZ-Tn-AMl" secondAttribute="trailing" constant="7" id="phx-du-e5p"/>
+                                    <constraint firstAttribute="bottom" secondItem="UEI-qp-C5f" secondAttribute="bottom" constant="8" id="qvO-9Q-nzV"/>
                                     <constraint firstItem="NDX-2h-0jh" firstAttribute="bottom" secondItem="Rwt-Nl-Zbc" secondAttribute="bottom" type="default" id="uV1-gL-18l"/>
-                                    <constraint firstItem="OKR-U1-y6c" firstAttribute="centerY" secondItem="FrZ-Tn-AMl" secondAttribute="centerY" type="default" id="wZT-zy-eHT"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="checkMarkImageView" destination="OKR-U1-y6c" id="qoG-mJ-xbM"/>
@@ -648,6 +648,8 @@
         <class className="FEViewerViewController" superclassName="GLKViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FEViewerViewController.h"/>
             <relationships>
+                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="tool2Tapped:"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="toolView" candidateClass="UIView"/>
             </relationships>
@@ -701,6 +703,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="ViewsTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewsTableViewController.h"/>
