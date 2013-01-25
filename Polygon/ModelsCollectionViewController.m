@@ -41,7 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self _setBackgroundShelfView];
+    [self _setBackgroundShelfViewForInterfaceOrientation:self.interfaceOrientation];
     [self _setLayoutItemSizes];
     [self _configureBarButtonItemsForEditing:NO];
 }
@@ -74,13 +74,31 @@
 }
 
 
-- (void)_setBackgroundShelfView
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [self _setBackgroundShelfViewForInterfaceOrientation:toInterfaceOrientation];
+}
+
+- (void)_setBackgroundShelfViewForInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    NSString *imageName;
     if (IS_IPAD) {
-        self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"clean-shelf"]];
+        imageName = UIInterfaceOrientationIsPortrait(orientation) ? @"clean-shelf" : @"clean-shelf-landscape";
     } else {
-        self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"clean-shelf-iphone"]];
+        if ([self is4Inch]) {
+            imageName = UIInterfaceOrientationIsPortrait(orientation) ? @"clean-shelf-iphone" : @"clean-shelf-iphone-landscape";
+        } else {
+            imageName = UIInterfaceOrientationIsPortrait(orientation) ? @"clean-shelf-iphone" : @"clean-shelf-iphone-landscape35";
+        }
     }
+    self.collectionView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
+}
+
+
+- (BOOL)is4Inch
+{
+    CGRect bounds = [UIScreen mainScreen].bounds;
+    return (MAX(bounds.size.width, bounds.size.height) > 480.0f);
 }
 
 

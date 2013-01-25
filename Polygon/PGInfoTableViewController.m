@@ -77,8 +77,8 @@
             cell.detailTextLabel.text = self.model.modelName;
             break;
         case 1:
-            cell.textLabel.text = NSLocalizedString(@"Date", nil);
-            cell.detailTextLabel.text = self.model.dateAddedAsLocalizedString;
+            cell.textLabel.text = NSLocalizedString(@"Added", nil);
+            cell.detailTextLabel.text = self.model.dateAddedAsLocalizedString.capitalizedString;
             break;
         case 2:
             cell.textLabel.text = NSLocalizedString(@"Size", nil);
@@ -89,6 +89,7 @@
             break;
     }
 }
+
 
 - (void)configureSavedViewCell:(UITableViewCell *)cell atRow:(NSUInteger)row
 {
@@ -101,6 +102,7 @@
     UILabel *dateLabel = (UILabel *)[cell viewWithTag:3];
     dateLabel.text = savedView.dateAddedAsLocalizedString;
 }
+
 
 - (void)configureSubitemCell:(UITableViewCell *)cell atRow:(NSUInteger)row
 {

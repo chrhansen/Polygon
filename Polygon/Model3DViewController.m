@@ -85,14 +85,18 @@
     CGFloat aspect = self.view.bounds.size.width / self.view.bounds.size.height;
     CGFloat xMovement = aspect * _panTranslation.x / self.view.bounds.size.width * _camera.z;
     CGFloat yMovement = - _panTranslation.y / self.view.bounds.size.height * _camera.z;
-	[_camera translateRelativeToX:xMovement toY:yMovement toZ:0.0f];
+	[_camera translateRelativeToX:-xMovement toY:-yMovement toZ:0.0f];
     _camera.z = _initialCameraDistanceZ * 1.0f / _pinchScale;
-        
-	[_mesh rotateRelativeToX:_xyRotation.x toY:_xyRotation.y toZ:_zRotation];
+    
+    _camera.pivot = nglVec3Make(_camera.position->x, _camera.position->y, _camera.position->z-5);
+
+    
+	[_camera rotateRelativeToX:_xyRotation.y toY:_xyRotation.x toZ:_zRotation];
 	
     [self _resetTranslationsAndRotations];
     
 	[_camera drawCamera];
+    NSLog(@"Pivot: (%f, %f, %f)", _camera.pivot.x, _camera.pivot.y, _camera.pivot.z);
 }
 
 - (void)didReceiveMemoryWarning
@@ -126,6 +130,8 @@
 - (void)_resetTranslationsAndRotations
 {
     _panTranslation = CGPointZero;
+    _xyRotation = CGPointZero;
+    _zRotation = 0.0f;
 }
 
 #pragma mark - Views Table View Controller Delegate
@@ -241,10 +247,11 @@
 {
     switch (rotationGesture.state)
     {
+        case UIGestureRecognizerStateBegan:
         case UIGestureRecognizerStateChanged:
         case UIGestureRecognizerStateEnded:
-            _zRotation = - 2.0f * rotationGesture.rotation;
-            rotationGesture.rotation = 0.0;
+            _zRotation = [rotationGesture rotation] * RADIANS_TO_DEGREES;
+            [rotationGesture setRotation:0.0f];
             break;
             
         default:
@@ -252,6 +259,11 @@
     }
 }
 
+- (void)addZRotatinSample:(CGFloat)rotationSample
+{
+    _zRotation *= PREVIOUSWEIGHT;
+    _zRotation += (1.0f - PREVIOUSWEIGHT) * rotationSample;
+}
 
 - (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture
 {
