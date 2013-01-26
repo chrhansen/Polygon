@@ -22,6 +22,7 @@
 @interface ModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, ModelViewControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) TSPopoverController *tsPopoverController;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic, strong) NSMutableArray *editItems;
@@ -76,8 +77,10 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [self _removeTSPopoverAnimated:NO];
     [self _setBackgroundShelfViewForInterfaceOrientation:toInterfaceOrientation];
 }
+
 
 - (void)_setBackgroundShelfViewForInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
@@ -135,7 +138,11 @@
     PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     ModelCollectionViewCell *modelCell = (ModelCollectionViewCell *)cell;
     modelCell.nameLabel.text = aModel.modelName;
-    modelCell.modelImageView.image = (aModel.modelImage) ? aModel.modelImage : [UIImage imageNamed:@"default_thumb_on_background"];
+    UIImage *image = aModel.modelImage;
+    if (!image) {
+        image = (IS_IPAD) ? [UIImage imageNamed:@"default_thumb_ipad"] : [UIImage imageNamed:@"default_thumb_iphone"];
+    }
+    modelCell.modelImageView.image = image;
     modelCell.infoButton.hidden = self.isEditing;
     [modelCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     modelCell.checkMarkImageView.hidden = ![self.editItems containsObject:aModel];
@@ -157,13 +164,18 @@
     PGInfoTableViewController *infoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"infoTableViewController"];
     infoViewController.model = model;
     infoViewController.view.frame = CGRectMake(0,0, 320, 400);
-    TSPopoverController *popoverController = [[TSPopoverController alloc] initWithContentViewController:infoViewController];
+    self.tsPopoverController = [[TSPopoverController alloc] initWithContentViewController:infoViewController];
     if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
     popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;
-    popoverController.arrowPosition = TSPopoverArrowPositionVertical;
-    [popoverController showPopoverWithRect:CGRectMake(popoverLocation.x, popoverLocation.y, 1, 1)];
+    self.tsPopoverController.arrowPosition = TSPopoverArrowPositionVertical;
+    [self.tsPopoverController showPopoverWithRect:CGRectMake(popoverLocation.x, popoverLocation.y, 1, 1)];
 }
 
+- (void)_removeTSPopoverAnimated:(BOOL)animated
+{
+    [self.tsPopoverController dismissPopoverAnimatd:animated];
+    self.tsPopoverController = nil;
+}
 
 - (void)uploadTapped:(UIBarButtonItem *)button
 {
