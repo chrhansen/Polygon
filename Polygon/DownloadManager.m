@@ -13,6 +13,7 @@
 @interface DownloadManager ()
 
 @property (nonatomic, strong) NSMutableDictionary *currentDownloads;
+@property (nonatomic, strong) NSMutableDictionary *sharableLinks;
 @property (nonatomic, strong) NSMutableDictionary *waitingSubItems;
 @property (nonatomic, strong) NSMutableDictionary *errorDownloads;
 
@@ -35,8 +36,7 @@
 
 - (DBRestClient *)restClient
 {
-    if (!_restClient)
-    {
+    if (!_restClient) {
         _restClient = [DBRestClient.alloc initWithSession:DBSession.sharedSession];
         _restClient.delegate = self;
     }
@@ -50,6 +50,14 @@
         _currentDownloads = [NSMutableDictionary dictionary];
     }
     return _currentDownloads;
+}
+
+- (NSMutableDictionary *)sharableLinks
+{
+    if (_sharableLinks == nil) {
+        _sharableLinks = [NSMutableDictionary dictionary];
+    }
+    return _sharableLinks;
 }
 
 - (NSMutableDictionary *)waitingSubItems
@@ -70,14 +78,17 @@
 
 
 - (PGModel *)downloadFile:(DBMetadata *)metadata
-{
-    NSString *uniqueID = [NSString getUUID];
+{   
+    PGModel *model = [PGModel findFirstByAttribute:@"pGModelID" withValue:metadata.rev];
+    if (model.isDownloaded) {
+        self.sharableLinks[metadata.path] = model;
+        [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
+        return model;
+    }
     NSError *error;
-    NSString *directoryPath = [@"tmp" stringByAppendingPathComponent:uniqueID];
-    [NSFileManager.defaultManager createDirectoryAtPath:[HOME_DIR stringByAppendingPathComponent:directoryPath]
-                            withIntermediateDirectories:NO attributes:nil error:&error];
-    if (error)
-    {
+    NSString *directoryPath = [@"tmp" stringByAppendingPathComponent:[NSString getUUID]];
+    [NSFileManager.defaultManager createDirectoryAtPath:[HOME_DIR stringByAppendingPathComponent:directoryPath] withIntermediateDirectories:NO attributes:nil error:&error];
+    if (error) {
         NSLog(@"Error: %@", error.localizedDescription);
         return nil;
     }
@@ -87,13 +98,17 @@
     @"filePath" : relativePath,
     @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
     PGModel *newModel = [PGModel MR_importFromObject:objectDetails];
-    NSString *destinationPath = [HOME_DIR stringByAppendingPathComponent:relativePath];
-    NSAssert(newModel, @"Failed importing model based on dictionary");
-    [self.currentDownloads setValue:newModel forKey:destinationPath];
-    [self.restClient loadFile:metadata.path intoPath:destinationPath];
-    
+    self.sharableLinks[metadata.path] = newModel;
+    [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
+    if (!newModel.isDownloaded) {
+        NSString *destinationPath = [HOME_DIR stringByAppendingPathComponent:relativePath];
+        NSAssert(newModel, @"Failed importing model based on dictionary");
+        self.currentDownloads[destinationPath] = newModel;
+        [self.restClient loadFile:metadata.path intoPath:destinationPath];
+    }
     return newModel;
 }
+
 
 - (PGModel *)downloadFilesAndDirectories:(NSArray *)metadatas rootFile:(DBMetadata *)rootMetadata
 {
@@ -110,17 +125,13 @@
 
 - (void)downloadFilesAndDirectories:(NSArray *)metadatas forModel:(PGModel *)model
 {
-    for (DBMetadata* child in metadatas)
-    {
-        if (child.isDirectory)
-        {
+    for (DBMetadata* child in metadatas) {
+        if (child.isDirectory) {
             NSError *error;
             [NSFileManager.defaultManager createDirectoryAtPath:[model.enclosingFolder stringByAppendingPathComponent:child.filename] withIntermediateDirectories:NO attributes:nil error:&error];
             [self.waitingSubItems setValue:[model.enclosingFolder stringByAppendingPathComponent:child.filename] forKey:child.path];
             [self.restClient loadMetadata:child.path];
-        }
-        else
-        {
+        } else {
             [self.restClient loadFile:child.path intoPath:[model.enclosingFolder stringByAppendingPathComponent:child.filename]];
         }
     }  
@@ -129,17 +140,13 @@
 
 - (void)downloadDirectoryAndSubDirectories:(DBMetadata *)directoryMetadata toDirectory:(NSString *)localDirectory
 {
-    for (DBMetadata* child in directoryMetadata.contents)
-    {
-        if (child.isDirectory)
-        {
+    for (DBMetadata* child in directoryMetadata.contents) {
+        if (child.isDirectory) {
             NSError *error;
             [NSFileManager.defaultManager createDirectoryAtPath:[localDirectory stringByAppendingPathComponent:child.filename] withIntermediateDirectories:NO attributes:nil error:&error];
             [self.waitingSubItems setValue:[localDirectory stringByAppendingPathComponent:child.filename] forKey:child.path];
             [self.restClient loadMetadata:child.path];
-        }
-        else
-        {
+        } else {
             [self.restClient loadFile:child.path intoPath:[localDirectory stringByAppendingPathComponent:child.filename]];
         }
     }
@@ -154,11 +161,8 @@
         [self downloadDirectoryAndSubDirectories:metadata toDirectory:self.waitingSubItems[metadata.path]];
         return;
     }
-    
-    if (metadata.isDirectory)
-    {
-        if ([self.delegate respondsToSelector:@selector(downloadManager:didLoadDirectoryContents:)])
-        {
+    if (metadata.isDirectory) {
+        if ([self.delegate respondsToSelector:@selector(downloadManager:didLoadDirectoryContents:)]) {
             [self.delegate downloadManager:self didLoadDirectoryContents:metadata.contents];
         }
     }
@@ -167,8 +171,7 @@
 
 - (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error
 {
-    if ([self.delegate respondsToSelector:@selector(downloadManager:failedLoadingDirectoryContents:)])
-    {
+    if ([self.delegate respondsToSelector:@selector(downloadManager:failedLoadingDirectoryContents:)]) {
         [self.delegate downloadManager:self failedLoadingDirectoryContents:error];
     }
 }
@@ -178,8 +181,7 @@
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata
 {
     PGModel *modelDownloaded = self.currentDownloads[destPath];
-    if (modelDownloaded)
-    {
+    if (modelDownloaded) {
         [self.currentDownloads removeObjectForKey:destPath];
         [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
             NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
@@ -198,10 +200,6 @@
             }
         }];
     }
-    else
-    {
-        //NSLog(@"Subitem downloaded to: %@", destPath);
-    }
 }
 
 
@@ -213,20 +211,16 @@
     if (destinationPath
         && sourcePath)
     {
-        if (!self.errorDownloads[sourcePath])
-        {
+        if (!self.errorDownloads[sourcePath]) {
             // try an extra time to download the file
             [self.errorDownloads setValue:destinationPath forKey:sourcePath];
             [self.restClient loadFile:sourcePath intoPath:destinationPath];
-        }
-        else
-        {
+        } else {
             // one additional attempt has been done already
             [self.errorDownloads removeObjectForKey:sourcePath];
         }
     }
-    else if ([self.progressDelegate respondsToSelector:@selector(downloadManager:failedDownloadingModel:)])
-    {
+    else if ([self.progressDelegate respondsToSelector:@selector(downloadManager:failedDownloadingModel:)]) {
         [self.progressDelegate downloadManager:self failedDownloadingModel:nil];
         [NSNotificationCenter.defaultCenter postNotificationName:DropboxFailedDownloadNotification object:nil userInfo:@{@"error" : error}];
     }
@@ -240,24 +234,32 @@
         [self.progressDelegate downloadManager:self loadProgress:progress forModel:self.currentDownloads[destPath]];
 }
 
+#pragma mark Sharable Links
+- (void)restClient:(DBRestClient *)restClient loadedSharableLink:(NSString *)link forFile:(NSString *)path
+{
+    PGModel *model = self.sharableLinks[path];
+    model.globalURL = link;
+    [self.sharableLinks removeObjectForKey:path];
+}
+
+- (void)restClient:(DBRestClient *)restClient loadSharableLinkFailedWithError:(NSError *)error
+{
+    NSLog(@"Error loading sharable link: %@", [error localizedDescription]);
+}
 
 - (NSString *)moveToDocumentsAndAvoidBackup:(NSString *)filePath
 {
     NSFileManager *fileManager = NSFileManager.defaultManager;
     NSError *error;
     NSString *relativePath = @"Documents";
-    if ([fileManager fileExistsAtPath:filePath])
-    {
+    if ([fileManager fileExistsAtPath:filePath]) {
         NSArray *components = filePath.pathComponents;
         if (components.count > 1) relativePath = [@"Documents" stringByAppendingPathComponent:components[components.count - 2]];
         NSString *enclosingDirectory = filePath.stringByDeletingLastPathComponent;
         
-        if ([fileManager moveItemAtPath:enclosingDirectory toPath:[HOME_DIR stringByAppendingPathComponent:relativePath] error:&error])
-        {
+        if ([fileManager moveItemAtPath:enclosingDirectory toPath:[HOME_DIR stringByAppendingPathComponent:relativePath] error:&error]) {
             [self addSkipBackupAttributeToItemAtFilePath:[HOME_DIR stringByAppendingPathComponent:relativePath]];
-        }
-        else
-        {
+        } else {
             NSLog(@"Error moving file to doc-dir: %@, error %@", filePath, error);
         }
     }

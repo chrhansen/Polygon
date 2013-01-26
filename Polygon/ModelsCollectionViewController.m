@@ -135,7 +135,7 @@
     PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     ModelCollectionViewCell *modelCell = (ModelCollectionViewCell *)cell;
     modelCell.nameLabel.text = aModel.modelName;
-    modelCell.modelImageView.image = aModel.modelImage;
+    modelCell.modelImageView.image = (aModel.modelImage) ? aModel.modelImage : [UIImage imageNamed:@"default_thumb_on_background"];
     modelCell.infoButton.hidden = self.isEditing;
     [modelCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     modelCell.checkMarkImageView.hidden = ![self.editItems containsObject:aModel];

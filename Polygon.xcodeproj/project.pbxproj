@@ -93,6 +93,7 @@
 		E5942BC716B1D458004F3FB9 /* clean-shelf-iphone-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = E5942BC616B1D457004F3FB9 /* clean-shelf-iphone-landscape.png */; };
 		E5942BCE16B2F3AA004F3FB9 /* clean-shelf-iphone-landscape35@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5942BCC16B2F3A6004F3FB9 /* clean-shelf-iphone-landscape35@2x.png */; };
 		E5942BCF16B2F3AA004F3FB9 /* clean-shelf-iphone-landscape35.png in Resources */ = {isa = PBXBuildFile; fileRef = E5942BCD16B2F3A7004F3FB9 /* clean-shelf-iphone-landscape35.png */; };
+		E5942BDC16B35471004F3FB9 /* default_thumb_on_background.png in Resources */ = {isa = PBXBuildFile; fileRef = E5942BDB16B35470004F3FB9 /* default_thumb_on_background.png */; };
 		E5A4F028167E1BB7007DE0CB /* Model3DViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */; };
 		E5A4F042167E5F8D007DE0CB /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */; };
 		E5A4F043167E5F8D007DE0CB /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F041167E5F8D007DE0CB /* 39-circle-check@2x.png */; };
@@ -278,6 +279,7 @@
 		E5942BC616B1D457004F3FB9 /* clean-shelf-iphone-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone-landscape.png"; sourceTree = "<group>"; };
 		E5942BCC16B2F3A6004F3FB9 /* clean-shelf-iphone-landscape35@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone-landscape35@2x.png"; sourceTree = "<group>"; };
 		E5942BCD16B2F3A7004F3FB9 /* clean-shelf-iphone-landscape35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone-landscape35.png"; sourceTree = "<group>"; };
+		E5942BDB16B35470004F3FB9 /* default_thumb_on_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_thumb_on_background.png; sourceTree = "<group>"; };
 		E5A4F026167E1BB7007DE0CB /* Model3DViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DViewController.h; sourceTree = "<group>"; };
 		E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model3DViewController.m; sourceTree = "<group>"; };
 		E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check.png"; sourceTree = "<group>"; };
@@ -640,6 +642,7 @@
 				E5BB29461683EE7A000E68FE /* dropbox_logo@2x.png */,
 				E5BB28671681404A000E68FE /* dropbox_fileitem.png */,
 				E5BB28681681404A000E68FE /* dropbox_fileitem@2x.png */,
+				E5942BDB16B35470004F3FB9 /* default_thumb_on_background.png */,
 				E5BB28691681404A000E68FE /* folder_icon.png */,
 				E5BB286A1681404A000E68FE /* folder_icon@2x.png */,
 				E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */,
@@ -862,6 +865,7 @@
 				E5942BC716B1D458004F3FB9 /* clean-shelf-iphone-landscape.png in Resources */,
 				E5942BCE16B2F3AA004F3FB9 /* clean-shelf-iphone-landscape35@2x.png in Resources */,
 				E5942BCF16B2F3AA004F3FB9 /* clean-shelf-iphone-landscape35.png in Resources */,
+				E5942BDC16B35471004F3FB9 /* default_thumb_on_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

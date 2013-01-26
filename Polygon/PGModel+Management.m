@@ -145,11 +145,9 @@
         return;
     }
     NSMutableArray *objectIDs = [NSMutableArray array];
-    for (NSManagedObject *anObject in modelsToDelete)
-    {
+    for (NSManagedObject *anObject in modelsToDelete){
         [objectIDs addObject:anObject.objectID];
     }
-    
     
     [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
         for (NSManagedObjectID *anID in objectIDs)
