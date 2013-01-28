@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ri3-pp-bfv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="atR-Kn-gdT">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
@@ -9,15 +9,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="dropboxViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="baa-Fq-Opa" customClass="DropboxViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="G9u-af-ihj">
-                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Dropbox Cell" id="YCw-A8-WbT" customClass="DropboxCell">
-                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PXq-HU-G2D">
@@ -71,27 +71,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bx0-Bg-uzU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1941" y="-2705"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="E1x-zd-iV5">
-            <objects>
-                <navigationController modalPresentationStyle="formSheet" id="jSe-ga-H4a" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="ZZX-e7-VZi"/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="V6o-S2-hIP">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="baa-Fq-Opa" kind="relationship" relationship="rootViewController" id="1Pw-iF-Olg"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6nd-Pv-dNJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2649" y="-2717"/>
+            <point key="canvasLocation" x="-2649" y="-2627"/>
         </scene>
         <!--Viewer View Controller-->
         <scene sceneID="7JF-aO-JpM">
@@ -180,7 +160,7 @@
             <objects>
                 <collectionViewController storyboardIdentifier="modelsCollectionViewController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J9o-EJ-iBI" customClass="ModelsCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="wB0-qQ-7sx">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.85871920620437958" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="15" id="TsJ-AU-pkB">
@@ -266,33 +246,70 @@
                     <navigationItem key="navigationItem" id="5lu-DJ-5lW"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <segue destination="jSe-ga-H4a" kind="modal" identifier="Show Dropbox" modalPresentationStyle="formSheet" id="RFZ-oR-VxW"/>
                         <segue destination="6i4-9Z-m2K" kind="modal" identifier="Show FE Model" id="yXA-yF-LKP"/>
                         <segue destination="Tpb-kF-w5L" kind="modal" identifier="Show 3D Model" id="DEx-hm-BFq"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpm-UH-sAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3419" y="-1916"/>
+            <point key="canvasLocation" x="-3193" y="-1928"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="fRK-D5-jqA">
+        <!--Navigation Pane View Controller-->
+        <scene sceneID="Zpc-2h-kID">
             <objects>
-                <navigationController id="Ri3-pp-bfv" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fI0-Li-qEY">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="J9o-EJ-iBI" kind="relationship" relationship="rootViewController" id="Krm-iK-iRX"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="al4-vZ-sf4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="atR-Kn-gdT" customClass="MSNavigationPaneViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vjV-7F-JHM">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JKK-sI-6Ol" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3957" y="-1928"/>
+            <point key="canvasLocation" x="-3988" y="-1928"/>
+        </scene>
+        <!--Master View Controller-->
+        <scene sceneID="Mmo-vh-0gz">
+            <objects>
+                <tableViewController storyboardIdentifier="masterViewController" id="f4k-YO-XP0" customClass="PGMasterViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="h3f-0B-7Cz">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="masterViewControllerCellReuseIdentifier" id="HdK-Nd-d5C">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="f4k-YO-XP0" id="2eJ-RL-86f"/>
+                            <outlet property="delegate" destination="f4k-YO-XP0" id="alp-Ka-mXo"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mKT-wW-wjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3593" y="-1928"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="QXF-yf-UpJ">
+            <objects>
+                <viewController storyboardIdentifier="otherViewController" id="UsZ-iY-ciZ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fUz-cH-yr9">
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.72941176470000002" green="0.043137254899999998" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dot-JC-B6Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2649" y="-504"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6A7-t3-REb">
@@ -451,7 +468,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2rN-Kz-Ncf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2477" y="-3401"/>
+            <point key="canvasLocation" x="-2649" y="-3321"/>
         </scene>
         <!--Views Table View Controller - Saved Views-->
         <scene sceneID="aPQ-LS-dM5">
@@ -636,96 +653,12 @@
     <resources>
         <image name="39-circle-check.png" width="28" height="28"/>
     </resources>
-    <classes>
-        <class className="DropboxCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="DropboxViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxViewController.h"/>
-        </class>
-        <class className="FEViewerViewController" superclassName="GLKViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FEViewerViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
-                <relationship kind="action" name="tool1Tapped:"/>
-                <relationship kind="action" name="tool2Tapped:"/>
-                <relationship kind="action" name="tool3Tapped:"/>
-                <relationship kind="action" name="tool4Tapped:"/>
-                <relationship kind="action" name="tool5Tapped:"/>
-                <relationship kind="action" name="viewsTapped:" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="toolView" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="Model3DViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/Model3DViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="ModelCollectionViewCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ModelCollectionViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="downloadProgressView" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="modelImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ModelsCollectionViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ModelsCollectionViewController.h"/>
-        </class>
-        <class className="NGLView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NGLView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="delegate"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PGInfoTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGInfoTableViewController.h"/>
-        </class>
-        <class className="PGViewDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGViewDetailTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="screenshotImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="titleTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="ViewsTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewsTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneTapped:"/>
-                <relationship kind="outlet" name="addButtonItem" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ndl-LX-hy6"/>
+        <segue reference="Di2-KF-Dll"/>
     </inferredMetricsTieBreakers>
 </document>

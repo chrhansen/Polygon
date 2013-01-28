@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSMutableArray *objectChanges;
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic, strong) NSMutableArray *editItems;
+@property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 
 @end
 
@@ -44,6 +45,7 @@
 {
     [super viewDidLoad];
     [self _setLayoutItemSizes];
+    self.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
     [self _configureBarButtonItemsForEditing:NO];
 }
 
@@ -234,12 +236,6 @@
 }
 
 
-- (void)addFilesFromDropbox
-{
-    [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
-}
-
-
 - (void)_loadBundleModel
 {
     [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
@@ -310,8 +306,7 @@
     }
     else
     {
-        UIBarButtonItem *addBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"dropbox_logo"] style:UIBarButtonItemStylePlain target:self action:@selector(addFilesFromDropbox)];
-        [self.navigationItem setLeftBarButtonItems:@[addBarButton] animated:YES];
+        [self.navigationItem setLeftBarButtonItems:@[self.leftBarButtonItem] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     }
 }

@@ -98,6 +98,11 @@
 		E5942BEB16B35DE4004F3FB9 /* default_thumb_iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5942BE716B35DE3004F3FB9 /* default_thumb_iphone@2x.png */; };
 		E59B5FD716B3DE8500F868AD /* clean-shelf-iphone-landscape35.png in Resources */ = {isa = PBXBuildFile; fileRef = E59B5FD616B3DE8500F868AD /* clean-shelf-iphone-landscape35.png */; };
 		E59B5FE216B6A18100F868AD /* UINavigationBar+Design.m in Sources */ = {isa = PBXBuildFile; fileRef = E59B5FE116B6A18100F868AD /* UINavigationBar+Design.m */; };
+		E59B5FF816B6F94B00F868AD /* MSDraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E59B5FF516B6F94B00F868AD /* MSDraggableView.m */; };
+		E59B5FF916B6F94B00F868AD /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59B5FF716B6F94B00F868AD /* MSNavigationPaneViewController.m */; };
+		E59B5FFF16B7012C00F868AD /* PGMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */; };
+		E59B600A16B7079900F868AD /* PGBarButtonIconNavigationPane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E59B600816B7079800F868AD /* PGBarButtonIconNavigationPane@2x.png */; };
+		E59B600B16B7079900F868AD /* PGBarButtonIconNavigationPane.png in Resources */ = {isa = PBXBuildFile; fileRef = E59B600916B7079900F868AD /* PGBarButtonIconNavigationPane.png */; };
 		E5A4F028167E1BB7007DE0CB /* Model3DViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */; };
 		E5A4F042167E5F8D007DE0CB /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */; };
 		E5A4F043167E5F8D007DE0CB /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F041167E5F8D007DE0CB /* 39-circle-check@2x.png */; };
@@ -289,6 +294,14 @@
 		E59B5FD616B3DE8500F868AD /* clean-shelf-iphone-landscape35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone-landscape35.png"; sourceTree = "<group>"; };
 		E59B5FE016B6A18100F868AD /* UINavigationBar+Design.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Design.h"; sourceTree = "<group>"; };
 		E59B5FE116B6A18100F868AD /* UINavigationBar+Design.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Design.m"; sourceTree = "<group>"; };
+		E59B5FF416B6F94B00F868AD /* MSDraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDraggableView.h; sourceTree = "<group>"; };
+		E59B5FF516B6F94B00F868AD /* MSDraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDraggableView.m; sourceTree = "<group>"; };
+		E59B5FF616B6F94B00F868AD /* MSNavigationPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNavigationPaneViewController.h; sourceTree = "<group>"; };
+		E59B5FF716B6F94B00F868AD /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
+		E59B5FFD16B7012C00F868AD /* PGMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMasterViewController.h; sourceTree = "<group>"; };
+		E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMasterViewController.m; sourceTree = "<group>"; };
+		E59B600816B7079800F868AD /* PGBarButtonIconNavigationPane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PGBarButtonIconNavigationPane@2x.png"; sourceTree = "<group>"; };
+		E59B600916B7079900F868AD /* PGBarButtonIconNavigationPane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PGBarButtonIconNavigationPane.png; sourceTree = "<group>"; };
 		E5A4F026167E1BB7007DE0CB /* Model3DViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DViewController.h; sourceTree = "<group>"; };
 		E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model3DViewController.m; sourceTree = "<group>"; };
 		E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check.png"; sourceTree = "<group>"; };
@@ -487,6 +500,7 @@
 		E5376BB6167B60CF00738979 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E59B5FF316B6F91C00F868AD /* Monospace Draggable View Controller */,
 				E524C97016A198A10079BDAF /* TestFlightSDK1.1 */,
 				E58FB6A8168682A500085E7D /* TSPopover */,
 				E5A4F11B167FFB90007DE0CB /* NinevehGL.framework */,
@@ -602,6 +616,8 @@
 			isa = PBXGroup;
 			children = (
 				E5376CE5167B880100738979 /* 3D View Controllers */,
+				E59B5FFD16B7012C00F868AD /* PGMasterViewController.h */,
+				E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */,
 				E5376B9D167B5CB100738979 /* ModelsCollectionViewController.h */,
 				E5376B9E167B5CB100738979 /* ModelsCollectionViewController.m */,
 				E58FB65C16852FEC00085E7D /* PGInfoTableViewController.h */,
@@ -649,6 +665,8 @@
 			children = (
 				E5BB28841681F3F2000E68FE /* App icons */,
 				E5BB28771681F34D000E68FE /* Shelf */,
+				E59B600816B7079800F868AD /* PGBarButtonIconNavigationPane@2x.png */,
+				E59B600916B7079900F868AD /* PGBarButtonIconNavigationPane.png */,
 				E5BB29451683EE7A000E68FE /* dropbox_logo.png */,
 				E5BB29461683EE7A000E68FE /* dropbox_logo@2x.png */,
 				E5BB28671681404A000E68FE /* dropbox_fileitem.png */,
@@ -733,6 +751,17 @@
 				E58FB6B3168682A500085E7D /* UIBarButtonItem+WEPopover.m */,
 			);
 			path = TSPopover;
+			sourceTree = "<group>";
+		};
+		E59B5FF316B6F91C00F868AD /* Monospace Draggable View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E59B5FF416B6F94B00F868AD /* MSDraggableView.h */,
+				E59B5FF516B6F94B00F868AD /* MSDraggableView.m */,
+				E59B5FF616B6F94B00F868AD /* MSNavigationPaneViewController.h */,
+				E59B5FF716B6F94B00F868AD /* MSNavigationPaneViewController.m */,
+			);
+			name = "Monospace Draggable View Controller";
 			sourceTree = "<group>";
 		};
 		E5A4F03B167E5562007DE0CB /* Sub Views */ = {
@@ -883,6 +912,8 @@
 				E5942BEA16B35DE4004F3FB9 /* default_thumb_iphone.png in Resources */,
 				E5942BEB16B35DE4004F3FB9 /* default_thumb_iphone@2x.png in Resources */,
 				E59B5FD716B3DE8500F868AD /* clean-shelf-iphone-landscape35.png in Resources */,
+				E59B600A16B7079900F868AD /* PGBarButtonIconNavigationPane@2x.png in Resources */,
+				E59B600B16B7079900F868AD /* PGBarButtonIconNavigationPane.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -959,6 +990,9 @@
 				E5B768261686B4DE00B9EBEB /* TSActionSheet.m in Sources */,
 				E5F5B106168CB3F0006205E9 /* PGView.m in Sources */,
 				E59B5FE216B6A18100F868AD /* UINavigationBar+Design.m in Sources */,
+				E59B5FF816B6F94B00F868AD /* MSDraggableView.m in Sources */,
+				E59B5FF916B6F94B00F868AD /* MSNavigationPaneViewController.m in Sources */,
+				E59B5FFF16B7012C00F868AD /* PGMasterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

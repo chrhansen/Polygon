@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
 
+#import "MSNavigationPaneViewController.h"
+#import "PGMasterViewController.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -18,6 +21,20 @@
                                                     appSecret:@"46uevc5lcz77wat"
                                                          root:kDBRootDropbox];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Polygon.sqlite"];
+    
+    
+    self.navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;
+    
+    PGMasterViewController *masterViewController = (PGMasterViewController *)[self.navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
+    masterViewController.navigationPaneViewController = self.navigationPaneViewController;
+    
+    self.navigationPaneViewController.masterViewController = masterViewController;
+    
+    [masterViewController transitionToViewController:PGPaneViewControllerTypeModels];
+    
+    
+    
+    
     return YES;
 }
 							

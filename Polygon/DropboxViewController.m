@@ -34,7 +34,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad]; 
-    [self _addBarButtons];
     [self _addObservers];
     
     self.directoryContents = @[];
@@ -96,11 +95,6 @@
     [self.tableView reloadData];
 }
 
-- (void)_addBarButtons
-{
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
-}
-
 
 - (void)_addObservers
 {
@@ -113,13 +107,10 @@
 
 - (void)_requestFolderList
 {
-    if (DBSession.sharedSession.isLinked)
-    {
+    if (DBSession.sharedSession.isLinked) {
         DownloadManager.sharedInstance.delegate = self;
         [DownloadManager.sharedInstance.restClient loadMetadata:[DropboxBaseURL stringByAppendingPathComponent:self.subPath]];
-    }
-    else
-    {
+    } else {
         NSLog(@"not linked");
     }
 }
@@ -134,8 +125,7 @@
         UIBarButtonItem *downloadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(_downloadSelectedItems)];
         [self.navigationItem setLeftBarButtonItem:downloadButton animated:YES];
     } else {
-        UIBarButtonItem *doneButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
-        [self.navigationItem setRightBarButtonItem:doneButton animated:YES];
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
         [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     }
 }
@@ -323,6 +313,7 @@
     DBMetadata *rootModel = self.selectedItems[0];
     [self.selectedItems removeObjectAtIndex:0];
     [DownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy rootFile:rootModel];
+    [self.selectedItems removeAllObjects];
     self.tableView.allowsMultipleSelection = NO;
     [self _setSelectSubitemsState];
     [self.tableView reloadData];
