@@ -19,6 +19,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import "UIImage+RoundedCorner.h"
 #import "PGView+Management.h"
+#import "UINavigationBar+Design.h"
 
 @interface FEViewerViewController ()  <UIGestureRecognizerDelegate, OptionsTableViewControllerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, ElementTypeTableViewControllerDelegate, ColorTableViewControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, ViewsTableViewControllerDelegate>
 {    
@@ -127,29 +128,20 @@
 //    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"ToolsView" owner:self options:nil];
 //    [self.toolView addSubview:[subviewArray objectAtIndex:0]];
     
-    self.navigationController.navigationBar.topItem.title = self.title;
-    [self.view bringSubviewToFront:self.navigationController.navigationBar];
-    [self.navigationController.navigationBar setTintColor:[UIColor lightGrayColor]];
+    self.title = self.model.filePath.lastPathComponent;
     [self.navigationController.navigationBar setTranslucent:YES];
-    [self.doneBarButton setTintColor:[UIColor lightGrayColor]];
     [self setupBasicGL];
     [self makeGradientBackground];
+    [self loadModelFile];
     
     self.isPerpective = ![[NSUserDefaults standardUserDefaults] boolForKey:@"UserDefaults_PerspectiveView"];
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    [self loadModelFile];
-}
-
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    _anAnsysModel = nil;
-    [super viewDidDisappear:animated];
+    [super viewWillAppear:animated];
+    [self _hideStatusBar];
 }
 
 
@@ -166,6 +158,14 @@
     _anAnsysModel = nil;
     [self setDoneBarButton:nil];
     [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
+
+- (void)_hideStatusBar
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 
@@ -190,6 +190,12 @@
         [self updateOrientationDependantValues:interfaceOrientation];
         return YES;
     }
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.navigationController.navigationBar configureShadow];
 }
 
 
@@ -627,7 +633,7 @@
     
     UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     singleTapGesture.numberOfTapsRequired = 1;
-    //[self.view  addGestureRecognizer:singleTapGesture];
+    [self.view  addGestureRecognizer:singleTapGesture];
     [singleTapGesture setDelegate:self];
     
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
@@ -641,6 +647,8 @@
 # pragma mark - Gesture actions
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture
 {
+    if (!self.navigationController.navigationBar.isHidden) [self _hideNavigationBar:YES];
+    
     switch (panGesture.state)
     {
         case UIGestureRecognizerStateChanged:
@@ -724,8 +732,28 @@
 
 - (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture
 {
-    if (singleTapGesture.state == UIGestureRecognizerStateEnded) NSLog(@"single tap gesture");
+    if (singleTapGesture.state == UIGestureRecognizerStateEnded) {
+        [self _hideNavigationBar:!self.navigationController.navigationBar.isHidden];
+    }
 }
+
+
+- (void)_hideNavigationBar:(BOOL)shouldHide
+{
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGFloat endAlpha = 0.0f;
+    if (!shouldHide) {
+        endAlpha = 1.0f;
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
+    }
+        
+    [UIView animateWithDuration:0.2f
+                     animations:^{navBar.alpha = endAlpha;}
+                     completion:^(BOOL finished){ [self.navigationController setNavigationBarHidden:shouldHide animated:NO];
+                     }];
+}
+
+
 
 
 - (void)handleDoubleTapGesture:(UITapGestureRecognizer *)doubleTapGesture

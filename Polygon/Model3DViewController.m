@@ -44,6 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navigationController.navigationBar setTranslucent:YES];
 	self.view.multipleTouchEnabled = YES;
 	[self _addGestureRecognizers];
 	//*************************
@@ -65,6 +66,21 @@
 	_camera = [[NGLCamera alloc] initWithMeshes:_mesh, nil];
 	_initialCameraDistanceZ = 2.0;
     _pinchScale = 1.0f;
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self _hideStatusBar];
+}
+
+
+- (void)_hideStatusBar
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 
@@ -173,6 +189,7 @@
     
     UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     singleTapGesture.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:singleTapGesture];
     [singleTapGesture setDelegate:self];
     
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
@@ -186,6 +203,8 @@
 # pragma mark - Gesture actions
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture
 {
+    if (!self.navigationController.navigationBar.isHidden) [self _hideNavigationBar:YES];
+    
     if ((panGesture.state == UIGestureRecognizerStateChanged ||
          panGesture.state == UIGestureRecognizerStateEnded)) {
         if(panGesture.numberOfTouches == 2)
@@ -267,9 +286,8 @@
 
 - (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture
 {
-    if (singleTapGesture.state == UIGestureRecognizerStateEnded)
-    {
-        NSLog(@"single tap gesture");
+    if (singleTapGesture.state == UIGestureRecognizerStateEnded) {
+        [self _hideNavigationBar:!self.navigationController.navigationBar.isHidden];
     }
 }
 
@@ -285,6 +303,21 @@
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
+}
+
+- (void)_hideNavigationBar:(BOOL)shouldHide
+{
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGFloat endAlpha = 0.0f;
+    if (!shouldHide) {
+        endAlpha = 1.0f;
+        [self.navigationController setNavigationBarHidden:NO animated:NO];
+    }
+    
+    [UIView animateWithDuration:0.2f
+                     animations:^{navBar.alpha = endAlpha;}
+                     completion:^(BOOL finished){ [self.navigationController setNavigationBarHidden:shouldHide animated:NO];
+                     }];
 }
 
 @end

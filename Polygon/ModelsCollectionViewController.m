@@ -18,6 +18,7 @@
 #import "TSPopoverController.h"
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+Resize.h"
+#import "UINavigationBar+Design.h"
 
 @interface ModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, ModelViewControllerDelegate>
 
@@ -42,7 +43,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self _setBackgroundShelfViewForInterfaceOrientation:self.interfaceOrientation];
     [self _setLayoutItemSizes];
     [self _configureBarButtonItemsForEditing:NO];
 }
@@ -52,8 +52,15 @@
 {
     [super viewWillAppear:animated];
     DownloadManager.sharedInstance.progressDelegate = self;
+    [self _setBackgroundShelfViewForInterfaceOrientation:self.interfaceOrientation];
+    [self _showStatusBar];
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -79,6 +86,19 @@
 {
     [self _removeTSPopoverAnimated:NO];
     [self _setBackgroundShelfViewForInterfaceOrientation:toInterfaceOrientation];
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.navigationController.navigationBar configureShadow];
+}
+
+- (void)_showStatusBar
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 
@@ -167,7 +187,7 @@
     self.tsPopoverController = [[TSPopoverController alloc] initWithContentViewController:infoViewController];
     if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
     popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;
-    self.tsPopoverController.arrowPosition = TSPopoverArrowPositionVertical;
+    self.tsPopoverController.arrowPosition =  TSPopoverArrowPositionVertical;
     [self.tsPopoverController showPopoverWithRect:CGRectMake(popoverLocation.x, popoverLocation.y, 1, 1)];
 }
 
@@ -187,9 +207,9 @@
 {
     NSString *deleteString = nil;
     if (self.editItems.count == 1) {
-        deleteString = NSLocalizedString(@"Are you sure you want to delete selected item?", nil);
+        deleteString = NSLocalizedString(@"Are you sure you want to delete the selected item?", nil);
     } else {
-        deleteString = NSLocalizedString(@"Are you sure you want to delete selected items?", nil);
+        deleteString = NSLocalizedString(@"Are you sure you want to delete the selected items?", nil);
     }
     UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:deleteString
                                                            delegate:self
@@ -201,16 +221,16 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == actionSheet.cancelButtonIndex)
+    if (!buttonIndex == actionSheet.cancelButtonIndex)
     {
-        return;
+        NSArray *deleteItems = [self.editItems copy];
+        [self.editItems removeAllObjects];
+        [self _toggleBarButtonStateOnChangedEditItems];
+        [PGModel deleteModels:deleteItems completion:^(NSError *error) {
+            if (error) NSLog(@"Error: %@", error.localizedDescription);
+        }];
     }
-    NSArray *deleteItems = [self.editItems copy];
-    [self.editItems removeAllObjects];
-    [self _toggleBarButtonStateOnChangedEditItems];
-    [PGModel deleteModels:deleteItems completion:^(NSError *error) {
-        if (error) NSLog(@"Error: %@", error.localizedDescription);
-    }];
+    [self setEditing:NO animated:YES];
 }
 
 
