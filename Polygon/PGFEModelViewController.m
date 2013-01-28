@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "FEViewerViewController.h"
+#import "PGFEModelViewController.h"
 #import "PGModel+Management.h"
 #import "AnsysModel.h"
 #import "BackgroundVertices.h"
@@ -15,13 +15,13 @@
 #import "OptionsTableViewController.h"
 #import "ElementTypeTableViewController.h"
 #import "ColorTableViewController.h"
-#import "ViewsTableViewController.h"
+#import "PGViewsTableViewController.h"
 #import <CoreMotion/CoreMotion.h>
 #import "UIImage+RoundedCorner.h"
 #import "PGView+Management.h"
 #import "UINavigationBar+Design.h"
 
-@interface FEViewerViewController ()  <UIGestureRecognizerDelegate, OptionsTableViewControllerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, ElementTypeTableViewControllerDelegate, ColorTableViewControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, ViewsTableViewControllerDelegate>
+@interface PGFEModelViewController ()  <UIGestureRecognizerDelegate, OptionsTableViewControllerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, ElementTypeTableViewControllerDelegate, ColorTableViewControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, ViewsTableViewControllerDelegate>
 {    
     NSArray *_names;
     NSArray *_paths;
@@ -117,7 +117,7 @@
 - (void)tearDownGL;
 @end
 
-@implementation FEViewerViewController
+@implementation PGFEModelViewController
 
 - (void)viewDidLoad
 {
@@ -210,8 +210,8 @@
 {
     if ([segue.identifier isEqualToString:@"Show Views"]) {
         UINavigationController *navigationController = segue.destinationViewController;
-        [(ViewsTableViewController *)navigationController.topViewController setDelegate:self];
-        [(ViewsTableViewController *)navigationController.topViewController setModel:self.model];
+        [(PGViewsTableViewController *)navigationController.topViewController setDelegate:self];
+        [(PGViewsTableViewController *)navigationController.topViewController setModel:self.model];
     }
 }
 
@@ -1086,7 +1086,7 @@
 
 
 #pragma mark - Views Table View Controller Delegate
-- (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
+- (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
 {
     GLKVector3 currentPosition = GLKVector3Make(viewTranslateMatrix.m30, viewTranslateMatrix.m31, viewTranslateMatrix.m32);
     GLKQuaternion currentOrientation = GLKQuaternionMakeWithMatrix4(viewRotationMatrix);
@@ -1096,7 +1096,7 @@
 }
 
 
-- (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
+- (void)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
 {
     NSLog(@"didSelectView: %@", savedView);
 }

@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "Model3DViewController.h"
+#import "PG3DModelViewController.h"
 #import "PGModel+Management.h"
 #import <NinevehGL/NinevehGL.h>
-#import "ViewsTableViewController.h"
+#import "PGViewsTableViewController.h"
 #import "TSPopoverController.h"
 #import "PGView+Management.h"
 
-@interface Model3DViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface PG3DModelViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NGLMesh *mesh;
 @property (nonatomic, strong) NGLCamera *camera;
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation Model3DViewController
+@implementation PG3DModelViewController
 
 - (void) loadView
 {
@@ -126,8 +126,8 @@
 {
     if ([segue.identifier isEqualToString:@"Show Views"]) {
         UINavigationController *navigationController = segue.destinationViewController;
-        [(ViewsTableViewController *)navigationController.topViewController setModel:self.model];
-        [(ViewsTableViewController *)navigationController.topViewController setDelegate:self];
+        [(PGViewsTableViewController *)navigationController.topViewController setModel:self.model];
+        [(PGViewsTableViewController *)navigationController.topViewController setDelegate:self];
     }
 }
 
@@ -151,7 +151,7 @@
 }
 
 #pragma mark - Views Table View Controller Delegate
-- (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
+- (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
 {
     NGLvec3 *position = _camera.position;
     NGLvec3 *rotation = _camera.rotation;
@@ -163,7 +163,7 @@
 }
 
 
-- (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
+- (void)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
 {
     NSLog(@"didSelectView: %@", savedView);
 }

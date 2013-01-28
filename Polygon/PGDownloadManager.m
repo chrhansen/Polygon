@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "DownloadManager.h"
+#import "PGDownloadManager.h"
 #import "PGModel+Management.h"
 #import "NSString+UUID.h"
 
-@interface DownloadManager ()
+@interface PGDownloadManager ()
 
 @property (nonatomic, strong) NSMutableDictionary *currentDownloads;
 @property (nonatomic, strong) NSMutableDictionary *sharableLinks;
@@ -19,15 +19,15 @@
 
 @end
 
-@implementation DownloadManager
+@implementation PGDownloadManager
 
-+ (DownloadManager *)sharedInstance
++ (PGDownloadManager *)sharedInstance
 {
-    static DownloadManager *_downloadManager = nil;
+    static PGDownloadManager *_downloadManager = nil;
 	if (_downloadManager == nil) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            _downloadManager = [DownloadManager.alloc init];
+            _downloadManager = [PGDownloadManager.alloc init];
         });
 	}
     return _downloadManager;

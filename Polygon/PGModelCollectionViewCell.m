@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "ModelCollectionViewCell.h"
+#import "PGModelCollectionViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 
-@implementation ModelCollectionViewCell
+@implementation PGModelCollectionViewCell
 - (void)awakeFromNib
 {
     [super awakeFromNib];

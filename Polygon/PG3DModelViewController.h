@@ -10,7 +10,7 @@
 
 @class PGModel;
 
-@interface Model3DViewController : UIViewController
+@interface PG3DModelViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
 @property (nonatomic, strong) PGModel *model;

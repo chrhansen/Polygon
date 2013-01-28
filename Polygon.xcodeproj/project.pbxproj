@@ -17,14 +17,14 @@
 		E5376B7C167B5C6200738979 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376B7B167B5C6200738979 /* CoreGraphics.framework */; };
 		E5376B82167B5C6200738979 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E5376B80167B5C6200738979 /* InfoPlist.strings */; };
 		E5376B84167B5C6200738979 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376B83167B5C6200738979 /* main.m */; };
-		E5376B88167B5C6200738979 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376B87167B5C6200738979 /* AppDelegate.m */; };
+		E5376B88167B5C6200738979 /* PGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376B87167B5C6200738979 /* PGAppDelegate.m */; };
 		E5376B8A167B5C6200738979 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E5376B89167B5C6200738979 /* Default.png */; };
 		E5376B8C167B5C6200738979 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5376B8B167B5C6200738979 /* Default@2x.png */; };
 		E5376B8E167B5C6200738979 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5376B8D167B5C6200738979 /* Default-568h@2x.png */; };
 		E5376B91167B5C6200738979 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5376B8F167B5C6200738979 /* MainStoryboard_iPhone.storyboard */; };
 		E5376B94167B5C6200738979 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5376B92167B5C6200738979 /* MainStoryboard_iPad.storyboard */; };
-		E5376B9F167B5CB100738979 /* ModelsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376B9E167B5CB100738979 /* ModelsCollectionViewController.m */; };
-		E5376BA3167B5CE600738979 /* ModelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA2167B5CE600738979 /* ModelCollectionViewCell.m */; };
+		E5376B9F167B5CB100738979 /* PGModelsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376B9E167B5CB100738979 /* PGModelsCollectionViewController.m */; };
+		E5376BA3167B5CE600738979 /* PGModelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA2167B5CE600738979 /* PGModelCollectionViewCell.m */; };
 		E5376BA7167B5E7C00738979 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA5167B5E7C00738979 /* Model.xcdatamodeld */; };
 		E5376BAE167B5F6800738979 /* PGModel+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BAD167B5F6800738979 /* PGModel+Management.m */; };
 		E5376BB5167B603F00738979 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376BB4167B603F00738979 /* CoreData.framework */; };
@@ -54,7 +54,7 @@
 		E5376C0A167B60DB00738979 /* MagicalRecord+Setup.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BEC167B60DB00738979 /* MagicalRecord+Setup.m */; };
 		E5376C0B167B60DB00738979 /* MagicalRecord+ShorthandSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BEE167B60DB00738979 /* MagicalRecord+ShorthandSupport.m */; };
 		E5376C0C167B60DB00738979 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BF0167B60DB00738979 /* MagicalRecord.m */; };
-		E5376C2E167B62C500738979 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376C2D167B62C500738979 /* DownloadManager.m */; };
+		E5376C2E167B62C500738979 /* PGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376C2D167B62C500738979 /* PGDownloadManager.m */; };
 		E5376C35167B640300738979 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376C34167B640300738979 /* DropboxSDK.framework */; };
 		E5376C38167B643200738979 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376C37167B643200738979 /* NSString+UUID.m */; };
 		E5376C5B167B74BD00738979 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376C5A167B74BD00738979 /* QuartzCore.framework */; };
@@ -65,12 +65,11 @@
 		E5376C8B167B792100738979 /* 0107@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5376C87167B792100738979 /* 0107@2x.png */; };
 		E5376C8C167B792100738979 /* 0108.png in Resources */ = {isa = PBXBuildFile; fileRef = E5376C88167B792100738979 /* 0108.png */; };
 		E5376C8D167B792100738979 /* 0108@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5376C89167B792100738979 /* 0108@2x.png */; };
-		E5376C90167B7BC900738979 /* DropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376C8F167B7BC900738979 /* DropboxViewController.m */; };
-		E5376CB9167B860700738979 /* FEViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CB8167B860700738979 /* FEViewerViewController.m */; };
+		E5376C90167B7BC900738979 /* PGDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376C8F167B7BC900738979 /* PGDropboxViewController.m */; };
+		E5376CB9167B860700738979 /* PGFEModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CB8167B860700738979 /* PGFEModelViewController.m */; };
 		E5376CBB167B865500738979 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376CBA167B865400738979 /* GLKit.framework */; };
 		E5376CBD167B865900738979 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376CBC167B865900738979 /* OpenGLES.framework */; };
 		E5376CC8167B86F500738979 /* ColorArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CC0167B86E800738979 /* ColorArrays.m */; };
-		E5376CCA167B86F500738979 /* ROI3D.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CC4167B86F200738979 /* ROI3D.m */; };
 		E5376CD4167B874600738979 /* AnsysHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CCF167B874600738979 /* AnsysHelper.m */; };
 		E5376CD5167B874600738979 /* AnsysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376CD1167B874600738979 /* AnsysModel.m */; };
 		E5376CD6167B874600738979 /* FEFileFormats.plist in Resources */ = {isa = PBXBuildFile; fileRef = E5376CD2167B874600738979 /* FEFileFormats.plist */; };
@@ -103,17 +102,17 @@
 		E59B5FFF16B7012C00F868AD /* PGMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */; };
 		E59B600A16B7079900F868AD /* PGBarButtonIconNavigationPane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E59B600816B7079800F868AD /* PGBarButtonIconNavigationPane@2x.png */; };
 		E59B600B16B7079900F868AD /* PGBarButtonIconNavigationPane.png in Resources */ = {isa = PBXBuildFile; fileRef = E59B600916B7079900F868AD /* PGBarButtonIconNavigationPane.png */; };
-		E5A4F028167E1BB7007DE0CB /* Model3DViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */; };
+		E5A4F028167E1BB7007DE0CB /* PG3DModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A4F027167E1BB7007DE0CB /* PG3DModelViewController.m */; };
 		E5A4F042167E5F8D007DE0CB /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */; };
 		E5A4F043167E5F8D007DE0CB /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A4F041167E5F8D007DE0CB /* 39-circle-check@2x.png */; };
 		E5A4F11C167FFB90007DE0CB /* NinevehGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5A4F11B167FFB90007DE0CB /* NinevehGL.framework */; };
-		E5B7681F1686B04B00B9EBEB /* ViewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B7681E1686B04B00B9EBEB /* ViewsTableViewController.m */; };
+		E5B7681F1686B04B00B9EBEB /* PGViewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B7681E1686B04B00B9EBEB /* PGViewsTableViewController.m */; };
 		E5B768261686B4DE00B9EBEB /* TSActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B768251686B4DE00B9EBEB /* TSActionSheet.m */; };
 		E5B76845168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B76843168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png */; };
 		E5B76846168B6CEE00B9EBEB /* clena-shelf-minimized.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B76844168B6CEE00B9EBEB /* clena-shelf-minimized.png */; };
 		E5B7684A168B725800B9EBEB /* clean-shelf-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B76848168B725800B9EBEB /* clean-shelf-iphone.png */; };
 		E5B76850168B7B2100B9EBEB /* clean-shelf-iphone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5B7684F168B7B2100B9EBEB /* clean-shelf-iphone@2x.png */; };
-		E5BB286516813E57000E68FE /* DropboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB286416813E57000E68FE /* DropboxCell.m */; };
+		E5BB286516813E57000E68FE /* PGDropboxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB286416813E57000E68FE /* PGDropboxCell.m */; };
 		E5BB286B1681404A000E68FE /* dropbox_fileitem.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28671681404A000E68FE /* dropbox_fileitem.png */; };
 		E5BB286C1681404A000E68FE /* dropbox_fileitem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28681681404A000E68FE /* dropbox_fileitem@2x.png */; };
 		E5BB286D1681404A000E68FE /* folder_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28691681404A000E68FE /* folder_icon.png */; };
@@ -128,8 +127,8 @@
 		E5BB28831681F359000E68FE /* clean-shelf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB287D1681F359000E68FE /* clean-shelf@2x.png */; };
 		E5BB288A1681F490000E68FE /* icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB28891681F48F000E68FE /* icon_114.png */; };
 		E5BB288C1681F492000E68FE /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB288B1681F492000E68FE /* icon_57.png */; };
-		E5BB29001682BB43000E68FE /* ShelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB28FF1682BB43000E68FE /* ShelfView.m */; };
-		E5BB29031682BF4F000E68FE /* CHFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB29021682BF4E000E68FE /* CHFlowLayout.m */; };
+		E5BB29001682BB43000E68FE /* PGShelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB28FF1682BB43000E68FE /* PGShelfView.m */; };
+		E5BB29031682BF4F000E68FE /* PGShelfLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BB29021682BF4E000E68FE /* PGShelfLayout.m */; };
 		E5BB29471683EE7B000E68FE /* dropbox_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB29451683EE7A000E68FE /* dropbox_logo.png */; };
 		E5BB29481683EE7B000E68FE /* dropbox_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5BB29461683EE7A000E68FE /* dropbox_logo@2x.png */; };
 		E5C64DA9167C1208000D850B /* gradient_1600x1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E5C64DA8167C1208000D850B /* gradient_1600x1.jpg */; };
@@ -153,17 +152,17 @@
 		E5376B81167B5C6200738979 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E5376B83167B5C6200738979 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E5376B85167B5C6200738979 /* Polygon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Polygon-Prefix.pch"; sourceTree = "<group>"; };
-		E5376B86167B5C6200738979 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E5376B87167B5C6200738979 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E5376B86167B5C6200738979 /* PGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGAppDelegate.h; sourceTree = "<group>"; };
+		E5376B87167B5C6200738979 /* PGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGAppDelegate.m; sourceTree = "<group>"; };
 		E5376B89167B5C6200738979 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		E5376B8B167B5C6200738979 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		E5376B8D167B5C6200738979 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E5376B90167B5C6200738979 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		E5376B93167B5C6200738979 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		E5376B9D167B5CB100738979 /* ModelsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelsCollectionViewController.h; sourceTree = "<group>"; };
-		E5376B9E167B5CB100738979 /* ModelsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelsCollectionViewController.m; sourceTree = "<group>"; };
-		E5376BA1167B5CE600738979 /* ModelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelCollectionViewCell.h; sourceTree = "<group>"; };
-		E5376BA2167B5CE600738979 /* ModelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelCollectionViewCell.m; sourceTree = "<group>"; };
+		E5376B9D167B5CB100738979 /* PGModelsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGModelsCollectionViewController.h; sourceTree = "<group>"; };
+		E5376B9E167B5CB100738979 /* PGModelsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGModelsCollectionViewController.m; sourceTree = "<group>"; };
+		E5376BA1167B5CE600738979 /* PGModelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGModelCollectionViewCell.h; sourceTree = "<group>"; };
+		E5376BA2167B5CE600738979 /* PGModelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGModelCollectionViewCell.m; sourceTree = "<group>"; };
 		E5376BA6167B5E7C00738979 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		E5376BAC167B5F6800738979 /* PGModel+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PGModel+Management.h"; path = "Polygon/PGModel+Management.h"; sourceTree = "<group>"; };
 		E5376BAD167B5F6800738979 /* PGModel+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PGModel+Management.m"; path = "Polygon/PGModel+Management.m"; sourceTree = "<group>"; };
@@ -222,8 +221,8 @@
 		E5376BF0167B60DB00738979 /* MagicalRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalRecord.m; sourceTree = "<group>"; };
 		E5376BF1167B60DB00738979 /* MagicalRecordShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalRecordShorthand.h; sourceTree = "<group>"; };
 		E5376BF2167B60DB00738979 /* CoreData+MagicalRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoreData+MagicalRecord.h"; sourceTree = "<group>"; };
-		E5376C2C167B62C500738979 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
-		E5376C2D167B62C500738979 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
+		E5376C2C167B62C500738979 /* PGDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDownloadManager.h; sourceTree = "<group>"; };
+		E5376C2D167B62C500738979 /* PGDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDownloadManager.m; sourceTree = "<group>"; };
 		E5376C34167B640300738979 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		E5376C36167B643100738979 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		E5376C37167B643200738979 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
@@ -237,17 +236,15 @@
 		E5376C87167B792100738979 /* 0107@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0107@2x.png"; sourceTree = "<group>"; };
 		E5376C88167B792100738979 /* 0108.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0108.png; sourceTree = "<group>"; };
 		E5376C89167B792100738979 /* 0108@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0108@2x.png"; sourceTree = "<group>"; };
-		E5376C8E167B7BC900738979 /* DropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxViewController.h; sourceTree = "<group>"; };
-		E5376C8F167B7BC900738979 /* DropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxViewController.m; sourceTree = "<group>"; };
-		E5376CB7167B860700738979 /* FEViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FEViewerViewController.h; sourceTree = "<group>"; };
-		E5376CB8167B860700738979 /* FEViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FEViewerViewController.m; sourceTree = "<group>"; };
+		E5376C8E167B7BC900738979 /* PGDropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDropboxViewController.h; sourceTree = "<group>"; };
+		E5376C8F167B7BC900738979 /* PGDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDropboxViewController.m; sourceTree = "<group>"; };
+		E5376CB7167B860700738979 /* PGFEModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFEModelViewController.h; sourceTree = "<group>"; };
+		E5376CB8167B860700738979 /* PGFEModelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFEModelViewController.m; sourceTree = "<group>"; };
 		E5376CBA167B865400738979 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E5376CBC167B865900738979 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		E5376CBE167B86E500738979 /* BackgroundVertices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundVertices.h; sourceTree = "<group>"; };
 		E5376CBF167B86E600738979 /* ColorArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorArrays.h; sourceTree = "<group>"; };
 		E5376CC0167B86E800738979 /* ColorArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorArrays.m; sourceTree = "<group>"; };
-		E5376CC3167B86ED00738979 /* ROI3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROI3D.h; sourceTree = "<group>"; };
-		E5376CC4167B86F200738979 /* ROI3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ROI3D.m; sourceTree = "<group>"; };
 		E5376CC7167B86F500738979 /* Structs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Structs.h; sourceTree = "<group>"; };
 		E5376CCE167B874600738979 /* AnsysHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnsysHelper.h; sourceTree = "<group>"; };
 		E5376CCF167B874600738979 /* AnsysHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnsysHelper.m; sourceTree = "<group>"; };
@@ -302,13 +299,13 @@
 		E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMasterViewController.m; sourceTree = "<group>"; };
 		E59B600816B7079800F868AD /* PGBarButtonIconNavigationPane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PGBarButtonIconNavigationPane@2x.png"; sourceTree = "<group>"; };
 		E59B600916B7079900F868AD /* PGBarButtonIconNavigationPane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PGBarButtonIconNavigationPane.png; sourceTree = "<group>"; };
-		E5A4F026167E1BB7007DE0CB /* Model3DViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DViewController.h; sourceTree = "<group>"; };
-		E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model3DViewController.m; sourceTree = "<group>"; };
+		E5A4F026167E1BB7007DE0CB /* PG3DModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PG3DModelViewController.h; sourceTree = "<group>"; };
+		E5A4F027167E1BB7007DE0CB /* PG3DModelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PG3DModelViewController.m; sourceTree = "<group>"; };
 		E5A4F040167E5F8D007DE0CB /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check.png"; sourceTree = "<group>"; };
 		E5A4F041167E5F8D007DE0CB /* 39-circle-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check@2x.png"; sourceTree = "<group>"; };
 		E5A4F11B167FFB90007DE0CB /* NinevehGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NinevehGL.framework; sourceTree = "<group>"; };
-		E5B7681D1686B04B00B9EBEB /* ViewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewsTableViewController.h; sourceTree = "<group>"; };
-		E5B7681E1686B04B00B9EBEB /* ViewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewsTableViewController.m; sourceTree = "<group>"; };
+		E5B7681D1686B04B00B9EBEB /* PGViewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGViewsTableViewController.h; sourceTree = "<group>"; };
+		E5B7681E1686B04B00B9EBEB /* PGViewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGViewsTableViewController.m; sourceTree = "<group>"; };
 		E5B768211686B0DB00B9EBEB /* ModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelViewController.h; sourceTree = "<group>"; };
 		E5B768241686B4DE00B9EBEB /* TSActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSActionSheet.h; sourceTree = "<group>"; };
 		E5B768251686B4DE00B9EBEB /* TSActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSActionSheet.m; sourceTree = "<group>"; };
@@ -316,8 +313,8 @@
 		E5B76844168B6CEE00B9EBEB /* clena-shelf-minimized.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clena-shelf-minimized.png"; sourceTree = "<group>"; };
 		E5B76848168B725800B9EBEB /* clean-shelf-iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone.png"; sourceTree = "<group>"; };
 		E5B7684F168B7B2100B9EBEB /* clean-shelf-iphone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf-iphone@2x.png"; sourceTree = "<group>"; };
-		E5BB286316813E57000E68FE /* DropboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxCell.h; sourceTree = "<group>"; };
-		E5BB286416813E57000E68FE /* DropboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxCell.m; sourceTree = "<group>"; };
+		E5BB286316813E57000E68FE /* PGDropboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGDropboxCell.h; sourceTree = "<group>"; };
+		E5BB286416813E57000E68FE /* PGDropboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGDropboxCell.m; sourceTree = "<group>"; };
 		E5BB28671681404A000E68FE /* dropbox_fileitem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_fileitem.png; sourceTree = "<group>"; };
 		E5BB28681681404A000E68FE /* dropbox_fileitem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox_fileitem@2x.png"; sourceTree = "<group>"; };
 		E5BB28691681404A000E68FE /* folder_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder_icon.png; sourceTree = "<group>"; };
@@ -332,10 +329,10 @@
 		E5BB287D1681F359000E68FE /* clean-shelf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clean-shelf@2x.png"; sourceTree = "<group>"; };
 		E5BB28891681F48F000E68FE /* icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_114.png; path = ../icon_114.png; sourceTree = "<group>"; };
 		E5BB288B1681F492000E68FE /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_57.png; path = ../icon_57.png; sourceTree = "<group>"; };
-		E5BB28FE1682BB43000E68FE /* ShelfView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShelfView.h; sourceTree = "<group>"; };
-		E5BB28FF1682BB43000E68FE /* ShelfView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShelfView.m; sourceTree = "<group>"; };
-		E5BB29011682BF4E000E68FE /* CHFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFlowLayout.h; sourceTree = "<group>"; };
-		E5BB29021682BF4E000E68FE /* CHFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFlowLayout.m; sourceTree = "<group>"; };
+		E5BB28FE1682BB43000E68FE /* PGShelfView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGShelfView.h; sourceTree = "<group>"; };
+		E5BB28FF1682BB43000E68FE /* PGShelfView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGShelfView.m; sourceTree = "<group>"; };
+		E5BB29011682BF4E000E68FE /* PGShelfLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGShelfLayout.h; sourceTree = "<group>"; };
+		E5BB29021682BF4E000E68FE /* PGShelfLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGShelfLayout.m; sourceTree = "<group>"; };
 		E5BB29451683EE7A000E68FE /* dropbox_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_logo.png; sourceTree = "<group>"; };
 		E5BB29461683EE7A000E68FE /* dropbox_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox_logo@2x.png"; sourceTree = "<group>"; };
 		E5C64DA8167C1208000D850B /* gradient_1600x1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gradient_1600x1.jpg; sourceTree = "<group>"; };
@@ -437,8 +434,8 @@
 				E5376C63167B76C600738979 /* Images */,
 				E5376C3A167B66DA00738979 /* Constants.h */,
 				E52A2A24167B9608001F3A1E /* Constants.m */,
-				E5376B86167B5C6200738979 /* AppDelegate.h */,
-				E5376B87167B5C6200738979 /* AppDelegate.m */,
+				E5376B86167B5C6200738979 /* PGAppDelegate.h */,
+				E5376B87167B5C6200738979 /* PGAppDelegate.m */,
 				E5376B7F167B5C6200738979 /* Polygon-Info.plist */,
 				E5376B80167B5C6200738979 /* InfoPlist.strings */,
 				E5376B83167B5C6200738979 /* main.m */,
@@ -462,12 +459,12 @@
 		E5376BA4167B5CEB00738979 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E5BB28FE1682BB43000E68FE /* ShelfView.h */,
-				E5BB28FF1682BB43000E68FE /* ShelfView.m */,
-				E5BB286316813E57000E68FE /* DropboxCell.h */,
-				E5BB286416813E57000E68FE /* DropboxCell.m */,
-				E5376BA1167B5CE600738979 /* ModelCollectionViewCell.h */,
-				E5376BA2167B5CE600738979 /* ModelCollectionViewCell.m */,
+				E5BB28FE1682BB43000E68FE /* PGShelfView.h */,
+				E5BB28FF1682BB43000E68FE /* PGShelfView.m */,
+				E5BB286316813E57000E68FE /* PGDropboxCell.h */,
+				E5BB286416813E57000E68FE /* PGDropboxCell.m */,
+				E5376BA1167B5CE600738979 /* PGModelCollectionViewCell.h */,
+				E5376BA2167B5CE600738979 /* PGModelCollectionViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -618,14 +615,13 @@
 				E5376CE5167B880100738979 /* 3D View Controllers */,
 				E59B5FFD16B7012C00F868AD /* PGMasterViewController.h */,
 				E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */,
-				E5376B9D167B5CB100738979 /* ModelsCollectionViewController.h */,
-				E5376B9E167B5CB100738979 /* ModelsCollectionViewController.m */,
+				E5376B9D167B5CB100738979 /* PGModelsCollectionViewController.h */,
+				E5376B9E167B5CB100738979 /* PGModelsCollectionViewController.m */,
+				E59B601016B715CB00F868AD /* Shelf Layout */,
 				E58FB65C16852FEC00085E7D /* PGInfoTableViewController.h */,
 				E58FB65D16852FEC00085E7D /* PGInfoTableViewController.m */,
-				E5BB29011682BF4E000E68FE /* CHFlowLayout.h */,
-				E5BB29021682BF4E000E68FE /* CHFlowLayout.m */,
-				E5376C8E167B7BC900738979 /* DropboxViewController.h */,
-				E5376C8F167B7BC900738979 /* DropboxViewController.m */,
+				E5376C8E167B7BC900738979 /* PGDropboxViewController.h */,
+				E5376C8F167B7BC900738979 /* PGDropboxViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -633,8 +629,8 @@
 		E5376C30167B62D900738979 /* IO Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E5376C2C167B62C500738979 /* DownloadManager.h */,
-				E5376C2D167B62C500738979 /* DownloadManager.m */,
+				E5376C2C167B62C500738979 /* PGDownloadManager.h */,
+				E5376C2D167B62C500738979 /* PGDownloadManager.m */,
 			);
 			name = "IO Controller";
 			sourceTree = "<group>";
@@ -691,8 +687,6 @@
 				E5376CBE167B86E500738979 /* BackgroundVertices.h */,
 				E5376CBF167B86E600738979 /* ColorArrays.h */,
 				E5376CC0167B86E800738979 /* ColorArrays.m */,
-				E5376CC3167B86ED00738979 /* ROI3D.h */,
-				E5376CC4167B86F200738979 /* ROI3D.m */,
 				E5376CC7167B86F500738979 /* Structs.h */,
 			);
 			name = OpenGL;
@@ -715,12 +709,12 @@
 			isa = PBXGroup;
 			children = (
 				E5B768211686B0DB00B9EBEB /* ModelViewController.h */,
-				E5376CB7167B860700738979 /* FEViewerViewController.h */,
-				E5376CB8167B860700738979 /* FEViewerViewController.m */,
-				E5A4F026167E1BB7007DE0CB /* Model3DViewController.h */,
-				E5A4F027167E1BB7007DE0CB /* Model3DViewController.m */,
-				E5B7681D1686B04B00B9EBEB /* ViewsTableViewController.h */,
-				E5B7681E1686B04B00B9EBEB /* ViewsTableViewController.m */,
+				E5376CB7167B860700738979 /* PGFEModelViewController.h */,
+				E5376CB8167B860700738979 /* PGFEModelViewController.m */,
+				E5A4F026167E1BB7007DE0CB /* PG3DModelViewController.h */,
+				E5A4F027167E1BB7007DE0CB /* PG3DModelViewController.m */,
+				E5B7681D1686B04B00B9EBEB /* PGViewsTableViewController.h */,
+				E5B7681E1686B04B00B9EBEB /* PGViewsTableViewController.m */,
 				E5A4F03B167E5562007DE0CB /* Sub Views */,
 			);
 			name = "3D View Controllers";
@@ -762,6 +756,15 @@
 				E59B5FF716B6F94B00F868AD /* MSNavigationPaneViewController.m */,
 			);
 			name = "Monospace Draggable View Controller";
+			sourceTree = "<group>";
+		};
+		E59B601016B715CB00F868AD /* Shelf Layout */ = {
+			isa = PBXGroup;
+			children = (
+				E5BB29011682BF4E000E68FE /* PGShelfLayout.h */,
+				E5BB29021682BF4E000E68FE /* PGShelfLayout.m */,
+			);
+			name = "Shelf Layout";
 			sourceTree = "<group>";
 		};
 		E5A4F03B167E5562007DE0CB /* Sub Views */ = {
@@ -925,9 +928,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5376B84167B5C6200738979 /* main.m in Sources */,
-				E5376B88167B5C6200738979 /* AppDelegate.m in Sources */,
-				E5376B9F167B5CB100738979 /* ModelsCollectionViewController.m in Sources */,
-				E5376BA3167B5CE600738979 /* ModelCollectionViewCell.m in Sources */,
+				E5376B88167B5C6200738979 /* PGAppDelegate.m in Sources */,
+				E5376B9F167B5CB100738979 /* PGModelsCollectionViewController.m in Sources */,
+				E5376BA3167B5CE600738979 /* PGModelCollectionViewCell.m in Sources */,
 				E5376BA7167B5E7C00738979 /* Model.xcdatamodeld in Sources */,
 				E5376BAE167B5F6800738979 /* PGModel+Management.m in Sources */,
 				E5376BF3167B60DB00738979 /* MagicalImportFunctions.m in Sources */,
@@ -956,13 +959,12 @@
 				E5376C0A167B60DB00738979 /* MagicalRecord+Setup.m in Sources */,
 				E5376C0B167B60DB00738979 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				E5376C0C167B60DB00738979 /* MagicalRecord.m in Sources */,
-				E5376C2E167B62C500738979 /* DownloadManager.m in Sources */,
+				E5376C2E167B62C500738979 /* PGDownloadManager.m in Sources */,
 				E5376C38167B643200738979 /* NSString+UUID.m in Sources */,
 				E5376C85167B771400738979 /* UIBarButtonItem+Customview.m in Sources */,
-				E5376C90167B7BC900738979 /* DropboxViewController.m in Sources */,
-				E5376CB9167B860700738979 /* FEViewerViewController.m in Sources */,
+				E5376C90167B7BC900738979 /* PGDropboxViewController.m in Sources */,
+				E5376CB9167B860700738979 /* PGFEModelViewController.m in Sources */,
 				E5376CC8167B86F500738979 /* ColorArrays.m in Sources */,
-				E5376CCA167B86F500738979 /* ROI3D.m in Sources */,
 				E5376CD4167B874600738979 /* AnsysHelper.m in Sources */,
 				E5376CD5167B874600738979 /* AnsysModel.m in Sources */,
 				E5376CDA167B876A00738979 /* UIImage+Resize.m in Sources */,
@@ -975,10 +977,10 @@
 				E5376CF8167B892600738979 /* NSString+_Format.m in Sources */,
 				E5376D07167B934C00738979 /* MBProgressHUD.m in Sources */,
 				E52A2A25167B9608001F3A1E /* Constants.m in Sources */,
-				E5A4F028167E1BB7007DE0CB /* Model3DViewController.m in Sources */,
-				E5BB286516813E57000E68FE /* DropboxCell.m in Sources */,
-				E5BB29001682BB43000E68FE /* ShelfView.m in Sources */,
-				E5BB29031682BF4F000E68FE /* CHFlowLayout.m in Sources */,
+				E5A4F028167E1BB7007DE0CB /* PG3DModelViewController.m in Sources */,
+				E5BB286516813E57000E68FE /* PGDropboxCell.m in Sources */,
+				E5BB29001682BB43000E68FE /* PGShelfView.m in Sources */,
+				E5BB29031682BF4F000E68FE /* PGShelfLayout.m in Sources */,
 				E5EA5B0816852523008729C3 /* PGView+Management.m in Sources */,
 				E5EA5B1716852707008729C3 /* PGModel.m in Sources */,
 				E58FB65E16852FEC00085E7D /* PGInfoTableViewController.m in Sources */,
@@ -986,7 +988,7 @@
 				E58FB6B6168682A500085E7D /* TSPopoverPopoverView.m in Sources */,
 				E58FB6B7168682A500085E7D /* TSPopoverTouchView.m in Sources */,
 				E58FB6B8168682A500085E7D /* UIBarButtonItem+WEPopover.m in Sources */,
-				E5B7681F1686B04B00B9EBEB /* ViewsTableViewController.m in Sources */,
+				E5B7681F1686B04B00B9EBEB /* PGViewsTableViewController.m in Sources */,
 				E5B768261686B4DE00B9EBEB /* TSActionSheet.m in Sources */,
 				E5F5B106168CB3F0006205E9 /* PGView.m in Sources */,
 				E59B5FE216B6A18100F868AD /* UINavigationBar+Design.m in Sources */,

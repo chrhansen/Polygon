@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShelfView : UICollectionReusableView
+@interface PGShelfView : UICollectionReusableView
 
 @end

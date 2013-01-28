@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "DropboxCell.h"
+#import "PGDropboxCell.h"
 
-@implementation DropboxCell
+@implementation PGDropboxCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

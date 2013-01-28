@@ -6,16 +6,16 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "CHFlowLayout.h"
-#import "ShelfView.h"
+#import "PGShelfLayout.h"
+#import "PGShelfView.h"
 
-@interface CHFlowLayout ()
+@interface PGShelfLayout ()
 
 @property (nonatomic, strong) NSDictionary *shelfRects;
 
 @end
 
-@implementation CHFlowLayout
+@implementation PGShelfLayout
 
 -(id)init
 {
@@ -30,7 +30,7 @@
             self.sectionInset = UIEdgeInsetsMake(30.0, 30.0, 50, 30.0);
         }
         self.minimumLineSpacing = 222.0f - self.itemSize.height;
-        [self registerClass:[ShelfView class] forDecorationViewOfKind:@"ShelfView"];
+        [self registerClass:[PGShelfView class] forDecorationViewOfKind:@"ShelfView"];
     }
     return self;
 }

@@ -9,16 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "PGViewDetailTableViewController.h"
 
-@class ViewsTableViewController, PGModel, PGView;
+@class PGViewsTableViewController, PGModel, PGView;
 
 @protocol ViewsTableViewControllerDelegate <NSObject>
 
-- (PGView *)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model;
-- (void)viewsTableViewController:(ViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView;
+- (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model;
+- (void)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView;
 
 @end
 
-@interface ViewsTableViewController : UITableViewController <PGViewDetailTableViewControllerDelegate>
+@interface PGViewsTableViewController : UITableViewController <PGViewDetailTableViewControllerDelegate>
 
 @property (nonatomic, weak) id<ViewsTableViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSString *roisFilePath;

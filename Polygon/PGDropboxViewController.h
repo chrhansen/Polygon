@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface DropboxViewController : UITableViewController 
+@interface PGDropboxViewController : UITableViewController 
 
 @property (nonatomic, strong) NSString *subPath;
 

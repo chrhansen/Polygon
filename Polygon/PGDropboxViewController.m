@@ -6,21 +6,21 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "DropboxViewController.h"
-#import "DownloadManager.h"
-#import "DropboxCell.h"
+#import "PGDropboxViewController.h"
+#import "PGDownloadManager.h"
+#import "PGDropboxCell.h"
 #import "NSString+_Format.h"
 #import "PGModel+Management.h"
 #import "UIBarButtonItem+Customview.h"
 
-@interface DropboxViewController () <DownloadManagerDelegate>
+@interface PGDropboxViewController () <DownloadManagerDelegate>
 
 @property (nonatomic, strong) NSArray *directoryContents;
 @property (nonatomic, strong) NSMutableArray *selectedItems;
 
 @end
 
-@implementation DropboxViewController
+@implementation PGDropboxViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -108,8 +108,8 @@
 - (void)_requestFolderList
 {
     if (DBSession.sharedSession.isLinked) {
-        DownloadManager.sharedInstance.delegate = self;
-        [DownloadManager.sharedInstance.restClient loadMetadata:[DropboxBaseURL stringByAppendingPathComponent:self.subPath]];
+        PGDownloadManager.sharedInstance.delegate = self;
+        [PGDownloadManager.sharedInstance.restClient loadMetadata:[DropboxBaseURL stringByAppendingPathComponent:self.subPath]];
     } else {
         NSLog(@"not linked");
     }
@@ -131,7 +131,7 @@
 }
 
 #pragma mark - Download manager delegate methods
-- (void)downloadManager:(DownloadManager *)sender didLoadDirectoryContents:(NSArray *)contents
+- (void)downloadManager:(PGDownloadManager *)sender didLoadDirectoryContents:(NSArray *)contents
 {
     self.directoryContents = contents.copy;
     [self.tableView reloadData];
@@ -165,7 +165,7 @@
 
 - (void)_configureCell:(UITableViewCell *)cell withMetaData:(DBMetadata *)metadata
 {
-    DropboxCell *dropboxCell = (DropboxCell *)cell;
+    PGDropboxCell *dropboxCell = (PGDropboxCell *)cell;
     CGRect cellRect = dropboxCell.folderFileName.frame;
     
     dropboxCell.folderFileName.textColor = [UIColor blackColor];
@@ -205,7 +205,7 @@
 
 - (void)_selectSubitemsStateConfigureCell:(UITableViewCell *)cell withMetaData:(DBMetadata *)metadata
 {
-    DropboxCell *dropboxCell = (DropboxCell *)cell;
+    PGDropboxCell *dropboxCell = (PGDropboxCell *)cell;
     CGRect cellRect = dropboxCell.folderFileName.frame;
     
     dropboxCell.folderFileName.textColor = [UIColor blackColor];
@@ -271,7 +271,7 @@
     // Normal selection state
     if (pickedItem.isDirectory)
     {
-        DropboxViewController *nextLevelViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
+        PGDropboxViewController *nextLevelViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
         nextLevelViewController.subPath = [self.subPath stringByAppendingPathComponent:pickedItem.filename];
         nextLevelViewController.title = pickedItem.filename;
         [self.navigationController pushViewController:nextLevelViewController animated:YES];
@@ -290,7 +290,7 @@
         case ModelTypeAnsys:
         case ModelTypeNastran:
         case ModelTypeLSPrePost:
-            [DownloadManager.sharedInstance downloadFile:metadata];
+            [PGDownloadManager.sharedInstance downloadFile:metadata];
             break;
             
         case ModelTypeOBJ:
@@ -312,7 +312,7 @@
 {
     DBMetadata *rootModel = self.selectedItems[0];
     [self.selectedItems removeObjectAtIndex:0];
-    [DownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy rootFile:rootModel];
+    [PGDownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy rootFile:rootModel];
     [self.selectedItems removeAllObjects];
     self.tableView.allowsMultipleSelection = NO;
     [self _setSelectSubitemsState];

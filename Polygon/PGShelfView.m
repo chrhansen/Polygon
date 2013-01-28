@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "ShelfView.h"
+#import "PGShelfView.h"
 
-@implementation ShelfView
+@implementation PGShelfView
 
 - (id)initWithFrame:(CGRect)frame
 {

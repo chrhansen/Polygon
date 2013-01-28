@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DropboxCell : UITableViewCell
+@interface PGDropboxCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UIImageView *folderFileImage;
 @property (nonatomic, weak) IBOutlet UILabel *folderFileName;

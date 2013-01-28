@@ -6,21 +6,21 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "ModelsCollectionViewController.h"
+#import "PGModelsCollectionViewController.h"
 #import "PGModel+Management.h"
 #import "UIBarButtonItem+Customview.h"
-#import "ModelCollectionViewCell.h"
-#import "DownloadManager.h"
-#import "FEViewerViewController.h"
-#import "Model3DViewController.h"
-#import "CHFlowLayout.h"
+#import "PGModelCollectionViewCell.h"
+#import "PGDownloadManager.h"
+#import "PGFEModelViewController.h"
+#import "PG3DModelViewController.h"
+#import "PGShelfLayout.h"
 #import "PGInfoTableViewController.h"
 #import "TSPopoverController.h"
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+Resize.h"
 #import "UINavigationBar+Design.h"
 
-@interface ModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, ModelViewControllerDelegate>
+@interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, ModelViewControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) TSPopoverController *tsPopoverController;
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation ModelsCollectionViewController
+@implementation PGModelsCollectionViewController
 
 - (void)awakeFromNib
 {
@@ -53,7 +53,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    DownloadManager.sharedInstance.progressDelegate = self;
+    PGDownloadManager.sharedInstance.progressDelegate = self;
     [self _setBackgroundShelfViewForInterfaceOrientation:self.interfaceOrientation];
     [self _showStatusBar];
 }
@@ -75,11 +75,11 @@
 {
     PGModel *model = [self.fetchedResultsController objectAtIndexPath:self.collectionView.indexPathsForSelectedItems.lastObject];
     if ([segue.identifier isEqualToString:@"Show FE Model"]) {
-        [(FEViewerViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
-        [(FEViewerViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
+        [(PGFEModelViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
+        [(PGFEModelViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
     } else if ([segue.identifier isEqualToString:@"Show 3D Model"]) {
-        [(Model3DViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
-        [(Model3DViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
+        [(PG3DModelViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
+        [(PG3DModelViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
     }
 }
 
@@ -158,7 +158,7 @@
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    ModelCollectionViewCell *modelCell = (ModelCollectionViewCell *)cell;
+    PGModelCollectionViewCell *modelCell = (PGModelCollectionViewCell *)cell;
     modelCell.nameLabel.text = aModel.modelName;
     UIImage *image = aModel.modelImage;
     if (!image) {
@@ -267,24 +267,24 @@
 }
 
 #pragma mark - Download Manager delegate
-- (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forModel:(PGModel *)model
+- (void)downloadManager:(PGDownloadManager *)sender loadProgress:(CGFloat)progress forModel:(PGModel *)model
 {
     NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:model];
-    ModelCollectionViewCell *downloadCell = (ModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
+    PGModelCollectionViewCell *downloadCell = (PGModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
     [downloadCell.downloadProgressView setProgress:progress animated:YES];
 }
 
 
-- (void)downloadManager:(DownloadManager *)sender finishedDownloadingModel:(PGModel *)model
+- (void)downloadManager:(PGDownloadManager *)sender finishedDownloadingModel:(PGModel *)model
 {
     NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:model];
-    ModelCollectionViewCell *downloadCell = (ModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
+    PGModelCollectionViewCell *downloadCell = (PGModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
     [downloadCell.downloadProgressView removeFromSuperview];
     downloadCell.downloadProgressView = nil;
 }
 
 
-- (void)downloadManager:(DownloadManager *)sender failedDownloadingModel:(PGModel *)model
+- (void)downloadManager:(PGDownloadManager *)sender failedDownloadingModel:(PGModel *)model
 {
     NSString *message = [model.modelName stringByAppendingFormat:@" %@", NSLocalizedString(@"could not be downloaded", nil)];
     UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Failed downloading", nil) message:message delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles:nil];
@@ -315,7 +315,7 @@
 - (void)_updateCheckmarkVisibilityForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     id anObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [(ModelCollectionViewCell *)cell checkMarkImageView].hidden = ![self.editItems containsObject:anObject];
+    [(PGModelCollectionViewCell *)cell checkMarkImageView].hidden = ![self.editItems containsObject:anObject];
 }
 
 
@@ -349,7 +349,7 @@
 {
     for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems)
     {
-        ModelCollectionViewCell *cell = (ModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        PGModelCollectionViewCell *cell = (PGModelCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
         [self configureCell:cell atIndexPath:indexPath];
     }
 }

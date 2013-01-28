@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ModelCollectionViewCell : UICollectionViewCell
+@interface PGModelCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *modelImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

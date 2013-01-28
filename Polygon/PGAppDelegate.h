@@ -10,7 +10,7 @@
 
 @class MSNavigationPaneViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface PGAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;

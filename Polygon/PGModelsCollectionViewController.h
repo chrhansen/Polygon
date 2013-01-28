@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ModelsCollectionViewController : UICollectionViewController
+@interface PGModelsCollectionViewController : UICollectionViewController
 
 @end

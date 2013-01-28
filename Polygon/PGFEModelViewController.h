@@ -10,7 +10,7 @@
 #import "Structs.h"
 
 
-@interface FEViewerViewController : GLKViewController <ModelViewControllerProtocol>
+@interface PGFEModelViewController : GLKViewController <ModelViewControllerProtocol>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
 @property (weak, nonatomic) IBOutlet UIView *toolView;

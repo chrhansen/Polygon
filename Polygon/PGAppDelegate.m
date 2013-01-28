@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "PGAppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 #import "MSNavigationPaneViewController.h"
 #import "PGMasterViewController.h"
 
-@implementation AppDelegate
+@implementation PGAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

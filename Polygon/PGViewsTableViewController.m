@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "ViewsTableViewController.h"
+#import "PGViewsTableViewController.h"
 #import "NSString+_Format.h"
 #import "UIImage+Resize.h"
 #import "PGModel+Management.h"
 #import "PGView+Management.h"
 
-@interface ViewsTableViewController () <NSFetchedResultsControllerDelegate>
+@interface PGViewsTableViewController () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) NSIndexPath *indexPathForSelectedAccessoryView;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation ViewsTableViewController
+@implementation PGViewsTableViewController
 - (void)awakeFromNib
 {
     [super awakeFromNib];

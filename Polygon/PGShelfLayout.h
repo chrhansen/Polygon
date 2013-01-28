@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHFlowLayout : UICollectionViewFlowLayout
+@interface PGShelfLayout : UICollectionViewFlowLayout
 
 @end
