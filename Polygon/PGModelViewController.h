@@ -10,13 +10,13 @@
 
 @class PGModel, PGView;
 
-@protocol ModelViewControllerDelegate <NSObject>
+@protocol PGModelViewControllerDelegate <NSObject>
 
 - (void)modelViewController:(id)sender didTapDone:(UIImage *)screenshot model:(PGModel *)model;
 
 @end
 
-@protocol ModelViewControllerProtocol <NSObject>
+@protocol PGModelViewControllerProtocol <NSObject>
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender;
 - (IBAction)viewsTapped:(UIBarButtonItem *)sender;

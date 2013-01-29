@@ -22,18 +22,11 @@
                                                          root:kDBRootDropbox];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Polygon.sqlite"];
     
-    
-    self.navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;
-    
-    PGMasterViewController *masterViewController = (PGMasterViewController *)[self.navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
-    masterViewController.navigationPaneViewController = self.navigationPaneViewController;
-    
-    self.navigationPaneViewController.masterViewController = masterViewController;
-    
+    MSNavigationPaneViewController *navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;
+    PGMasterViewController *masterViewController = (PGMasterViewController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
+    masterViewController.navigationPaneViewController = navigationPaneViewController;
+    navigationPaneViewController.masterViewController = masterViewController;
     [masterViewController transitionToViewController:PGPaneViewControllerTypeModels];
-    
-    
-    
     
     return YES;
 }

@@ -20,7 +20,7 @@
 #import "UIImage+Resize.h"
 #import "UINavigationBar+Design.h"
 
-@interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, ModelViewControllerDelegate>
+@interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) TSPopoverController *tsPopoverController;
@@ -99,8 +99,6 @@
 - (void)_showStatusBar
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 
@@ -253,10 +251,14 @@
 
 - (void)_configureImage:(UIImage *)image forModel:(PGModel *)model
 {
+    CGSize size = image.size;
+    CGFloat minImageSide = MIN(size.width, size.height);
+    CGSize itemSize = [(UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout itemSize];
+    CGFloat maxItemSide = MAX(itemSize.width, itemSize.height);
+    CGFloat scaleRatio = maxItemSide / minImageSide;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         CGFloat scale = [[UIScreen mainScreen] scale]; //Retina vs. non-retina
-        CGSize itemSize = [(UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout itemSize];
-        UIImage *resizedImage = [image resizedImage:CGSizeMake(itemSize.width * scale, itemSize.height * scale) interpolationQuality:kCGInterpolationDefault];
+        UIImage *resizedImage = [image resizedImage:CGSizeMake(image.size.width * scaleRatio * scale, image.size.height * scaleRatio * scale) interpolationQuality:kCGInterpolationDefault];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (resizedImage) {
                 model.modelImage = resizedImage;
@@ -265,6 +267,7 @@
         });
     });
 }
+
 
 #pragma mark - Download Manager delegate
 - (void)downloadManager:(PGDownloadManager *)sender loadProgress:(CGFloat)progress forModel:(PGModel *)model

@@ -22,6 +22,7 @@
 @property (nonatomic) CGFloat zRotation;
 @property (nonatomic) CGFloat pinchScale;
 @property (nonatomic) CGFloat initialCameraDistanceZ;
+@property (nonatomic, strong) UIImage *screenshot;
 
 @end
 
@@ -112,7 +113,10 @@
     [self _resetTranslationsAndRotations];
     
 	[_camera drawCamera];
-    NSLog(@"Pivot: (%f, %f, %f)", _camera.pivot.x, _camera.pivot.y, _camera.pivot.z);
+    
+    self.screenshot = [(NGLView *)self.view drawToImage];
+
+//    NSLog(@"Pivot: (%f, %f, %f)", _camera.pivot.x, _camera.pivot.y, _camera.pivot.z);
 }
 
 - (void)didReceiveMemoryWarning
@@ -140,7 +144,7 @@
 
 - (UIImage *)currentViewAsModelScreenshot
 {
-    return [(NGLView *)self.view drawToImage];
+    return self.screenshot;
 }
 
 - (void)_resetTranslationsAndRotations

@@ -92,7 +92,7 @@
     self.shelfRects = [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
--(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
+- (NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray* array = [[super layoutAttributesForElementsInRect:rect] mutableCopy];
     [self.shelfRects enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -104,10 +104,7 @@
             [array addObject:attributes];
         }
     }];
-    
-    array = [NSArray arrayWithArray:array];
-    
-    return array;
+    return [NSArray arrayWithArray:array];
 }
 
 

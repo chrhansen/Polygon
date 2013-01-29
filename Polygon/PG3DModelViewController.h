@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "ModelViewController.h"
+#import "PGModelViewController.h"
 
 @class PGModel;
 
@@ -14,6 +14,6 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
 @property (nonatomic, strong) PGModel *model;
-@property (nonatomic, weak) id<ModelViewControllerDelegate> modelViewDelegate;
+@property (nonatomic, weak) id<PGModelViewControllerDelegate> modelViewDelegate;
 
 @end

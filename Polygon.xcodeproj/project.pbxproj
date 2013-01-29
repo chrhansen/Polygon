@@ -25,7 +25,7 @@
 		E5376B94167B5C6200738979 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5376B92167B5C6200738979 /* MainStoryboard_iPad.storyboard */; };
 		E5376B9F167B5CB100738979 /* PGModelsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376B9E167B5CB100738979 /* PGModelsCollectionViewController.m */; };
 		E5376BA3167B5CE600738979 /* PGModelCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA2167B5CE600738979 /* PGModelCollectionViewCell.m */; };
-		E5376BA7167B5E7C00738979 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA5167B5E7C00738979 /* Model.xcdatamodeld */; };
+		E5376BA7167B5E7C00738979 /* PGModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5376BA5167B5E7C00738979 /* PGModel.xcdatamodeld */; };
 		E5376BAE167B5F6800738979 /* PGModel+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BAD167B5F6800738979 /* PGModel+Management.m */; };
 		E5376BB5167B603F00738979 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5376BB4167B603F00738979 /* CoreData.framework */; };
 		E5376BF3167B60DB00738979 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5376BBB167B60DB00738979 /* MagicalImportFunctions.m */; };
@@ -163,7 +163,7 @@
 		E5376B9E167B5CB100738979 /* PGModelsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGModelsCollectionViewController.m; sourceTree = "<group>"; };
 		E5376BA1167B5CE600738979 /* PGModelCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGModelCollectionViewCell.h; sourceTree = "<group>"; };
 		E5376BA2167B5CE600738979 /* PGModelCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGModelCollectionViewCell.m; sourceTree = "<group>"; };
-		E5376BA6167B5E7C00738979 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		E5376BA6167B5E7C00738979 /* PGModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PGModel.xcdatamodel; sourceTree = "<group>"; };
 		E5376BAC167B5F6800738979 /* PGModel+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PGModel+Management.h"; path = "Polygon/PGModel+Management.h"; sourceTree = "<group>"; };
 		E5376BAD167B5F6800738979 /* PGModel+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "PGModel+Management.m"; path = "Polygon/PGModel+Management.m"; sourceTree = "<group>"; };
 		E5376BB4167B603F00738979 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -306,7 +306,7 @@
 		E5A4F11B167FFB90007DE0CB /* NinevehGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NinevehGL.framework; sourceTree = "<group>"; };
 		E5B7681D1686B04B00B9EBEB /* PGViewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGViewsTableViewController.h; sourceTree = "<group>"; };
 		E5B7681E1686B04B00B9EBEB /* PGViewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGViewsTableViewController.m; sourceTree = "<group>"; };
-		E5B768211686B0DB00B9EBEB /* ModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelViewController.h; sourceTree = "<group>"; };
+		E5B768211686B0DB00B9EBEB /* PGModelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGModelViewController.h; sourceTree = "<group>"; };
 		E5B768241686B4DE00B9EBEB /* TSActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSActionSheet.h; sourceTree = "<group>"; };
 		E5B768251686B4DE00B9EBEB /* TSActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSActionSheet.m; sourceTree = "<group>"; };
 		E5B76843168B6CEE00B9EBEB /* clena-shelf-minimized@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clena-shelf-minimized@2x.png"; sourceTree = "<group>"; };
@@ -416,11 +416,11 @@
 			children = (
 				E5376B8F167B5C6200738979 /* MainStoryboard_iPhone.storyboard */,
 				E5376B92167B5C6200738979 /* MainStoryboard_iPad.storyboard */,
-				E5376C39167B643600738979 /* Categories */,
-				E5376BB6167B60CF00738979 /* 3rd Party */,
 				E5376BA8167B5E8200738979 /* Model */,
 				E5376BA4167B5CEB00738979 /* Views */,
 				E5376BA0167B5CC300738979 /* Controllers */,
+				E5376C39167B643600738979 /* Categories */,
+				E5376BB6167B60CF00738979 /* 3rd Party */,
 				E5376CCD167B873A00738979 /* Ansys */,
 				E5376CCC167B86FC00738979 /* OpenGL */,
 				E5376B7E167B5C6200738979 /* Supporting Files */,
@@ -472,7 +472,7 @@
 		E5376BA8167B5E8200738979 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E5376BA5167B5E7C00738979 /* Model.xcdatamodeld */,
+				E5376BA5167B5E7C00738979 /* PGModel.xcdatamodeld */,
 				E5376BAF167B5F6F00738979 /* CoreDat Managed Classes */,
 				E5376BAC167B5F6800738979 /* PGModel+Management.h */,
 				E5376BAD167B5F6800738979 /* PGModel+Management.m */,
@@ -708,7 +708,7 @@
 		E5376CE5167B880100738979 /* 3D View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E5B768211686B0DB00B9EBEB /* ModelViewController.h */,
+				E5B768211686B0DB00B9EBEB /* PGModelViewController.h */,
 				E5376CB7167B860700738979 /* PGFEModelViewController.h */,
 				E5376CB8167B860700738979 /* PGFEModelViewController.m */,
 				E5A4F026167E1BB7007DE0CB /* PG3DModelViewController.h */,
@@ -931,7 +931,7 @@
 				E5376B88167B5C6200738979 /* PGAppDelegate.m in Sources */,
 				E5376B9F167B5CB100738979 /* PGModelsCollectionViewController.m in Sources */,
 				E5376BA3167B5CE600738979 /* PGModelCollectionViewCell.m in Sources */,
-				E5376BA7167B5E7C00738979 /* Model.xcdatamodeld in Sources */,
+				E5376BA7167B5E7C00738979 /* PGModel.xcdatamodeld in Sources */,
 				E5376BAE167B5F6800738979 /* PGModel+Management.m in Sources */,
 				E5376BF3167B60DB00738979 /* MagicalImportFunctions.m in Sources */,
 				E5376BF4167B60DB00738979 /* NSAttributeDescription+MagicalDataImport.m in Sources */,
@@ -1146,14 +1146,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		E5376BA5167B5E7C00738979 /* Model.xcdatamodeld */ = {
+		E5376BA5167B5E7C00738979 /* PGModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				E5376BA6167B5E7C00738979 /* Model.xcdatamodel */,
+				E5376BA6167B5E7C00738979 /* PGModel.xcdatamodel */,
 			);
-			currentVersion = E5376BA6167B5E7C00738979 /* Model.xcdatamodel */;
-			name = Model.xcdatamodeld;
-			path = Polygon/Model.xcdatamodeld;
+			currentVersion = E5376BA6167B5E7C00738979 /* PGModel.xcdatamodel */;
+			name = PGModel.xcdatamodeld;
+			path = Polygon/PGModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

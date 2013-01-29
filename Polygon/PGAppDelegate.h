@@ -8,12 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class MSNavigationPaneViewController;
-
 @interface PGAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;
-
 
 @end

@@ -654,13 +654,10 @@
         case UIGestureRecognizerStateChanged:
         case UIGestureRecognizerStateEnded:
         {
-            if(panGesture.numberOfTouches == 2)
-            {
+            if(panGesture.numberOfTouches == 2) {
                 _panTranslation = [panGesture translationInView:self.view] ;
                 [panGesture setTranslation:CGPointZero inView:self.view];
-            }
-            else if(panGesture.numberOfTouches == 1)
-            {
+            } else if(panGesture.numberOfTouches == 1) {
                 [self addVelocitySample:[panGesture translationInView:self.view]];
                 [panGesture setTranslation:CGPointZero inView:self.view];
             }
