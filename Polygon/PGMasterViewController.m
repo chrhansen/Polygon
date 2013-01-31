@@ -43,6 +43,7 @@
 {
     [super viewDidLoad];
     [self.navigationPaneViewController setAppearanceType:MSNavigationPaneAppearanceTypeParallax];
+    self.tableView.scrollsToTop = NO;
 }
 
 

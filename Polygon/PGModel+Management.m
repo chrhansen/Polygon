@@ -167,7 +167,7 @@
         [objectIDs addObject:anObject.objectID];
     }
     
-    [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         for (NSManagedObjectID *anID in objectIDs)
         {
             NSError *error;
@@ -186,10 +186,9 @@
                 return;
             }
         }
-    } completion:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (completion) completion(nil);
-        });
+    }  completion:^(BOOL success, NSError *error) {
+        NSAssert([NSThread isMainThread], @"Callback in delete is NOT on Main Thread");
+        if (completion) completion(error);
     }];
 }
 

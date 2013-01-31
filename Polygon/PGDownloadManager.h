@@ -14,15 +14,16 @@
 @protocol DownloadManagerDelegate <NSObject>
 
 @optional
-- (void)downloadManager:(PGDownloadManager *)sender didLoadDirectoryContents:(NSArray *)contents;
-- (void)downloadManager:(PGDownloadManager *)sender failedLoadingDirectoryContents:(NSError *)error;
+- (void)downloadManager:(PGDownloadManager *)downloadManager didLoadDirectoryContents:(NSArray *)contents;
+- (void)downloadManager:(PGDownloadManager *)downloadManager failedLoadingDirectoryContents:(NSError *)error;
+- (void)downloadManager:(PGDownloadManager *)downloadManager didLoadThumbnail:(DBMetadata *)metadata;
 @end
 
 @protocol DownloadManagerProgressDelegate <NSObject>
 @optional
-- (void)downloadManager:(PGDownloadManager *)sender loadProgress:(CGFloat)progress forModel:(PGModel *)model;
-- (void)downloadManager:(PGDownloadManager *)sender finishedDownloadingModel:(PGModel *)model;
-- (void)downloadManager:(PGDownloadManager *)sender failedDownloadingModel:(PGModel *)model;
+- (void)downloadManager:(PGDownloadManager *)downloadManager loadProgress:(CGFloat)progress forModel:(PGModel *)model;
+- (void)downloadManager:(PGDownloadManager *)downloadManager finishedDownloadingModel:(PGModel *)model;
+- (void)downloadManager:(PGDownloadManager *)downloadManager failedDownloadingModel:(PGModel *)model;
 @end
 
 @interface PGDownloadManager : NSObject <DBRestClientDelegate>

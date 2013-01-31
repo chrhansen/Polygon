@@ -183,7 +183,7 @@
     PGModel *model = [self.fetchedResultsController objectAtIndexPath:indexPath];
     PGInfoTableViewController *infoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"infoTableViewController"];
     infoViewController.model = model;
-    infoViewController.view.frame = CGRectMake(0,0, 320, 300);
+    infoViewController.view.frame = CGRectMake(0,0, 320, 350);
     self.tsPopoverController = [[TSPopoverController alloc] initWithContentViewController:infoViewController];
     if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
     popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -244,7 +244,7 @@
 {
     [self _configureImage:screenshot forModel:model];
     [self dismissViewControllerAnimated:YES completion:^{
-        [model.managedObjectContext saveInBackgroundCompletion:nil];
+        [model.managedObjectContext saveToPersistentStoreAndWait];
     }];
 }
 
@@ -262,7 +262,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (resizedImage) {
                 model.modelImage = resizedImage;
-                [model.managedObjectContext saveInBackgroundCompletion:nil];
+                [model.managedObjectContext saveToPersistentStoreAndWait];
             }
         });
     });

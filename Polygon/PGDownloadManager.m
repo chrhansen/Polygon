@@ -183,21 +183,18 @@
     PGModel *modelDownloaded = self.currentDownloads[destPath];
     if (modelDownloaded) {
         [self.currentDownloads removeObjectForKey:destPath];
-        [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
             NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
-            NSDictionary *objectDetails = @{
-            @"metadata" : metadata,
-            @"filePath" : newRelativePath};
+            NSDictionary *objectDetails = @{@"metadata" : metadata, @"filePath" : newRelativePath};
             [PGModel importFromObject:objectDetails inContext:localContext];
-        } completion:^{
+        } completion:^(BOOL success, NSError *error) {
+            NSAssert([NSThread isMainThread], @"Import callback on main thread");
             [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];
             if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingModel:)]) {
                 [self.progressDelegate downloadManager:self finishedDownloadingModel:modelDownloaded];
             }
             NSArray *subItemsToDownload = self.waitingSubItems[modelDownloaded.enclosingFolder.lastPathComponent];
-            if (subItemsToDownload) {
-                [self downloadFilesAndDirectories:subItemsToDownload forModel:modelDownloaded];
-            }
+            if (subItemsToDownload) [self downloadFilesAndDirectories:subItemsToDownload forModel:modelDownloaded];
         }];
     }
 }
@@ -233,6 +230,15 @@
     if ([self.progressDelegate respondsToSelector:@selector(downloadManager:loadProgress:forModel:)])
         [self.progressDelegate downloadManager:self loadProgress:progress forModel:self.currentDownloads[destPath]];
 }
+
+#pragma mark Thumbnails
+- (void)restClient:(DBRestClient*)client loadedThumbnail:(NSString*)destPath metadata:(DBMetadata*)metadata
+{
+    if ([self.delegate respondsToSelector:@selector(downloadManager:didLoadThumbnail:)]) {
+        [self.delegate downloadManager:self didLoadThumbnail:metadata];
+    }
+}
+
 
 #pragma mark Sharable Links
 - (void)restClient:(DBRestClient *)restClient loadedSharableLink:(NSString *)link forFile:(NSString *)path

@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSArray *directoryContents;
 @property (nonatomic, strong) NSMutableArray *selectedItems;
+@property (nonatomic, strong) UIBarButtonItem *tempBarButtonItem;
 
 @end
 
@@ -115,10 +116,17 @@
 
 - (void)_showSpinner:(BOOL)shouldShow
 {
-    UIActivityIndicatorView *spinner;
-    spinner = (shouldShow) ? [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] : nil;
-    [spinner startAnimating];
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem.alloc initWithCustomView:spinner] animated:YES];
+    UIBarButtonItem *barbuttonItem;
+    if (shouldShow) {
+        UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        [spinner startAnimating];
+        barbuttonItem = [UIBarButtonItem.alloc initWithCustomView:spinner];
+        self.tempBarButtonItem = self.navigationItem.rightBarButtonItem;
+    } else {
+        barbuttonItem = self.tempBarButtonItem;
+        self.tempBarButtonItem = nil;
+    }
+    [self.navigationItem setRightBarButtonItem:barbuttonItem animated:YES];
 }
 
 
@@ -156,6 +164,20 @@
     [self.tableView reloadData];
 }
 
+
+- (void)downloadManager:(PGDownloadManager *)downloadManager failedLoadingDirectoryContents:(NSError *)error
+{
+    [self _showSpinner:NO];
+    [self.refreshControl endRefreshing];
+}
+
+- (void)downloadManager:(PGDownloadManager *)downloadManager didLoadThumbnail:(DBMetadata *)metadata
+{
+    NSUInteger tableViewRow = [self.directoryContents indexOfObject:metadata];
+    PGDropboxCell *cell = (PGDropboxCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tableViewRow inSection:0]];
+    [self _loadThumbnail:cell.folderFileImage withMetadata:metadata];
+}
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -173,12 +195,21 @@
 {
     static NSString *CellIdentifier = @"Dropbox Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//    if (self.selectedItems.count > 0) {
-//        [self _selectSubitemsStateConfigureCell:cell withMetaData:self.directoryContents[indexPath.row]];
-//    } else {
-        [self _configureCell:cell withMetaData:self.directoryContents[indexPath.row]];
-//    }
+    [self _configureCell:cell withMetaData:self.directoryContents[indexPath.row]];
     return cell;
+}
+
+
+- (void)_loadThumbnail:(UIImageView *)imageView withMetadata:(DBMetadata *)metadata
+{
+    NSString *fileName = [NSString stringWithFormat:@"%@-%@", metadata.rev, metadata.filename];
+    NSString *filePath = [CACHE_DIR stringByAppendingPathComponent:fileName];
+    NSFileManager *fileManager = [NSFileManager new];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        imageView.image = [UIImage imageWithContentsOfFile:filePath];
+    } else {
+        [PGDownloadManager.sharedInstance.restClient loadThumbnail:metadata.path ofSize:@"75x75_fit_one" intoPath:filePath];
+    }
 }
 
 
@@ -186,6 +217,7 @@
 {
     PGDropboxCell *dropboxCell = (PGDropboxCell *)cell;
     dropboxCell.folderFileName.text = [metadata.filename fitToLength:29];
+    
     if (metadata.isDirectory) {
         dropboxCell.folderFileImage.image = [UIImage imageNamed:@"folder_icon.png"];
         dropboxCell.description.hidden = YES;
@@ -193,8 +225,10 @@
         NSString *modifiedDuration = [NSString formatInterval:-[metadata.lastModifiedDate timeIntervalSinceNow]];
         dropboxCell.description.hidden = NO;
         dropboxCell.description.text = [metadata.humanReadableSize stringByAppendingString: [@", modified " stringByAppendingString:modifiedDuration]];
-        dropboxCell.folderFileImage.image = ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) ? nil : [UIImage imageNamed:@"dropbox_fileitem.png"];
+        dropboxCell.folderFileImage.image = ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) ? [UIImage imageNamed:@"180-stickynote"] : [UIImage imageNamed:@"dropbox_fileitem.png"];
     }
+    
+    if (metadata.thumbnailExists) [self _loadThumbnail:dropboxCell.folderFileImage withMetadata:metadata];
     
     if (self.selectedItems.count == 0) {
         if (!metadata.isDirectory) {
@@ -202,7 +236,6 @@
                 dropboxCell.userInteractionEnabled = NO;
                 dropboxCell.folderFileName.textColor = [UIColor lightGrayColor];
                 dropboxCell.description.textColor = [UIColor lightGrayColor];
-                dropboxCell.folderFileImage.image = nil;
             }
         }
     } else {

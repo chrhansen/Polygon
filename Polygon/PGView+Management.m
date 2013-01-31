@@ -61,7 +61,7 @@
     }
     NSManagedObjectID *objectID = viewToDelete.objectID;
     
-    [MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *localContext) {
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         NSError *error;
         PGView *localView = (PGView *)[localContext existingObjectWithID:objectID error:&error];
         if (error) {
@@ -71,9 +71,9 @@
             return;
         }
         [localView deleteInContext:localContext];
-    } completion:^{
+    } completion:^(BOOL success, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (completion) completion(nil);
+            if (completion) completion(error);
         });
     }];
 }
