@@ -186,6 +186,12 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <progressView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEI-qp-C5f">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="113" id="zKs-ki-2yI"/>
+                                            </constraints>
+                                            <color key="progressTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </progressView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" image="39-circle-check.png" translatesAutoresizingMaskIntoConstraints="NO" id="OKR-U1-y6c">
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="18" id="a0o-ni-ONe"/>
@@ -204,12 +210,6 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <progressView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEI-qp-C5f">
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="113" id="zKs-ki-2yI"/>
-                                            </constraints>
-                                            <color key="progressTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        </progressView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -669,7 +669,6 @@
         <class className="PG3DModelViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PG3DModelViewController.h"/>
             <relationships>
-                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
@@ -687,6 +686,13 @@
         <class className="PGFEModelViewController" superclassName="GLKViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PGFEModelViewController.h"/>
             <relationships>
+                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="tool1Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool2Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool3Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool4Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool5Tapped:"/>
+                <relationship kind="action" name="viewsTapped:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="toolView" candidateClass="UIView"/>
             </relationships>

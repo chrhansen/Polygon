@@ -97,7 +97,7 @@
     @"metadata" : metadata,
     @"filePath" : relativePath,
     @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
-    PGModel *newModel = [PGModel MR_importFromObject:objectDetails];
+    PGModel *newModel = [[PGModel MR_importFromArray:@[objectDetails]] lastObject];
     self.sharableLinks[metadata.path] = newModel;
     [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
     if (!newModel.isDownloaded) {
