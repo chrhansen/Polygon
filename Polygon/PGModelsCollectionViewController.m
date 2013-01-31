@@ -183,7 +183,7 @@
     PGModel *model = [self.fetchedResultsController objectAtIndexPath:indexPath];
     PGInfoTableViewController *infoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"infoTableViewController"];
     infoViewController.model = model;
-    infoViewController.view.frame = CGRectMake(0,0, 320, 400);
+    infoViewController.view.frame = CGRectMake(0,0, 320, 300);
     self.tsPopoverController = [[TSPopoverController alloc] initWithContentViewController:infoViewController];
     if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
     popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;

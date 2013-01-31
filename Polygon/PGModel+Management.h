@@ -12,6 +12,7 @@
 
 + (void)deleteModels:(NSArray *)modelsToDelete completion:(void (^)(NSError *error))completion;
 + (ModelType)modelTypeForFileName:(NSString *)fileNameWithExtension;
++ (BOOL)canHaveSubItems:(NSString *)fileNameWithExtension;
 
 @property (nonatomic, readonly) NSString *fullModelFilePath;
 @property (nonatomic, readonly) NSDictionary *subitems;

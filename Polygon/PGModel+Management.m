@@ -54,24 +54,42 @@
     NSString *extension = fileNameWithExtension.pathExtension.lowercaseString;
     if ([extension isEqualToString:@"cdb"]
         || [extension isEqualToString:@"ans"]
-        || [extension isEqualToString:@"inp"])
-    {
+        || [extension isEqualToString:@"inp"]) {
         return ModelTypeAnsys;
     }
-    else if ([extension isEqualToString:@"bdf"])
-    {
+    else if ([extension isEqualToString:@"bdf"]) {
         return ModelTypeNastran;
-    }
-    else if ([extension isEqualToString:@"obj"])
-    {
+    } else if ([extension isEqualToString:@"k"]) {
+        return ModelTypeNastran;
+    } else if ([extension isEqualToString:@"obj"]) {
         return ModelTypeOBJ;
-    }
-    else if ([extension isEqualToString:@"dae"])
-    {
+    } else if ([extension isEqualToString:@"dae"]) {
         return ModelTypeDAE;
     }
     return ModelTypeUnknown;
 }
+
++ (BOOL)canHaveSubItems:(NSString *)fileNameWithExtension
+{
+    switch ([self modelTypeForFileName:fileNameWithExtension]) {
+        case ModelTypeAnsys:
+        case ModelTypeNastran:
+        case ModelTypeLSPrePost:
+            return NO;
+            break;
+            
+        case ModelTypeOBJ:
+        case ModelTypeDAE:
+            return YES;
+            break;
+            
+        default:
+            NSLog(@"Error: Unknown file extension: %@", fileNameWithExtension);
+            break;
+    }
+    return YES;
+}
+
 
 - (NSDictionary *)subitems
 {

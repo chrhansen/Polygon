@@ -60,7 +60,7 @@ typedef NS_ENUM(NSUInteger, MSNavigationPaneAppearanceType) {
 @property (nonatomic, assign) MSNavigationPaneAppearanceType appearanceType;
 
 @property (nonatomic, strong) UIViewController *paneViewController;
-@property (nonatomic, strong) IBOutlet UIViewController *masterViewController;
+@property (nonatomic, strong) UIViewController *masterViewController;
 
 @property (nonatomic, readonly) UIView *masterView;
 @property (nonatomic, readonly) MSDraggableView *paneView;

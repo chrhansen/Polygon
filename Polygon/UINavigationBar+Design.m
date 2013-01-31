@@ -21,8 +21,8 @@
 - (void)configureShadow
 {
     self.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.layer.shadowOpacity = 0.8f;
-    self.layer.shadowRadius = 9.0f;
+    self.layer.shadowOpacity = 0.75f;
+    self.layer.shadowRadius = 15.0f;
     self.layer.shadowOffset = CGSizeMake(0,0);
     CGRect shadowPath = CGRectMake(self.layer.bounds.origin.x - 0, 0, self.layer.bounds.size.width + 0, self.layer.bounds.size.height+2);
     self.layer.shadowPath = [UIBezierPath bezierPathWithRect:shadowPath].CGPath;

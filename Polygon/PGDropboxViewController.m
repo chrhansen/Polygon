@@ -12,6 +12,7 @@
 #import "NSString+_Format.h"
 #import "PGModel+Management.h"
 #import "UIBarButtonItem+Customview.h"
+#import "UIImage+Alpha.h"
 
 @interface PGDropboxViewController () <DownloadManagerDelegate>
 
@@ -35,28 +36,18 @@
 {
     [super viewDidLoad]; 
     [self _addObservers];
-    
+    [self _addPullToRefresh];
     self.directoryContents = @[];
     
     if (!self.subPath) {
         self.subPath = @"";
         self.title = @"Dropbox";
     }
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if (!DBSession.sharedSession.isLinked)
-    {
+    if (!DBSession.sharedSession.isLinked) {
         [DBSession.sharedSession linkFromController:self];
-    }
-    else
-    {
+    } else {
         [self _requestFolderList];
     }
-    
 }
 
 
@@ -90,7 +81,6 @@
 - (void)_cancelTapped
 {
     [self.selectedItems removeAllObjects];
-    self.tableView.allowsMultipleSelection = NO;
     [self _setSelectSubitemsState];
     [self.tableView reloadData];
 }
@@ -104,22 +94,49 @@
                                              object:nil];
 }
 
+- (void)_addPullToRefresh
+{
+    UIRefreshControl *refreshControl = [UIRefreshControl new];
+    [refreshControl addTarget:self action:@selector(_requestFolderList) forControlEvents:UIControlEventValueChanged];
+    refreshControl.tintColor = [UIColor lightGrayColor];
+    self.refreshControl = refreshControl;
+}
 
 - (void)_requestFolderList
 {
     if (DBSession.sharedSession.isLinked) {
         PGDownloadManager.sharedInstance.delegate = self;
+        [self _showSpinner:YES];
         [PGDownloadManager.sharedInstance.restClient loadMetadata:[DropboxBaseURL stringByAppendingPathComponent:self.subPath]];
     } else {
         NSLog(@"not linked");
     }
 }
 
+- (void)_showSpinner:(BOOL)shouldShow
+{
+    UIActivityIndicatorView *spinner;
+    spinner = (shouldShow) ? [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] : nil;
+    [spinner startAnimating];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem.alloc initWithCustomView:spinner] animated:YES];
+}
+
+
+- (void)_showSubDirectory:(DBMetadata *)directoryMetadata
+{
+    if (!directoryMetadata.isDirectory) {
+        return;
+    }
+    PGDropboxViewController *nextLevelViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
+    nextLevelViewController.subPath = [self.subPath stringByAppendingPathComponent:directoryMetadata.filename];
+    nextLevelViewController.title = directoryMetadata.filename;
+    [self.navigationController pushViewController:nextLevelViewController animated:YES];
+}
+
 
 - (void)_setSelectSubitemsState
 {
-    if (self.tableView.allowsMultipleSelection)
-    {
+    if (self.selectedItems.count > 0) {
         UIBarButtonItem *cancelButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
         [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
         UIBarButtonItem *downloadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(_downloadSelectedItems)];
@@ -133,6 +150,8 @@
 #pragma mark - Download manager delegate methods
 - (void)downloadManager:(PGDownloadManager *)sender didLoadDirectoryContents:(NSArray *)contents
 {
+    [self _showSpinner:NO];
+    [self.refreshControl endRefreshing];
     self.directoryContents = contents.copy;
     [self.tableView reloadData];
 }
@@ -154,11 +173,11 @@
 {
     static NSString *CellIdentifier = @"Dropbox Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    if (self.tableView.allowsMultipleSelection) {
-        [self _selectSubitemsStateConfigureCell:cell withMetaData:self.directoryContents[indexPath.row]];
-    } else {
+//    if (self.selectedItems.count > 0) {
+//        [self _selectSubitemsStateConfigureCell:cell withMetaData:self.directoryContents[indexPath.row]];
+//    } else {
         [self _configureCell:cell withMetaData:self.directoryContents[indexPath.row]];
-    }
+//    }
     return cell;
 }
 
@@ -166,86 +185,44 @@
 - (void)_configureCell:(UITableViewCell *)cell withMetaData:(DBMetadata *)metadata
 {
     PGDropboxCell *dropboxCell = (PGDropboxCell *)cell;
-    CGRect cellRect = dropboxCell.folderFileName.frame;
-    
-    dropboxCell.folderFileName.textColor = [UIColor blackColor];
-    dropboxCell.description.textColor = [UIColor darkGrayColor];
-    dropboxCell.userInteractionEnabled = YES;
-    dropboxCell.accessoryType = UITableViewCellAccessoryNone;
-
     dropboxCell.folderFileName.text = [metadata.filename fitToLength:29];
-    if (metadata.isDirectory)
-    {
+    if (metadata.isDirectory) {
         dropboxCell.folderFileImage.image = [UIImage imageNamed:@"folder_icon.png"];
-        dropboxCell.folderFileName.frame = CGRectMake(cellRect.origin.x, 11, cellRect.size.width, cellRect.size.height);
         dropboxCell.description.hidden = YES;
+    } else {
+        NSString *modifiedDuration = [NSString formatInterval:-[metadata.lastModifiedDate timeIntervalSinceNow]];
+        dropboxCell.description.hidden = NO;
+        dropboxCell.description.text = [metadata.humanReadableSize stringByAppendingString: [@", modified " stringByAppendingString:modifiedDuration]];
+        dropboxCell.folderFileImage.image = ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) ? nil : [UIImage imageNamed:@"dropbox_fileitem.png"];
     }
-    else
-    {
-        // is a file (not directory)
-        if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
-        {
+    
+    if (self.selectedItems.count == 0) {
+        if (!metadata.isDirectory) {
+            if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) {
+                dropboxCell.userInteractionEnabled = NO;
+                dropboxCell.folderFileName.textColor = [UIColor lightGrayColor];
+                dropboxCell.description.textColor = [UIColor lightGrayColor];
+                dropboxCell.folderFileImage.image = nil;
+            }
+        }
+    } else {
+        if ([self.selectedItems containsObject:metadata]) {
+            dropboxCell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        DBMetadata *primaryItem = self.selectedItems[0];
+        if (primaryItem == metadata) {
+            dropboxCell.userInteractionEnabled = NO;
+        } else if (![PGModel canHaveSubItems:primaryItem.filename]
+                   || !([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
+                   || metadata.isDirectory) {
             dropboxCell.userInteractionEnabled = NO;
             dropboxCell.folderFileName.textColor = [UIColor lightGrayColor];
             dropboxCell.description.textColor = [UIColor lightGrayColor];
-            dropboxCell.folderFileImage.image = nil;
+            dropboxCell.folderFileImage.image = [dropboxCell.folderFileImage.image imageByApplyingAlpha:0.5f];
         }
-        else
-        {
-            dropboxCell.folderFileImage.image = [UIImage imageNamed:@"dropbox_fileitem.png"];
-        }
-        
-        NSString *modifiedDuration = [NSString formatInterval:-[metadata.lastModifiedDate timeIntervalSinceNow]];
-        dropboxCell.description.hidden = NO;
-        dropboxCell.folderFileName.frame = CGRectMake(cellRect.origin.x, 5, cellRect.size.width, cellRect.size.height);
-        dropboxCell.description.text = [metadata.humanReadableSize stringByAppendingString: [@", modified " stringByAppendingString:modifiedDuration]];
     }
 }
 
-
-- (void)_selectSubitemsStateConfigureCell:(UITableViewCell *)cell withMetaData:(DBMetadata *)metadata
-{
-    PGDropboxCell *dropboxCell = (PGDropboxCell *)cell;
-    CGRect cellRect = dropboxCell.folderFileName.frame;
-    
-    dropboxCell.folderFileName.textColor = [UIColor blackColor];
-    dropboxCell.description.textColor = [UIColor darkGrayColor];
-    dropboxCell.userInteractionEnabled = YES;
-    dropboxCell.accessoryType = UITableViewCellAccessoryNone;
-    dropboxCell.folderFileName.text = [metadata.filename fitToLength:29];
-    if (metadata.isDirectory)
-    {
-        dropboxCell.folderFileImage.image = [UIImage imageNamed:@"folder_icon.png"];
-        dropboxCell.folderFileName.frame = CGRectMake(cellRect.origin.x, 11, cellRect.size.width, cellRect.size.height);
-        dropboxCell.description.hidden = YES;
-    }
-    else
-    {
-        // is a file (not directory)
-        if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
-        {
-            dropboxCell.folderFileImage.image = nil;
-        }
-        else
-        {
-            dropboxCell.folderFileImage.image = [UIImage imageNamed:@"dropbox_fileitem.png"];
-        }
-        
-        NSString *modifiedDuration = [NSString formatInterval:-[metadata.lastModifiedDate timeIntervalSinceNow]];
-        dropboxCell.description.hidden = NO;
-        dropboxCell.folderFileName.frame = CGRectMake(cellRect.origin.x, 5, cellRect.size.width, cellRect.size.height);
-        dropboxCell.description.text = [metadata.humanReadableSize stringByAppendingString: [@", modified " stringByAppendingString:modifiedDuration]];
-    }
-    if ([self.selectedItems containsObject:metadata]) {
-        dropboxCell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    if (self.selectedItems[0] == metadata) {
-        dropboxCell.userInteractionEnabled = NO;
-        dropboxCell.folderFileName.textColor = [UIColor lightGrayColor];
-        dropboxCell.description.textColor = [UIColor lightGrayColor];
-        dropboxCell.folderFileImage.image = nil;
-    }
-}
 
 - (void)_togglePresenceInSelectedItems:(DBMetadata *)subItem
 {
@@ -257,54 +234,47 @@
 }
 
 #pragma mark - Table view delegate
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.selectedItems.count > 0) {
+        DBMetadata *primaryItem = self.selectedItems[0];
+        return [PGModel canHaveSubItems:primaryItem.filename];
+    }
+    return YES;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DBMetadata *pickedItem = self.directoryContents[indexPath.row];
-    // Select subitems state
-    if (self.tableView.allowsMultipleSelection) {
-        [self _togglePresenceInSelectedItems:pickedItem];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        return;
-    }
-    
-    // Normal selection state
-    if (pickedItem.isDirectory)
-    {
-        PGDropboxViewController *nextLevelViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
-        nextLevelViewController.subPath = [self.subPath stringByAppendingPathComponent:pickedItem.filename];
-        nextLevelViewController.title = pickedItem.filename;
-        [self.navigationController pushViewController:nextLevelViewController animated:YES];
-    }
-    else
-    {
-        [self _handleSelectedModelFile:self.directoryContents[indexPath.row] atIndexPath:indexPath];
+    if (self.selectedItems.count == 0) {
+        if (pickedItem.isDirectory) {
+            [self _showSubDirectory:pickedItem];
+        } else {
+            [self _selectedPrimaryFile:self.directoryContents[indexPath.row] atIndexPath:indexPath];
+        }
+    } else {
+        DBMetadata *primaryItem = self.selectedItems[0];
+        switch ([PGModel modelTypeForFileName:primaryItem.filename]) {
+            case ModelTypeOBJ:
+            case ModelTypeDAE:
+                [self _togglePresenceInSelectedItems:pickedItem];
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                break;
+            default:
+                break;
+        }
     }
 }
 
 
-- (void)_handleSelectedModelFile:(DBMetadata *)metadata atIndexPath:(NSIndexPath *)indexPath
+- (void)_selectedPrimaryFile:(DBMetadata *)primaryItem atIndexPath:(NSIndexPath *)indexPath
 {
-    switch ([PGModel modelTypeForFileName:metadata.filename ])
-    {
-        case ModelTypeAnsys:
-        case ModelTypeNastran:
-        case ModelTypeLSPrePost:
-            [PGDownloadManager.sharedInstance downloadFile:metadata];
-            break;
-            
-        case ModelTypeOBJ:
-        case ModelTypeDAE:
-        {
-            [self.selectedItems addObject:metadata];
-            self.tableView.allowsMultipleSelection = YES;
-            [self _setSelectSubitemsState];
-            [self.tableView reloadData];
-        }
-            break;
-        default:
-            break;
+    if ([PGModel modelTypeForFileName:primaryItem.filename] == ModelTypeUnknown) {
+        return;
     }
+    [self.selectedItems addObject:primaryItem];
+    [self _setSelectSubitemsState];
+    [self.tableView reloadData];
 }
 
 
@@ -314,7 +284,6 @@
     [self.selectedItems removeObjectAtIndex:0];
     [PGDownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy rootFile:rootModel];
     [self.selectedItems removeAllObjects];
-    self.tableView.allowsMultipleSelection = NO;
     [self _setSelectSubitemsState];
     [self.tableView reloadData];
 }

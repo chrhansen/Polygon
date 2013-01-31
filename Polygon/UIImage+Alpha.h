@@ -8,4 +8,7 @@
 - (BOOL)hasAlpha;
 - (UIImage *)imageWithAlpha;
 - (UIImage *)transparentBorderImage:(NSUInteger)borderSize;
+
+- (UIImage *)imageByApplyingAlpha:(CGFloat)alpha;
+
 @end

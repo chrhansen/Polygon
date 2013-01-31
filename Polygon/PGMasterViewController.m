@@ -50,11 +50,11 @@
 
 - (PGPaneViewControllerType)paneViewControllerTypeForIndexPath:(NSIndexPath *)indexPath
 {
-    PGPaneViewControllerType paneViewControllerType;
+    PGPaneViewControllerType paneViewControllerType = nil;
     if (indexPath.section == 0) {
         paneViewControllerType = indexPath.row;
     } else {
-        NSLog(@"ERROR: requested section 1 in PGMasterViewController");
+        NSLog(@"ERROR: didn't request section 0 in PGMasterViewController");
     }
     return paneViewControllerType;
 }

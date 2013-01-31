@@ -135,6 +135,7 @@ const CGFloat MSNavigationPaneAppearanceTypeParallaxOffsetFraction = 0.35;
     [self setPaneState:paneState animated:NO];
 }
 
+
 #pragma mark View Controller Accessors
 
 - (UIViewController *)masterViewController

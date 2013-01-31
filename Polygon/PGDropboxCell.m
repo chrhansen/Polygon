@@ -27,4 +27,13 @@
     // Configure the view for the selected state
 }
 
+
+- (void)prepareForReuse
+{
+    self.folderFileName.textColor = [UIColor blackColor];
+    self.description.textColor = [UIColor darkGrayColor];
+    self.userInteractionEnabled = YES;
+    self.accessoryType = UITableViewCellAccessoryNone;
+}
+
 @end
