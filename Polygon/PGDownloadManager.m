@@ -186,7 +186,7 @@
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
             NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
             NSDictionary *objectDetails = @{@"metadata" : metadata, @"filePath" : newRelativePath};
-            [PGModel importFromObject:objectDetails inContext:localContext];
+            [PGModel importFromArray:@[objectDetails] inContext:localContext];
         } completion:^(BOOL success, NSError *error) {
             NSAssert([NSThread isMainThread], @"Import callback on main thread");
             [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];

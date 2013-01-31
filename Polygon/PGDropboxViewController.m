@@ -169,6 +169,7 @@
 {
     [self _showSpinner:NO];
     [self.refreshControl endRefreshing];
+    //TODO: alert user
 }
 
 - (void)downloadManager:(PGDownloadManager *)downloadManager didLoadThumbnail:(DBMetadata *)metadata
