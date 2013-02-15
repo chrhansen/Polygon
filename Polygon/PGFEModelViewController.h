@@ -13,7 +13,6 @@
 @interface PGFEModelViewController : GLKViewController <PGModelViewControllerProtocol>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
-@property (weak, nonatomic) IBOutlet UIView *toolView;
 @property (nonatomic, strong) PGModel *model;
 @property (nonatomic, weak) id<PGModelViewControllerDelegate> modelViewDelegate;
 

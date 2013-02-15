@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Non-Consumables</key>
+	<array>
+		<string>it.calcul8.polygon.unlimitedmodels</string>
+		<string>it.calcul8.polygon.objmodels</string>
+		<string>it.calcul8.polygon.ansys</string>
+		<string>it.calcul8.polygon.daemodels</string>
+	</array>
+	<key>Non-Consumables-batch</key>
+	<dict>
+		<key>it.calcul8.polygon.unlimitedmodels</key>
+		<array>
+			<string>it.calcul8.polygon.objmodels</string>
+			<string>it.calcul8.polygon.ansys</string>
+			<string>it.calcul8.polygon.daemodels</string>
+		</array>
+	</dict>
+</dict>
+</plist>

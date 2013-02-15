@@ -13,12 +13,12 @@
 #import "PGDownloadManager.h"
 #import "PGFEModelViewController.h"
 #import "PG3DModelViewController.h"
-#import "PGShelfLayout.h"
 #import "PGInfoTableViewController.h"
 #import "TSPopoverController.h"
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+Resize.h"
 #import "UINavigationBar+Design.h"
+#import "NSString+_Format.h"
 
 @interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
 
@@ -58,11 +58,6 @@
     [self _showStatusBar];
 }
 
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -132,8 +127,8 @@
         layout.itemSize = CGSizeMake(135, 150);
         layout.sectionInset = UIEdgeInsetsMake(10.0, 70.0, 50, 70.0);
     } else {
-        layout.itemSize = CGSizeMake(115, 129);
-        layout.sectionInset = UIEdgeInsetsMake(30.0, 30.0, 50, 30.0);
+        layout.itemSize = CGSizeMake(115, 150);
+        layout.sectionInset = UIEdgeInsetsMake(35.0, 30.0, 50, 30.0);
     }
     layout.minimumLineSpacing = 222.0f - layout.itemSize.height;
 }
@@ -157,7 +152,7 @@
 {
     PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     PGModelCollectionViewCell *modelCell = (PGModelCollectionViewCell *)cell;
-    modelCell.nameLabel.text = aModel.modelName;
+    modelCell.nameLabel.text = [aModel.modelName fitToLength:17];
     UIImage *image = aModel.modelImage;
     if (!image) {
         image = (IS_IPAD) ? [UIImage imageNamed:@"default_thumb_ipad"] : [UIImage imageNamed:@"default_thumb_iphone"];
@@ -234,11 +229,6 @@
 }
 
 
-- (void)_loadBundleModel
-{
-    [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
-}
-
 #pragma mark - ModelViewController Delegate
 - (void)modelViewController:(id)sender didTapDone:(UIImage *)screenshot model:(PGModel *)model
 {
@@ -298,17 +288,14 @@
 #pragma mark - Editing state
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
 {
-    if (editing)
-    {
+    if (editing) {
         UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0108"] style:UIBarButtonItemStylePlain target:self action:@selector(uploadTapped:)];
         UIBarButtonItem *deleteItem = [UIBarButtonItem deleteButtonWithTarget:self action:@selector(deleteTapped:)];
         uploadButton.enabled = NO;
         deleteItem.enabled = NO;
         [self.navigationItem setLeftBarButtonItems:@[uploadButton, deleteItem] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
-    }
-    else
-    {
+    } else {
         [self.navigationItem setLeftBarButtonItems:@[self.leftBarButtonItem] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     }
@@ -467,8 +454,7 @@
       newIndexPath:(NSIndexPath *)newIndexPath
 {
     NSMutableDictionary *change = [NSMutableDictionary new];
-    switch(type)
-    {
+    switch(type) {
         case NSFetchedResultsChangeInsert:
             change[@(type)] = newIndexPath;
             break;

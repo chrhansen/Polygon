@@ -114,7 +114,6 @@
 @property (nonatomic) CGFloat elementTransparency;
 @property (nonatomic) NSUInteger colorType;
 
-- (void)tearDownGL;
 @end
 
 @implementation PGFEModelViewController
@@ -122,18 +121,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bigModelLimitPassed:) name:PolygonModelTypeNotPurchased object:nil];
-    
-//    NSArray *subviewArray = [[NSBundle mainBundle] loadNibNamed:@"ToolsView" owner:self options:nil];
-//    [self.toolView addSubview:[subviewArray objectAtIndex:0]];
-    
     self.title = self.model.filePath.lastPathComponent;
     [self.navigationController.navigationBar setTranslucent:YES];
     [self setupBasicGL];
     [self makeGradientBackground];
     [self loadModelFile];
-    
     self.isPerpective = ![[NSUserDefaults standardUserDefaults] boolForKey:@"UserDefaults_PerspectiveView"];
 }
 
@@ -147,13 +140,9 @@
 
 - (void)dealloc
 {
-    [self setToolView:nil];
     [self tearDownGL];
 
-    if ([EAGLContext currentContext] == self.context)
-    {
-        [EAGLContext setCurrentContext:nil];
-    }
+    if ([EAGLContext currentContext] == self.context) [EAGLContext setCurrentContext:nil];
 	self.context = nil;
     _anAnsysModel = nil;
     [self setDoneBarButton:nil];
@@ -167,7 +156,6 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
-
 
 - (void)updateOrientationDependantValues:(UIInterfaceOrientation)newOrientation
 {
@@ -227,13 +215,9 @@
     }
     NSString *modelPath = [self.model.fullModelFilePath copy];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSLog(@"model parsing start");
         _anAnsysModel = [AnsysModel ansysFileWithPath:modelPath andDelegate:self andSettings:initialSettings];
-        NSLog(@"model parsing end");
         if (_anAnsysModel) {
             boundingBox = _anAnsysModel.boundingBox[0];
-            NSLog(@"boundingBox: %f", boundingBox.lengthMax);
-            
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loadModelDataToGL];
                 self.readingModelData = NO;
@@ -250,7 +234,7 @@
 
 
 - (void)setupBasicGL
-{  
+{
     rotation = 0.0;
     lastPinch = 1.0;
     self.pinchScale = 1.0;
@@ -416,20 +400,16 @@
     //NSLog(@"%@", NSStringFromGLKMatrix4(_backgroundModelViewMatrix));
     
     // translation animation
-    if (_runPositionAnimation) 
-    {
+    if (_runPositionAnimation) {
         _lerpPosCur += self.timeSinceLastUpdate;
         float slerpAmt = _lerpPosCur / _lerpPosMax;
-        if (slerpAmt > 1.0) 
-        {
+        if (slerpAmt > 1.0) {
             slerpAmt = 1.0;
             _runPositionAnimation = NO;
         }
         GLKVector3 position = GLKVector3Lerp(_lerpStart, _lerpEnd, slerpAmt);
         viewTranslateMatrix = GLKMatrix4MakeTranslation(position.x, position.y, position.z);
-    }
-    else 
-    {
+    } else {
         viewTranslateMatrix = GLKMatrix4Translate(viewTranslateMatrix, 
                                                   self.panTranslation.x / self.view.bounds.size.width * 2.0f * cameraDistance, 
                                                   -self.panTranslation.y / self.view.bounds.size.height * 2.0f *  cameraDistance, 
@@ -437,19 +417,15 @@
     }
     
     // rotation animation
-    if (_runRotationAnimation) 
-    {
+    if (_runRotationAnimation) {
         _slerpCur += self.timeSinceLastUpdate;
         float slerpAmt = _slerpCur / _slerpMax;
-        if (slerpAmt > 1.0) 
-        {
+        if (slerpAmt > 1.0) {
             slerpAmt = 1.0;
             _runRotationAnimation = NO;
         }
         viewRotationMatrix = GLKMatrix4MakeWithQuaternion(GLKQuaternionSlerp(_slerpStart, _slerpEnd, slerpAmt));
-    } 
-    else 
-    {
+    } else {
         GLKMatrix4 viewXRot = GLKMatrix4MakeXRotation(GLKMathDegreesToRadians(_myRotation.y));
         GLKMatrix4 viewYRot = GLKMatrix4MakeYRotation(GLKMathDegreesToRadians(_myRotation.x));
         GLKMatrix4 viewZRot = GLKMatrix4MakeZRotation(_zRotation);
@@ -582,7 +558,7 @@
 
 
 - (void)makeGradientBackground
-{
+{    
     glGenVertexArraysOES(1, &backgroundVertexArray);
     glBindVertexArrayOES(backgroundVertexArray);
     
@@ -681,8 +657,7 @@
 
 -(void)handlePinchGesture:(UIPinchGestureRecognizer *)pinchGesture 
 {
-    switch (pinchGesture.state)
-    {
+    switch (pinchGesture.state) {
         case UIGestureRecognizerStateBegan:
             initialOrthoSidelength = orthoSideLength;
             lastDistance = 1.0;
@@ -869,8 +844,8 @@
         [elementTypeTVC.beamElements setOn: self.plotBeams animated:NO];
         [elementTypeTVC.edges setOn: self.plotEdges animated:NO];
         [elementTypeTVC.nodes setOn: self.plotNodes animated:NO];
-        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    } 
+//        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
     else 
     {
         [self.thePopoverController dismissPopoverAnimated:YES];
@@ -892,8 +867,8 @@
         [colorTVC.transparencySlider setValue:self.elementTransparency];
         [colorTVC.colorTypeSegment setSelectedSegmentIndex:self.colorType];
 
-        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    } 
+//        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
     else 
     {
         [self.thePopoverController dismissPopoverAnimated:YES];
@@ -934,7 +909,7 @@
                                   @"Y-axis look", 
                                   @"Z-axis look", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-    [actionSheet showFromRect:sender.frame inView:self.toolView animated:YES];
+//    [actionSheet showFromRect:sender.frame inView:self.toolView animated:YES];
 }
 
 - (IBAction)tool4Tapped:(UIButton *)sender
@@ -947,9 +922,9 @@
         optionsTableViewController.delegate = self;
         self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:optionsTableViewController];
         self.thePopoverController.delegate = self;
-        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        //[self.optionsPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    } 
+//        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//       [self.optionsPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
     else 
     {
         [self.thePopoverController dismissPopoverAnimated:YES];

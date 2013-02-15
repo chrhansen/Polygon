@@ -37,11 +37,6 @@
     [super viewDidLoad];
     self.imageQueue = dispatch_queue_create("it.calcul8.imageQueue", NULL);
     self.images = [NSMutableDictionary new];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,7 +101,8 @@
 
 - (void)configureSubitemCell:(UITableViewCell *)cell atRow:(NSUInteger)row
 {
-    NSString *filePath = self.subitems.allKeys[row];
+    NSArray *sortedKeys = [[self.subitems allKeys] sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
+    NSString *filePath = sortedKeys[row];
     
     UILabel *fileNameLabel = (UILabel *)[cell viewWithTag:2];
     fileNameLabel.text = filePath.lastPathComponent;

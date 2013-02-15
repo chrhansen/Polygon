@@ -13,7 +13,6 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.modelImageView.layer.cornerRadius = 5.0f;
 }
 
 
@@ -22,29 +21,26 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.layer.cornerRadius = 7.0;
-        self.contentView.backgroundColor = [UIColor underPageBackgroundColor];
-
     }
     return self;
 }
 
+#define CORNER_RADIUS 4
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];
-    if (newSuperview)
-    {
-        self.contentView.layer.shadowOffset = CGSizeMake(0, 0);
-        if (IS_IPAD) {
-            self.contentView.layer.shadowOpacity = 0.7;
-            self.contentView.layer.shadowRadius = 7;
-            self.contentView.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:CGRectInset(self.contentView.bounds,0,2) cornerRadius:self.modelImageView.layer.cornerRadius] CGPath];
-        } else {
-            self.contentView.layer.shadowOpacity = 0.7;
-            self.contentView.layer.shadowRadius = 5;
-            self.contentView.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:CGRectInset(self.contentView.bounds,1,3) cornerRadius:self.modelImageView.layer.cornerRadius] CGPath];
-        }
+    if (newSuperview) {
+        self.modelImageView.layer.cornerRadius = CORNER_RADIUS;
+        self.topContentView.layer.cornerRadius = CORNER_RADIUS;
+        self.modelImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.modelImageView.layer.borderWidth = 0.5f;
+        self.topContentView.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.topContentView.layer.shadowRadius = 6.0f;
+        self.topContentView.layer.shadowOpacity = 0.8f;
+        self.topContentView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+        self.topContentView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.topContentView.layer.shouldRasterize = YES;
     }
 }
 

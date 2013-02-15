@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *infoButton;
 @property (weak, nonatomic) IBOutlet UIImageView *checkMarkImageView;
 @property (weak, nonatomic) IBOutlet UIProgressView *downloadProgressView;
+@property (weak, nonatomic) IBOutlet UIView *topContentView;
 
 @end

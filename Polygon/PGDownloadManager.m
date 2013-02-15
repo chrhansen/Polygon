@@ -118,7 +118,6 @@
     [mutableMetadata removeObject:rootMetadata];
     NSString *uniqueFolderName = model.enclosingFolder.lastPathComponent;
     [self.waitingSubItems setValue:mutableMetadata forKey:uniqueFolderName];
-
     return model;
 }
 

@@ -13,7 +13,7 @@
 typedef NS_ENUM(NSUInteger, PGPaneViewControllerType) {
     PGPaneViewControllerTypeModels,
     PGPaneViewControllerTypeDropbox,
-    PGPaneViewControllerTypeOther1,
+    PGPaneViewControllerTypeStore,
     PGPaneViewControllerTypeOther2
 };
 

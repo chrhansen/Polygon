@@ -99,8 +99,7 @@
     NSDirectoryEnumerator *dirEnum = [fileManager enumeratorAtPath:self.enclosingFolder];
     NSMutableDictionary *items = [NSMutableDictionary new];
     NSString *file;
-    while (file = [dirEnum nextObject])
-    {
+    while (file = [dirEnum nextObject]) {
         NSString *filePath = [self.enclosingFolder stringByAppendingPathComponent:file];
         if ([filePath isEqualToString:origFilePath]) {
             continue;
@@ -150,8 +149,7 @@
 
 #pragma mark - Deleting models
 
-
-+ (void)deleteModels:(NSArray *)modelsToDelete completion:(void (^)(NSError *error))completion;
++ (void)deleteModels:(NSArray *)modelsToDelete completion:(void (^)(NSError *error))completion
 {
     NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
     NSError *permanentIDError;

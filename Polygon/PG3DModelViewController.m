@@ -15,14 +15,13 @@
 
 @interface PG3DModelViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) NGLMesh *mesh;
 @property (nonatomic, strong) NGLCamera *camera;
 @property (nonatomic) CGPoint panTranslation;
 @property (nonatomic) CGPoint xyRotation;
 @property (nonatomic) CGFloat zRotation;
 @property (nonatomic) CGFloat pinchScale;
 @property (nonatomic) CGFloat initialCameraDistanceZ;
-@property (nonatomic, strong) UIImage *screenshot;
+@property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
 
@@ -30,14 +29,20 @@
 
 - (void) loadView
 {
-	// Following the UIKit specifications, this method should not call the super.
-	
-	// Creates the NGLView manually, with the screen's size and sets the delegate.
 	NGLView *nglView = [[NGLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	nglView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	nglView.delegate = self;
-	
-	// Sets the NGLView as the root view of this View Controller hierarchy.
+	nglView.contentScaleFactor = 1.5f;
+    nglView.antialias = NGLAntialias4X;
+    nglGlobalColor((NGLvec4){123.0f/256.0f, 170.0f/256.0f, 239.0f/256.0f, 1.0f});
+//    nglView.backgroundColor = [UIColor redColor];
+	nglGlobalLightEffects(NGLLightEffectsON);
+    nglGlobalFPS(60);
+	nglGlobalFrontAndCullFace(NGLFrontFaceCCW, NGLCullFaceNone);
+    nglGlobalMultithreading(NGLMultithreadingParser);
+
+    nglGlobalFlush();
+
 	self.view = nglView;
 }
 
@@ -46,29 +51,37 @@
 {
     [super viewDidLoad];
     [self.navigationController.navigationBar setTranslucent:YES];
-	self.view.multipleTouchEnabled = YES;
-	[self _addGestureRecognizers];
-	//*************************
-	//	NinevehGL Stuff
-	//*************************
-	// Setting up some global adjusts.
-	nglGlobalColor((NGLvec4){123.0f/256.0f, 170.0f/256.0f, 239.0f/256.0f, 1.0f});
-	nglGlobalLightEffects(NGLLightEffectsOFF);
-	
-	// Importing the Island mesh.
-	NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
-							  @"1.0", kNGLMeshKeyNormalize,
-                              kNGLMeshCentralizeYes, kNGLMeshKeyCentralize,
-							  nil];
-	
-	_mesh = [[NGLMesh alloc] initWithFile:self.model.fullModelFilePath settings:settings delegate:self];
-	
-	// Initializing the camera and placing it into a good initial position.
-	_camera = [[NGLCamera alloc] initWithMeshes:_mesh, nil];
-	_initialCameraDistanceZ = 2.0;
-    _pinchScale = 1.0f;
+    self.title = self.model.filePath.lastPathComponent;
+    [self _addGestureRecognizers];
+    
+    NGLMesh *mesh = [self _loadMesh];
+    if (mesh) {
+        [self _startCameraWithMesh:mesh];
+    } else {
+        NSLog(@"Error: Couldn't initialize mesh");
+    }
 }
 
+
+- (NGLMesh *)_loadMesh
+{
+	NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+							  @"1.0", kNGLMeshKeyNormalize,
+                              kNGLMeshCentralizeYes, kNGLMeshKeyCentralize, nil];
+    NGLMesh *modelMesh = [[NGLMesh alloc] initWithFile:self.model.fullModelFilePath settings:settings delegate:self];
+    modelMesh.rotationSpace = NGLRotationSpaceWorld;
+	return modelMesh;
+}
+
+
+- (void)_startCameraWithMesh:(NGLMesh *)mesh
+{
+    _initialCameraDistanceZ = 2.0;
+    _pinchScale = 1.0f;
+	_camera = [[NGLCamera alloc] initWithMeshes:mesh, nil];
+    [_camera autoAdjustAspectRatio:YES animated:YES];
+    _camera.z = _initialCameraDistanceZ * 1.0f / _pinchScale;
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -85,38 +98,17 @@
 }
 
 
-- (void) drawView
-{
-	//*************************
-	//	NinevehGL Stuff
-	//*************************
-	// Getting the scalar movement from the controls.
-//	NGLvec2 trans = _left.movement;
-//	NGLvec2 pan = _right.movement;
-	
-	// Updating the camera rotations.
-//	_camera.rotateX += pan.x;
-//	_camera.rotateY -= pan.y;
-	    
-	// Updating the camera movement.
-    CGFloat aspect = self.view.bounds.size.width / self.view.bounds.size.height;
-    CGFloat xMovement = aspect * _panTranslation.x / self.view.bounds.size.width * _camera.z;
-    CGFloat yMovement = - _panTranslation.y / self.view.bounds.size.height * _camera.z;
-	[_camera translateRelativeToX:-xMovement toY:-yMovement toZ:0.0f];
-    _camera.z = _initialCameraDistanceZ * 1.0f / _pinchScale;
+- (void)drawView
+{    
+    [_camera moveRelativeTo:NGLMoveRight distance:self.panTranslation.x/self.view.bounds.size.width*0.8];
+    [_camera moveRelativeTo:NGLMoveUp distance:-self.panTranslation.y/self.view.bounds.size.height];
+    _camera.z = _initialCameraDistanceZ / _pinchScale;
     
-    _camera.pivot = nglVec3Make(_camera.position->x, _camera.position->y, _camera.position->z-5);
-
-    
-	[_camera rotateRelativeToX:_xyRotation.y toY:_xyRotation.x toZ:_zRotation];
-	
-    [self _resetTranslationsAndRotations];
+    NGLMesh *mesh = [_camera.allMeshes lastObject];
+    [mesh rotateRelativeToX:_xyRotation.y toY:_xyRotation.x toZ:-_zRotation];
     
 	[_camera drawCamera];
-    
-    self.screenshot = [(NGLView *)self.view drawToImage];
-
-//    NSLog(@"Pivot: (%f, %f, %f)", _camera.pivot.x, _camera.pivot.y, _camera.pivot.z);
+    [self _resetTranslationsAndRotations];
 }
 
 - (void)didReceiveMemoryWarning
@@ -137,14 +129,15 @@
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender
 {
+    UIImage *screenshot = [self currentViewAsModelScreenshot];
+    [self.modelViewDelegate modelViewController:self didTapDone:screenshot model:self.model];
     [(NGLView *)self.view setDelegate:nil];
-    [self.modelViewDelegate modelViewController:self didTapDone:[self currentViewAsModelScreenshot] model:self.model];
 }
 
 
 - (UIImage *)currentViewAsModelScreenshot
 {
-    return self.screenshot;
+    return [(NGLView *)self.view drawToImage];
 }
 
 - (void)_resetTranslationsAndRotations
@@ -153,6 +146,29 @@
     _xyRotation = CGPointZero;
     _zRotation = 0.0f;
 }
+
+
+#pragma mark NGLMeshloading Delegate
+- (void) meshLoadingWillStart:(NGLParsing)parsing
+{
+    self.progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
+    self.progressHUD.progress = 0.0f;
+    self.progressHUD.mode = MBProgressHUDModeAnnularDeterminate;
+    self.progressHUD.labelText = @"Loading";
+    [self.view addSubview:self.progressHUD];
+}
+
+- (void) meshLoadingProgress:(NGLParsing)parsing
+{
+    self.progressHUD.progress = parsing.progress;
+}
+
+- (void) meshLoadingDidFinish:(NGLParsing)parsing
+{
+    self.progressHUD.progress = parsing.progress;
+	[self.progressHUD hide:YES];
+}
+
 
 #pragma mark - Views Table View Controller Delegate
 - (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
@@ -236,8 +252,7 @@
 
 -(void)handlePinchGesture:(UIPinchGestureRecognizer *)pinchGesture
 {
-    switch (pinchGesture.state)
-    {
+    switch (pinchGesture.state) {
         case UIGestureRecognizerStateBegan:
             _initialCameraDistanceZ = _camera.z;
             _pinchScale = pinchGesture.scale;
