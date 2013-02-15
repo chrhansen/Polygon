@@ -152,10 +152,11 @@
 {
     PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     PGModelCollectionViewCell *modelCell = (PGModelCollectionViewCell *)cell;
-    modelCell.nameLabel.text = [aModel.modelName fitToLength:17];
+    NSUInteger titleCharacterCount = IS_IPAD ? 25 : 17;
+    modelCell.nameLabel.text = [aModel.modelName fitToLength:titleCharacterCount];
     UIImage *image = aModel.modelImage;
     if (!image) {
-        image = (IS_IPAD) ? [UIImage imageNamed:@"default_thumb_ipad"] : [UIImage imageNamed:@"default_thumb_iphone"];
+        image = IS_IPAD ? [UIImage imageNamed:@"default_thumb_ipad"] : [UIImage imageNamed:@"default_thumb_iphone"];
     }
     modelCell.modelImageView.image = image;
     modelCell.infoButton.hidden = self.isEditing;

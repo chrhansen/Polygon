@@ -91,7 +91,7 @@
 {
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(_requestFolderList)
-                                               name:DropboxLinkedNotification
+                                               name:DropboxLinkStateChangedNotification
                                              object:nil];
 }
 

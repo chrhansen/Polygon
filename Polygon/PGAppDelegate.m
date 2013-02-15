@@ -75,7 +75,6 @@
         && [[DBSession sharedSession] handleOpenURL:url]) {
         if ([[DBSession sharedSession] isLinked]) {
             [NSNotificationCenter.defaultCenter postNotificationName:DropboxLinkStateChangedNotification object:nil];
-            NSLog(@"App linked successfully!");
         }
         return YES;
     }
