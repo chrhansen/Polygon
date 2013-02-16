@@ -123,13 +123,13 @@
 - (void)_setLayoutItemSizes
 {
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    if (IS_IPAD) {
-        layout.itemSize = CGSizeMake(135, 150);
-        layout.sectionInset = UIEdgeInsetsMake(10.0, 70.0, 50, 70.0);
-    } else {
-        layout.itemSize = CGSizeMake(115, 150);
-        layout.sectionInset = UIEdgeInsetsMake(35.0, 30.0, 50, 30.0);
-    }
+//    if (IS_IPAD) {
+//        layout.itemSize = CGSizeMake(135, 165);
+//        layout.sectionInset = UIEdgeInsetsMake(10.0, 70.0, 50, 70.0);
+//    } else {
+//        layout.itemSize = CGSizeMake(115, 150);
+//        layout.sectionInset = UIEdgeInsetsMake(35.0, 30.0, 50, 30.0);
+//    }
     layout.minimumLineSpacing = 222.0f - layout.itemSize.height;
 }
 

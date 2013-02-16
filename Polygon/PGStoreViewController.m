@@ -187,7 +187,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *PortraitCellIdentifier = @"Portrait Store Cell";
+    static NSString *PortraitCellIdentifier = @"Store Cell";
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:PortraitCellIdentifier forIndexPath:indexPath];
     if (cell) [self configureCell:cell atIndexPath:indexPath];
     return cell;

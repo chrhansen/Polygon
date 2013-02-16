@@ -16,6 +16,7 @@
 @interface PG3DModelViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NGLCamera *camera;
+@property (nonatomic) BOOL shouldCreateScreenShot;
 @property (nonatomic) CGPoint panTranslation;
 @property (nonatomic) CGPoint xyRotation;
 @property (nonatomic) CGFloat zRotation;
@@ -33,9 +34,8 @@
 	nglView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	nglView.delegate = self;
 	nglView.contentScaleFactor = 1.5f;
-    nglView.antialias = NGLAntialias4X;
+//    nglView.antialias = NGLAntialias4X;
     nglGlobalColor((NGLvec4){123.0f/256.0f, 170.0f/256.0f, 239.0f/256.0f, 1.0f});
-//    nglView.backgroundColor = [UIColor redColor];
 	nglGlobalLightEffects(NGLLightEffectsON);
     nglGlobalFPS(60);
 	nglGlobalFrontAndCullFace(NGLFrontFaceCCW, NGLCullFaceNone);
@@ -52,6 +52,7 @@
     [super viewDidLoad];
     [self.navigationController.navigationBar setTranslucent:YES];
     self.title = self.model.filePath.lastPathComponent;
+    _shouldCreateScreenShot = NO;
     [self _addGestureRecognizers];
     
     NGLMesh *mesh = [self _loadMesh];
@@ -62,6 +63,17 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self _hideStatusBar];
+}
+
+
+- (void)dealloc
+{
+    
+}
 
 - (NGLMesh *)_loadMesh
 {
@@ -83,11 +95,7 @@
     _camera.z = _initialCameraDistanceZ * 1.0f / _pinchScale;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self _hideStatusBar];
-}
+
 
 
 - (void)_hideStatusBar
@@ -108,6 +116,14 @@
     [mesh rotateRelativeToX:_xyRotation.y toY:_xyRotation.x toZ:-_zRotation];
     
 	[_camera drawCamera];
+    
+    if (_shouldCreateScreenShot) {
+        UIImage *screenshot = [(NGLView *)self.view drawToImage];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self ninevehGLDidCreateScreenshot:screenshot];
+        });
+        _shouldCreateScreenShot = NO;
+    }
     [self _resetTranslationsAndRotations];
 }
 
@@ -129,15 +145,17 @@
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender
 {
-    UIImage *screenshot = [self currentViewAsModelScreenshot];
-    [self.modelViewDelegate modelViewController:self didTapDone:screenshot model:self.model];
-    [(NGLView *)self.view setDelegate:nil];
+    NGLView *nglView = (NGLView *)self.view;
+    nglView.antialias = NGLAntialiasNone;
+    _shouldCreateScreenShot = YES;
 }
 
 
-- (UIImage *)currentViewAsModelScreenshot
+#pragma mark Call back from the render thread when screenshot has been created
+- (void)ninevehGLDidCreateScreenshot:(UIImage *)screenshot
 {
-    return [(NGLView *)self.view drawToImage];
+    [(NGLView *)self.view setDelegate:nil];
+    [self.modelViewDelegate modelViewController:self didTapDone:screenshot model:self.model];
 }
 
 - (void)_resetTranslationsAndRotations
@@ -178,7 +196,7 @@
     
     PGView *currentView = [PGView createWithLocationX:position->x locationY:position->y locationZ:position->z
                                           quaternionX:rotation->x quaternionY:rotation->y quaternionZ:rotation->z quaternionW:-1.0f
-                                           screenShot:[self currentViewAsModelScreenshot]];
+                                           screenShot:nil]; // TODO: create callback/selector or equiv. to get screenshot for saved views
     return currentView;
 }
 
