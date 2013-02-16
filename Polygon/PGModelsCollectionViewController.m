@@ -152,7 +152,7 @@
 {
     PGModel *aModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     PGModelCollectionViewCell *modelCell = (PGModelCollectionViewCell *)cell;
-    NSUInteger titleCharacterCount = IS_IPAD ? 25 : 17;
+    NSUInteger titleCharacterCount = IS_IPAD ? 19 : 17;
     modelCell.nameLabel.text = [aModel.modelName fitToLength:titleCharacterCount];
     UIImage *image = aModel.modelImage;
     if (!image) {
@@ -235,7 +235,7 @@
 {
     [self _configureImage:screenshot forModel:model];
     [self dismissViewControllerAnimated:YES completion:^{
-        [model.managedObjectContext saveToPersistentStoreAndWait];
+        [model.managedObjectContext save:nil];
     }];
 }
 

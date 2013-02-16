@@ -190,12 +190,6 @@
                                                 <constraint firstAttribute="height" constant="140" id="dcy-zk-isc"/>
                                             </constraints>
                                         </imageView>
-                                        <progressView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SKh-Ja-css">
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="127" id="WsR-oN-Cb1"/>
-                                            </constraints>
-                                            <color key="progressTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        </progressView>
                                         <button opaque="NO" alpha="0.60000002384185791" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q1l-P3-soG">
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal">
@@ -208,42 +202,49 @@
                                         </button>
                                         <imageView hidden="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" image="39-circle-check.png" translatesAutoresizingMaskIntoConstraints="NO" id="dNQ-DC-jQ8">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="3" id="J37-sf-8Vq"/>
-                                                <constraint firstAttribute="height" constant="18" id="Ny3-kU-ahx"/>
+                                                <constraint firstAttribute="width" constant="18" id="TgC-DH-7w6"/>
+                                                <constraint firstAttribute="height" constant="18" id="jZJ-Mb-EQM"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBX-2r-yOa">
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="18" id="L96-xN-VTu"/>
+                                                <constraint firstAttribute="width" constant="127" id="eqb-6z-cRd"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <progressView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UMB-q7-SoS">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="118" id="V9P-C0-Cfo"/>
+                                            </constraints>
+                                            <color key="progressTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="trackTintColor" white="0.95295392339999996" alpha="1" colorSpace="calibratedWhite"/>
+                                        </progressView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstItem="qv1-Us-uum" firstAttribute="trailing" secondItem="5nu-rd-yjT" secondAttribute="trailing" type="default" id="1Zh-Lg-LaK"/>
-                                    <constraint firstItem="SKh-Ja-css" firstAttribute="bottom" secondItem="dNQ-DC-jQ8" secondAttribute="bottom" type="default" id="2FB-wi-Rbq"/>
-                                    <constraint firstItem="BDV-ZL-KdG" firstAttribute="top" secondItem="5nu-rd-yjT" secondAttribute="top" type="default" id="5eU-de-m4m"/>
-                                    <constraint firstItem="qv1-Us-uum" firstAttribute="leading" secondItem="5nu-rd-yjT" secondAttribute="leading" type="default" id="CkR-IG-Zii"/>
-                                    <constraint firstItem="BDV-ZL-KdG" firstAttribute="trailing" secondItem="5nu-rd-yjT" secondAttribute="trailing" type="default" id="FdZ-n8-vmm"/>
-                                    <constraint firstItem="qv1-Us-uum" firstAttribute="top" secondItem="5nu-rd-yjT" secondAttribute="top" type="default" id="LTf-uJ-xkg"/>
-                                    <constraint firstItem="OBX-2r-yOa" firstAttribute="top" secondItem="BDV-ZL-KdG" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Lzc-yA-pLB"/>
-                                    <constraint firstAttribute="trailing" secondItem="q1l-P3-soG" secondAttribute="trailing" constant="5" type="user" id="UVF-h7-UOt"/>
-                                    <constraint firstItem="q1l-P3-soG" firstAttribute="top" secondItem="dNQ-DC-jQ8" secondAttribute="top" type="default" id="Wzt-ZB-bIh"/>
-                                    <constraint firstItem="OBX-2r-yOa" firstAttribute="trailing" secondItem="SKh-Ja-css" secondAttribute="trailing" type="default" id="cEq-3j-aET"/>
-                                    <constraint firstAttribute="bottom" secondItem="SKh-Ja-css" secondAttribute="bottom" constant="34" id="evH-er-Nqh"/>
-                                    <constraint firstItem="SKh-Ja-css" firstAttribute="leading" secondItem="OBX-2r-yOa" secondAttribute="leading" type="default" id="nkj-dW-9Hq"/>
-                                    <constraint firstItem="SKh-Ja-css" firstAttribute="centerX" secondItem="BDV-ZL-KdG" secondAttribute="centerX" type="default" id="pK5-zK-Ml5"/>
-                                    <constraint firstAttribute="trailing" secondItem="dNQ-DC-jQ8" secondAttribute="trailing" constant="20" type="default" id="pNy-EO-tbU"/>
-                                    <constraint firstAttribute="bottom" secondItem="OBX-2r-yOa" secondAttribute="bottom" constant="4" id="xpP-KB-43A"/>
-                                    <constraint firstItem="BDV-ZL-KdG" firstAttribute="leading" secondItem="5nu-rd-yjT" secondAttribute="leading" type="default" id="xv6-rD-cWA"/>
+                                    <constraint firstItem="UMB-q7-SoS" firstAttribute="centerX" secondItem="OBX-2r-yOa" secondAttribute="centerX" type="default" id="0j8-7M-m2j"/>
+                                    <constraint firstItem="qv1-Us-uum" firstAttribute="trailing" secondItem="5nu-rd-yjT" secondAttribute="trailing" type="default" id="2Sg-Bq-qWu"/>
+                                    <constraint firstItem="qv1-Us-uum" firstAttribute="leading" secondItem="5nu-rd-yjT" secondAttribute="leading" type="default" id="B6U-5S-iuT"/>
+                                    <constraint firstItem="BDV-ZL-KdG" firstAttribute="top" secondItem="5nu-rd-yjT" secondAttribute="top" type="default" id="BxM-gB-gPW"/>
+                                    <constraint firstAttribute="bottom" secondItem="BDV-ZL-KdG" secondAttribute="bottom" constant="38" id="HA6-Fo-HnC"/>
+                                    <constraint firstItem="OBX-2r-yOa" firstAttribute="top" secondItem="UMB-q7-SoS" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Hqj-pp-nRk"/>
+                                    <constraint firstAttribute="trailing" secondItem="dNQ-DC-jQ8" secondAttribute="trailing" constant="7" id="JVy-6P-WIi"/>
+                                    <constraint firstAttribute="bottom" secondItem="dNQ-DC-jQ8" secondAttribute="bottom" constant="32" id="Lqu-XS-238"/>
+                                    <constraint firstItem="qv1-Us-uum" firstAttribute="top" secondItem="5nu-rd-yjT" secondAttribute="top" type="default" id="UiU-Or-05S"/>
+                                    <constraint firstItem="BDV-ZL-KdG" firstAttribute="trailing" secondItem="5nu-rd-yjT" secondAttribute="trailing" type="default" id="XqI-0p-NAu"/>
+                                    <constraint firstItem="UMB-q7-SoS" firstAttribute="centerX" secondItem="BDV-ZL-KdG" secondAttribute="centerX" type="default" id="bkU-ye-xAc"/>
+                                    <constraint firstItem="BDV-ZL-KdG" firstAttribute="leading" secondItem="5nu-rd-yjT" secondAttribute="leading" type="default" id="fNx-aH-R5R"/>
+                                    <constraint firstItem="dNQ-DC-jQ8" firstAttribute="top" secondItem="q1l-P3-soG" secondAttribute="top" type="default" id="h9A-lU-a7b"/>
+                                    <constraint firstAttribute="bottom" secondItem="UMB-q7-SoS" secondAttribute="bottom" constant="30" id="t4m-8C-EpW"/>
+                                    <constraint firstItem="dNQ-DC-jQ8" firstAttribute="leading" secondItem="q1l-P3-soG" secondAttribute="leading" type="default" id="tf3-3x-AB1"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="checkMarkImageView" destination="dNQ-DC-jQ8" id="u2f-Pu-Wzr"/>
-                                    <outlet property="downloadProgressView" destination="SKh-Ja-css" id="Jyz-KR-bm7"/>
+                                    <outlet property="downloadProgressView" destination="UMB-q7-SoS" id="F0W-OI-hsE"/>
                                     <outlet property="infoButton" destination="q1l-P3-soG" id="rtl-MX-nEB"/>
                                     <outlet property="modelImageView" destination="qv1-Us-uum" id="3wc-Fa-rRT"/>
                                     <outlet property="nameLabel" destination="OBX-2r-yOa" id="erd-zr-D1x"/>
@@ -649,6 +650,7 @@
         <class className="PGStoreViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreViewController.h"/>
             <relationships>
+                <relationship kind="action" name="restoreTapped:"/>
                 <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>

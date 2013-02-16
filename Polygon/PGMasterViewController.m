@@ -25,14 +25,12 @@
         self.paneViewControllerTitles = @{
         @(PGPaneViewControllerTypeModels) : @"Models",
         @(PGPaneViewControllerTypeDropbox) : @"Dropbox",
-        @(PGPaneViewControllerTypeStore) : @"Store",
-        @(PGPaneViewControllerTypeOther2) : @"Other 2"
+        @(PGPaneViewControllerTypeStore) : @"Store"
         };
         self.paneViewControllerIdentifiers = @{
         @(PGPaneViewControllerTypeModels) : @"modelsCollectionViewController",
         @(PGPaneViewControllerTypeDropbox) : @"dropboxViewController",
-        @(PGPaneViewControllerTypeStore) : @"storeViewController",
-        @(PGPaneViewControllerTypeOther2) : @"otherViewController",
+        @(PGPaneViewControllerTypeStore) : @"storeViewController"
         };
     }
     return self;

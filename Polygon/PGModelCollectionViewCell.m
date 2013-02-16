@@ -10,11 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 @implementation PGModelCollectionViewCell
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-}
-
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -32,9 +27,12 @@
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
         self.modelImageView.layer.cornerRadius = CORNER_RADIUS;
-        self.topContentView.layer.cornerRadius = CORNER_RADIUS;
         self.modelImageView.layer.borderColor = [UIColor whiteColor].CGColor;
         self.modelImageView.layer.borderWidth = 0.5f;
+        self.modelImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.modelImageView.layer.shouldRasterize = YES;
+        
+        self.topContentView.layer.cornerRadius = CORNER_RADIUS;
         self.topContentView.layer.shadowColor = [UIColor blackColor].CGColor;
         self.topContentView.layer.shadowRadius = 6.0f;
         self.topContentView.layer.shadowOpacity = 0.8f;

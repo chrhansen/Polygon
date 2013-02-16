@@ -6,6 +6,11 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
+typedef enum {
+    PGAfterScreenShotStateDone,
+    PGAfterScreenShotStateStayAppeared,
+} PGAfterScreenShotState;
+
 #import "PG3DModelViewController.h"
 #import "PGModel+Management.h"
 #import <NinevehGL/NinevehGL.h>
@@ -17,6 +22,7 @@
 
 @property (nonatomic, strong) NGLCamera *camera;
 @property (nonatomic) BOOL shouldCreateScreenShot;
+@property (nonatomic) PGAfterScreenShotState afterScreenShotState;
 @property (nonatomic) CGPoint panTranslation;
 @property (nonatomic) CGPoint xyRotation;
 @property (nonatomic) CGFloat zRotation;
@@ -34,13 +40,13 @@
 	nglView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	nglView.delegate = self;
 	nglView.contentScaleFactor = 1.5f;
-//    nglView.antialias = NGLAntialias4X;
+    nglView.antialias = NGLAntialias4X;
     nglGlobalColor((NGLvec4){123.0f/256.0f, 170.0f/256.0f, 239.0f/256.0f, 1.0f});
 	nglGlobalLightEffects(NGLLightEffectsON);
     nglGlobalFPS(60);
 	nglGlobalFrontAndCullFace(NGLFrontFaceCCW, NGLCullFaceNone);
-    nglGlobalMultithreading(NGLMultithreadingParser);
-
+    nglGlobalMultithreading(NGLMultithreadingNone);
+    self.afterScreenShotState = PGAfterScreenShotStateStayAppeared;
     nglGlobalFlush();
 
 	self.view = nglView;
@@ -147,6 +153,7 @@
 {
     NGLView *nglView = (NGLView *)self.view;
     nglView.antialias = NGLAntialiasNone;
+    self.afterScreenShotState = PGAfterScreenShotStateDone;
     _shouldCreateScreenShot = YES;
 }
 
@@ -154,8 +161,19 @@
 #pragma mark Call back from the render thread when screenshot has been created
 - (void)ninevehGLDidCreateScreenshot:(UIImage *)screenshot
 {
-    [(NGLView *)self.view setDelegate:nil];
-    [self.modelViewDelegate modelViewController:self didTapDone:screenshot model:self.model];
+    switch (self.afterScreenShotState) {
+        case PGAfterScreenShotStateStayAppeared:
+            // Do nothing
+            break;
+            
+        case PGAfterScreenShotStateDone:
+            [(NGLView *)self.view setDelegate:nil];
+            [self.modelViewDelegate modelViewController:self didTapDone:screenshot model:self.model];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)_resetTranslationsAndRotations
