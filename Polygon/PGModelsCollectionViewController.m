@@ -17,7 +17,6 @@
 #import "TSPopoverController.h"
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+Resize.h"
-#import "UINavigationBar+Design.h"
 #import "NSString+_Format.h"
 
 @interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
@@ -86,11 +85,6 @@
 }
 
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self.navigationController.navigationBar configureShadow];
-}
-
 - (void)_showStatusBar
 {
     if ([[UIApplication sharedApplication] isStatusBarHidden]) {
@@ -125,13 +119,6 @@
 - (void)_setLayoutItemSizes
 {
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-//    if (IS_IPAD) {
-//        layout.itemSize = CGSizeMake(135, 165);
-//        layout.sectionInset = UIEdgeInsetsMake(10.0, 70.0, 50, 70.0);
-//    } else {
-//        layout.itemSize = CGSizeMake(115, 150);
-//        layout.sectionInset = UIEdgeInsetsMake(35.0, 30.0, 50, 30.0);
-//    }
     layout.minimumLineSpacing = 222.0f - layout.itemSize.height;
 }
 
@@ -379,7 +366,7 @@
 {
     PGModel *selectedModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-
+    
     switch (self.isEditing)
     {
         case YES:

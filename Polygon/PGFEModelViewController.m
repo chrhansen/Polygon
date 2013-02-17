@@ -6,22 +6,26 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#define PI_2 1.570796327
+#define PI 3.141592653
+#define ROT 6.283185306
+
 #import "PGFEModelViewController.h"
 #import "PGModel+Management.h"
 #import "AnsysModel.h"
 #import "BackgroundVertices.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Resize.h"
-#import "OptionsTableViewController.h"
-#import "ElementTypeTableViewController.h"
-#import "ColorTableViewController.h"
+#import "PGElementTypeViewController.h"
+#import "PGTransparencyViewController.h"
 #import "PGViewsTableViewController.h"
 #import <CoreMotion/CoreMotion.h>
 #import "UIImage+RoundedCorner.h"
 #import "PGView+Management.h"
-#import "UINavigationBar+Design.h"
+#import "UIBarButtonItem+Customview.h"
+#import "PopoverView.h"
 
-@interface PGFEModelViewController ()  <UIGestureRecognizerDelegate, OptionsTableViewControllerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, ElementTypeTableViewControllerDelegate, ColorTableViewControllerDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, ViewsTableViewControllerDelegate>
+@interface PGFEModelViewController ()  <UIGestureRecognizerDelegate, UIPopoverControllerDelegate, AnsysModelDelegate, PGElementTypeDelegate, PGTransparencyDelegate, MBProgressHUDDelegate, UIActionSheetDelegate, ViewsTableViewControllerDelegate, PopoverViewDelegate>
 {    
     NSArray *_names;
     NSArray *_paths;
@@ -113,6 +117,8 @@
 @property (nonatomic) BOOL plotNodes;
 @property (nonatomic) CGFloat elementTransparency;
 @property (nonatomic) NSUInteger colorType;
+@property (nonatomic, strong) PopoverView *popoverView;
+@property (nonatomic, strong) UIViewController *popoverContentViewController;
 
 @end
 
@@ -124,6 +130,7 @@
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bigModelLimitPassed:) name:PolygonModelTypeNotPurchased object:nil];
     self.title = self.model.filePath.lastPathComponent;
     [self.navigationController.navigationBar setTranslucent:YES];
+    [self _configureToolBarButtonItems];
     [self setupBasicGL];
     [self makeGradientBackground];
     [self loadModelFile];
@@ -181,12 +188,6 @@
 }
 
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self.navigationController.navigationBar configureShadow];
-}
-
-
 - (void)didReceiveMemoryWarning
 {
     NSLog(@"Memory warning for model: %@", self.model.fullModelFilePath);
@@ -201,6 +202,18 @@
         [(PGViewsTableViewController *)navigationController.topViewController setDelegate:self];
         [(PGViewsTableViewController *)navigationController.topViewController setModel:self.model];
     }
+}
+
+
+- (void)_configureToolBarButtonItems
+{
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *elemTypeBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0159"] style:UIBarButtonItemStylePlain target:self action:@selector(elementTypeTapped:)];
+    UIBarButtonItem *transparencyBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"62-contrast"] style:UIBarButtonItemStylePlain target:self action:@selector(transparencyTapped:)];
+    UIBarButtonItem *lookAtBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0219"] style:UIBarButtonItemStylePlain target:self action:@selector(lookAtTapped:)];
+    UIBarButtonItem *orthoPerspBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0206"] style:UIBarButtonItemStylePlain target:self action:@selector(orthoPerspectiveTapped:)];
+    UIBarButtonItem *resetBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0300"] style:UIBarButtonItemStylePlain target:self action:@selector(resetTapped:)];
+    [self setToolbarItems:@[flexibleSpace, elemTypeBarButton, transparencyBarButton, lookAtBarButton, orthoPerspBarButton, resetBarButton, flexibleSpace]];
 }
 
 - (void)loadModelFile
@@ -442,7 +455,7 @@
     
     _modelViewMatrix = GLKMatrix4Multiply(_viewMatrix, _modelMatrix);
     
-    if (self.isPerpective) {
+    if (_isPerpective) {
         _projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.01f, _farZ);
     } else {
         float halfWidth = cameraDistance*0.5;
@@ -623,10 +636,9 @@
 # pragma mark - Gesture actions
 - (void)handlePanGesture:(UIPanGestureRecognizer *)panGesture
 {
-    if (!self.navigationController.navigationBar.isHidden) [self _hideNavigationBar:YES];
+    if (!self.navigationController.navigationBar.isHidden) [self _hideNavigationBarAndToolsView:YES];
     
-    switch (panGesture.state)
-    {
+    switch (panGesture.state) {
         case UIGestureRecognizerStateChanged:
         case UIGestureRecognizerStateEnded:
         {
@@ -688,8 +700,7 @@
 
 -(void)handleRotationGesture:(UIRotationGestureRecognizer *)rotationGesture
 {
-    switch (rotationGesture.state)
-    {
+    switch (rotationGesture.state) {
         case UIGestureRecognizerStateChanged:
         case UIGestureRecognizerStateEnded:
             _zRotation = - 2.0f * rotationGesture.rotation;
@@ -705,24 +716,28 @@
 - (void)handleSingleTapGesture:(UITapGestureRecognizer *)singleTapGesture
 {
     if (singleTapGesture.state == UIGestureRecognizerStateEnded) {
-        [self _hideNavigationBar:!self.navigationController.navigationBar.isHidden];
+        [self _hideNavigationBarAndToolsView:!self.navigationController.navigationBar.isHidden];
     }
 }
 
 
-- (void)_hideNavigationBar:(BOOL)shouldHide
+- (void)_hideNavigationBarAndToolsView:(BOOL)shouldHide
 {
     UINavigationBar *navBar = self.navigationController.navigationBar;
+    UIToolbar *toolBar = self.navigationController.toolbar;
     CGFloat endAlpha = 0.0f;
     if (!shouldHide) {
         endAlpha = 1.0f;
         [self.navigationController setNavigationBarHidden:NO animated:NO];
+        [self.navigationController setToolbarHidden:NO animated:NO];
     }
-        
-    [UIView animateWithDuration:0.2f
-                     animations:^{navBar.alpha = endAlpha;}
-                     completion:^(BOOL finished){ [self.navigationController setNavigationBarHidden:shouldHide animated:NO];
-                     }];
+    [UIView animateWithDuration:0.2f animations:^{
+        navBar.alpha = endAlpha;
+        toolBar.alpha = endAlpha;
+    } completion:^(BOOL finished){
+        [navBar setHidden:shouldHide];
+        [toolBar setHidden:shouldHide];
+    }];
 }
 
 
@@ -757,8 +772,7 @@
 - (IBAction)viewsTapped:(UIBarButtonItem *)sender
 {
     [self dismissPopopoverIfVisible];
-    if (!self.thePopoverController.isPopoverVisible)
-    {
+    if (!self.thePopoverController.isPopoverVisible) {
         NSLog(@"IMplement show the views table view controller popover");
         //        ViewsTableViewController *viewsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Views Table View Controller"];
         //        viewsTableViewController.delegate = self;
@@ -766,20 +780,11 @@
         //        self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
 //        self.thePopoverController.delegate = self;
 //        [self.thePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
-    }
-    else 
-    {
+    } else {
         [self.thePopoverController dismissPopoverAnimated:NO];
         self.thePopoverController = nil;
     }
     
-}
-
-
-#pragma mark - OptionsTableViewController Delegate methods
-- (void)perspectiveOrthoWasChanged:(UISegmentedControl *)sender
-{
-    self.isPerpective = !sender.selectedSegmentIndex;
 }
 
 
@@ -821,59 +826,77 @@
 #pragma mark - Tool overlay view buttons
 - (void)dismissPopopoverIfVisible
 {
-    if (self.thePopoverController.isPopoverVisible) 
-    {
+    if (self.thePopoverController.isPopoverVisible) {
         [self.thePopoverController dismissPopoverAnimated:YES];
         self.thePopoverController = nil;
     }
 }
 
-
-- (IBAction)tool1Tapped:(UIButton *)sender
+#pragma mark - Popoverview delegate
+- (void)popoverViewDidDismiss:(PopoverView *)popoverView
 {
-    [self dismissPopopoverIfVisible];
-    
-    if (!self.thePopoverController.isPopoverVisible) 
-    {
-        ElementTypeTableViewController *elementTypeTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Element Type View Controller"];
-        elementTypeTVC.delegate = self;
-        self.thePopoverController = [UIPopoverController.alloc initWithContentViewController:elementTypeTVC];
-        self.thePopoverController.delegate = self;
-        [elementTypeTVC.solidElements setOn: self.plotSolids animated:NO];
-        [elementTypeTVC.shellElements setOn: self.plotShells animated:NO];
-        [elementTypeTVC.beamElements setOn: self.plotBeams animated:NO];
-        [elementTypeTVC.edges setOn: self.plotEdges animated:NO];
-        [elementTypeTVC.nodes setOn: self.plotNodes animated:NO];
-//        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.popoverContentViewController removeFromParentViewController];
+    self.popoverContentViewController = nil;
+}
+
+#define ORTHO_PERSPECTIVE_TAG 10
+#define LOOK_AT_TAG 20
+
+- (void)popoverView:(PopoverView *)popoverView didSelectItemAtIndex:(NSInteger)index
+{
+    switch (popoverView.tag) {
+        case ORTHO_PERSPECTIVE_TAG:
+            self.isPerpective = (index == 0) ? YES : NO;
+            break;
+            
+        case LOOK_AT_TAG:
+            switch (index) {
+                case 0:
+                    [self animationToEndOrientation:GLKQuaternionMakeWithAngleAndAxis(PI_2, 0.0, 1.0, 0.0)];
+                    break;
+                    
+                case 1:
+                    [self animationToEndOrientation:GLKQuaternionMakeWithAngleAndAxis(PI_2, 1.0, 0.0, 0.0)];
+                    break;
+                    
+                case 2:
+                    [self animationToEndOrientation:GLKQuaternionMakeWithAngleAndAxis(0.0, 0.0, 0.0, 1.0)];
+                    break;
+            }
+            break;
+            
+        default:
+            break;
     }
-    else 
-    {
-        [self.thePopoverController dismissPopoverAnimated:YES];
-        self.thePopoverController = nil;
-    }
+    [popoverView dismiss:YES];
+}
+
+- (void)elementTypeTapped:(UIButton *)sender
+{
+    PGElementTypeViewController *elementTypeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"testViewController"];
+    elementTypeVC.delegate = self;
+    self.popoverContentViewController = elementTypeVC;
+    elementTypeVC.view.frame = CGRectMake(0, 0, 280, 180);
+    self.popoverView = [PopoverView showPopoverAtPoint:sender.center inView:self.navigationController.toolbar withContentView:elementTypeVC.view delegate:self];
+    [elementTypeVC didMoveToParentViewController:self];
+    elementTypeVC.solidElements.on = self.plotSolids;
+    elementTypeVC.shellElements.on = self.plotShells;
+    elementTypeVC.beamElements.on = self.plotBeams;
+    elementTypeVC.edges.on = self.plotEdges;
 }
 
 
-- (IBAction)tool2Tapped:(UIButton *)sender
-{
-    [self dismissPopopoverIfVisible];
-    
-    if (!self.thePopoverController.isPopoverVisible) 
-    {
-        ColorTableViewController *colorTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"Color Type View Controller"];
-        colorTVC.delegate = self;
-        self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:colorTVC];
-        self.thePopoverController.delegate = self;
-        [colorTVC.transparencySlider setValue:self.elementTransparency];
-        [colorTVC.colorTypeSegment setSelectedSegmentIndex:self.colorType];
 
-//        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-    else 
-    {
-        [self.thePopoverController dismissPopoverAnimated:YES];
-        self.thePopoverController = nil;
-    }
+
+- (void)transparencyTapped:(UIButton *)sender
+{
+    PGTransparencyViewController *transparencyVC = [self.storyboard instantiateViewControllerWithIdentifier:@"transparencyViewController"];
+    transparencyVC.delegate = self;
+    self.popoverContentViewController = transparencyVC;
+    transparencyVC.view.frame = CGRectMake(0, 0, 250, 100);
+    self.popoverView = [PopoverView showPopoverAtPoint:sender.center inView:self.navigationController.toolbar withContentView:transparencyVC.view delegate:self];
+    [transparencyVC didMoveToParentViewController:self];
+    [transparencyVC.transparencySlider setValue:self.elementTransparency];
 }
 
 
@@ -897,49 +920,23 @@
 }
 
 
-- (IBAction)tool3Tapped:(UIButton *)sender
+- (void)lookAtTapped:(UIButton *)sender
 {
-    [self dismissPopopoverIfVisible];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self 
-                                                    cancelButtonTitle:nil 
-                                               destructiveButtonTitle:nil 
-                                                    otherButtonTitles:
-                                  @"X-axis look", 
-                                  @"Y-axis look", 
-                                  @"Z-axis look", nil];
-    actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-//    [actionSheet showFromRect:sender.frame inView:self.toolView animated:YES];
-}
-
-- (IBAction)tool4Tapped:(UIButton *)sender
-{
-    [self dismissPopopoverIfVisible];
-
-    if (!self.thePopoverController.isPopoverVisible) 
-    {
-        OptionsTableViewController *optionsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"3D View Options Controller"];
-        optionsTableViewController.delegate = self;
-        self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:optionsTableViewController];
-        self.thePopoverController.delegate = self;
-//        [self.thePopoverController presentPopoverFromRect:sender.frame inView:self.toolView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-//       [self.optionsPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-    else 
-    {
-        [self.thePopoverController dismissPopoverAnimated:YES];
-        self.thePopoverController = nil;
-    }
+    self.popoverView = [PopoverView showPopoverAtPoint:sender.center inView:self.navigationController.toolbar withTitle:NSLocalizedString(@"Look-at Axis", nil) withStringArray:@[NSLocalizedString(@"X-Axis", nil), NSLocalizedString(@"Y-Axis", nil), NSLocalizedString(@"Z-Axis", nil)] delegate:self];
+    self.popoverView.tag = LOOK_AT_TAG;
 }
 
 
-#define PI_2 1.570796327
-#define PI 3.141592653
-#define ROT 6.283185306
-- (IBAction)tool5Tapped:(id)sender
+- (void)orthoPerspectiveTapped:(UIButton *)sender
+{
+    self.popoverView = [PopoverView showPopoverAtPoint:sender.center inView:self.navigationController.toolbar withTitle:NSLocalizedString(@"View Mode", nil) withStringArray:@[NSLocalizedString(@"Perspective", nil), NSLocalizedString(@"Orthographic", nil)] delegate:self];
+    self.popoverView.tag = ORTHO_PERSPECTIVE_TAG;
+}
+
+
+- (void)resetTapped:(id)sender
 {
     [self dismissPopopoverIfVisible];
-    
     [self animateToReset];
 }
 
@@ -954,27 +951,6 @@
     [self animateCameraToEndLocation:GLKVector3Make(0.0, 0.0, -2*boundingBox.lengthMax)];
 }
 
-
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)index
-{
-    switch (index) {
-        case 0:
-            [self animationToEndOrientation:GLKQuaternionMakeWithAngleAndAxis(PI_2, 0.0, 1.0, 0.0)];
-            break;
-            
-        case 1:
-            [self animationToEndOrientation:GLKQuaternionMakeWithAngleAndAxis(PI_2, 1.0, 0.0, 0.0)];
-            break;
-            
-        case 2:
-            [self animationToEndOrientation:GLKQuaternionMakeWithAngleAndAxis(0.0, 0.0, 0.0, 1.0)];
-            break;
-            
-        default:
-            break;
-    }
-}
 
 - (void)showAnnularProgressHUD
 {
@@ -1040,19 +1016,15 @@
 
 - (BOOL)shouldContinueAfterNodeCountLimitPassed:(NSUInteger)allowedNodeCount forModel:(NSString *)fileName
 {
-    if ([self fileTypeIsPurchased:fileName]) 
-    {
+    if ([self fileTypeIsPurchased:fileName]) {
         return YES;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.progressHUD hide:YES];
         //[self.delegate doneButtonTapped:self];
         
-        [NSNotificationCenter.defaultCenter postNotificationName:PolygonModelTypeNotPurchased 
-                                                          object:self 
-                                                        userInfo:[NSDictionary dictionaryWithObject:fileName forKey:@"filename"]];
+        [NSNotificationCenter.defaultCenter postNotificationName:PolygonModelTypeNotPurchased object:self userInfo:[NSDictionary dictionaryWithObject:fileName forKey:@"filename"]];
     }); 
-
     return NO;
 }
 

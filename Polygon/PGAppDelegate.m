@@ -8,7 +8,7 @@
 
 #import "PGAppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
-
+#import "PGStyleController.h"
 #import "MSNavigationPaneViewController.h"
 #import "PGMasterViewController.h"
 
@@ -28,6 +28,7 @@
     navigationPaneViewController.masterViewController = masterViewController;
     [masterViewController transitionToViewController:PGPaneViewControllerTypeModels];
     
+    [PGStyleController applyAppearance];
     return YES;
 }
 							
