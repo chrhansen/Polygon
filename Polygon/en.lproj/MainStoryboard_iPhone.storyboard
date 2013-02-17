@@ -166,11 +166,11 @@
                             <size key="itemSize" width="115" height="150"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                            <inset key="sectionInset" minX="30" minY="33" maxX="30" maxY="25"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Model Cell" id="Rm3-wK-CJK" customClass="PGModelCollectionViewCell">
-                                <rect key="frame" x="10" y="10" width="115" height="150"/>
+                                <rect key="frame" x="30" y="33" width="115" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="115" height="150"/>
@@ -219,21 +219,21 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
+                                    <constraint firstItem="UEI-qp-C5f" firstAttribute="bottom" secondItem="ch4-sX-WtM" secondAttribute="bottom" type="default" id="0Ws-OG-Swy"/>
                                     <constraint firstAttribute="bottom" secondItem="FrZ-Tn-AMl" secondAttribute="bottom" constant="32" id="1NZ-J6-LJJ"/>
                                     <constraint firstAttribute="trailing" secondItem="OKR-U1-y6c" secondAttribute="trailing" constant="5" type="user" id="4Ts-AP-Dtv"/>
-                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="top" secondItem="Rm3-wK-CJK" secondAttribute="top" type="default" id="6NW-eX-YuV"/>
-                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="trailing" secondItem="Rm3-wK-CJK" secondAttribute="trailing" type="default" id="9o4-iB-Oaq"/>
-                                    <constraint firstItem="NDX-2h-0jh" firstAttribute="leading" secondItem="Rm3-wK-CJK" secondAttribute="leading" type="default" id="BE0-fE-t12"/>
-                                    <constraint firstAttribute="bottom" secondItem="Fy1-oP-7P2" secondAttribute="bottom" constant="4" id="H2R-cf-nYY"/>
-                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="top" secondItem="Rm3-wK-CJK" secondAttribute="top" type="default" id="Skh-L1-fuE"/>
-                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="leading" secondItem="Rm3-wK-CJK" secondAttribute="leading" type="default" id="Tj2-Sf-r3f"/>
-                                    <constraint firstItem="Fy1-oP-7P2" firstAttribute="top" secondItem="UEI-qp-C5f" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="UEk-EG-chx"/>
+                                    <constraint firstAttribute="bottom" secondItem="Fy1-oP-7P2" secondAttribute="bottom" constant="2" id="6iX-fK-mdj"/>
+                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="trailing" secondItem="Rm3-wK-CJK" secondAttribute="trailing" type="default" id="Bh7-zM-JVv"/>
+                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="leading" secondItem="NDX-2h-0jh" secondAttribute="leading" type="default" id="GGc-Jz-S4Q"/>
+                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="leading" secondItem="Rm3-wK-CJK" secondAttribute="leading" type="default" id="UAY-uA-5Pl"/>
                                     <constraint firstItem="UEI-qp-C5f" firstAttribute="centerX" secondItem="Fy1-oP-7P2" secondAttribute="centerX" type="default" id="WBu-Sz-TQa"/>
-                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="trailing" secondItem="Rm3-wK-CJK" secondAttribute="trailing" type="default" id="ikg-Us-azr"/>
+                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="top" secondItem="NDX-2h-0jh" secondAttribute="top" type="default" id="aKC-P8-WYE"/>
+                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="top" secondItem="Rm3-wK-CJK" secondAttribute="top" type="default" id="ehf-Az-RRc"/>
                                     <constraint firstItem="ch4-sX-WtM" firstAttribute="centerX" secondItem="UEI-qp-C5f" secondAttribute="centerX" type="default" id="lip-11-bJE"/>
-                                    <constraint firstItem="Fy1-oP-7P2" firstAttribute="top" secondItem="ch4-sX-WtM" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="v4x-rJ-EbH"/>
+                                    <constraint firstAttribute="bottom" secondItem="ch4-sX-WtM" secondAttribute="bottom" constant="30" id="qvy-eM-Iel"/>
                                     <constraint firstAttribute="bottom" secondItem="OKR-U1-y6c" secondAttribute="bottom" constant="33" id="wxC-Ck-w6l"/>
                                     <constraint firstItem="FrZ-Tn-AMl" firstAttribute="leading" secondItem="OKR-U1-y6c" secondAttribute="leading" type="default" id="xlv-48-y7m"/>
+                                    <constraint firstItem="ch4-sX-WtM" firstAttribute="trailing" secondItem="NDX-2h-0jh" secondAttribute="trailing" type="default" id="yYJ-eF-VUg"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="checkMarkImageView" destination="OKR-U1-y6c" id="uXx-VD-exg"/>
@@ -671,22 +671,20 @@
                             <inset key="sectionInset" minX="30" minY="0.0" maxX="30" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Portrait Store Cell" id="Wt7-mu-PQt" customClass="PGStoreCell">
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Store Cell" id="Wt7-mu-PQt" customClass="PGStoreCell">
                                 <rect key="frame" x="30" y="52" width="260" height="400"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="260" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3x-pu-xHJ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3x-pu-xHJ">
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="180" id="fr2-V0-tLf"/>
-                                            </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ok4-cS-r4i">
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="39" id="Tbf-tU-Ou2"/>
+                                                <constraint firstAttribute="width" constant="100" id="nbl-Ft-zsq"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" title="Button">
@@ -697,18 +695,18 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="159" translatesAutoresizingMaskIntoConstraints="NO" id="clJ-jl-yKj">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="137" translatesAutoresizingMaskIntoConstraints="NO" id="clJ-jl-yKj">
                                             <constraints>
+                                                <constraint firstAttribute="width" constant="137" id="BSk-sm-KMW"/>
                                                 <constraint firstAttribute="height" constant="62" id="Ywb-8F-KsV"/>
-                                                <constraint firstAttribute="width" constant="159" id="vh5-gI-mTG"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="PSN-Oj-zDS">
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="122" id="bTg-o0-DXS"/>
+                                                <constraint firstAttribute="height" priority="592" constant="122" type="user" id="bTg-o0-DXS"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -719,91 +717,24 @@
                                 </view>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="g3x-pu-xHJ" secondAttribute="trailing" constant="10" type="user" id="2HX-cY-XzF"/>
+                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="top" secondItem="clJ-jl-yKj" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="98v-eU-Opo"/>
                                     <constraint firstItem="clJ-jl-yKj" firstAttribute="baseline" secondItem="ok4-cS-r4i" secondAttribute="baseline" type="default" id="Gfa-5b-mxN"/>
-                                    <constraint firstItem="clJ-jl-yKj" firstAttribute="top" secondItem="g3x-pu-xHJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="JFH-Yl-O7e"/>
-                                    <constraint firstItem="g3x-pu-xHJ" firstAttribute="top" secondItem="Wt7-mu-PQt" secondAttribute="top" constant="10" id="Vw1-4C-YMP"/>
-                                    <constraint firstItem="ok4-cS-r4i" firstAttribute="leading" secondItem="clJ-jl-yKj" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="ZMt-fo-wFM"/>
+                                    <constraint firstItem="g3x-pu-xHJ" firstAttribute="top" secondItem="Wt7-mu-PQt" secondAttribute="top" constant="10" type="user" id="Nho-mD-H6Z"/>
+                                    <constraint firstItem="ok4-cS-r4i" firstAttribute="trailing" secondItem="PSN-Oj-zDS" secondAttribute="trailing" type="default" id="TCy-aW-gkV"/>
+                                    <constraint firstItem="ok4-cS-r4i" firstAttribute="trailing" secondItem="g3x-pu-xHJ" secondAttribute="trailing" type="default" id="ZdF-ak-U9e"/>
                                     <constraint firstItem="ok4-cS-r4i" firstAttribute="top" secondItem="g3x-pu-xHJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="b0z-qV-caT"/>
-                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="top" secondItem="clJ-jl-yKj" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="c0d-YA-gQ6"/>
-                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="centerX" secondItem="Wt7-mu-PQt" secondAttribute="centerX" type="default" id="dwr-j6-oCS"/>
-                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="leading" secondItem="clJ-jl-yKj" secondAttribute="leading" type="default" id="hTs-uV-wNp"/>
-                                    <constraint firstItem="clJ-jl-yKj" firstAttribute="leading" secondItem="g3x-pu-xHJ" secondAttribute="leading" type="default" id="mkd-0T-JxR"/>
-                                    <constraint firstItem="ok4-cS-r4i" firstAttribute="trailing" secondItem="g3x-pu-xHJ" secondAttribute="trailing" type="default" id="sw7-Hw-gql"/>
-                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="trailing" secondItem="ok4-cS-r4i" secondAttribute="trailing" type="default" id="vUe-wy-I7e"/>
+                                    <constraint firstAttribute="bottom" secondItem="PSN-Oj-zDS" secondAttribute="bottom" constant="20" type="default" id="bgZ-IE-t4u"/>
+                                    <constraint firstItem="clJ-jl-yKj" firstAttribute="leading" secondItem="g3x-pu-xHJ" secondAttribute="leading" type="default" id="fgs-q5-HHF"/>
+                                    <constraint firstItem="g3x-pu-xHJ" firstAttribute="leading" secondItem="Wt7-mu-PQt" secondAttribute="leading" constant="10" type="user" id="kgs-9t-scP"/>
+                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="leading" secondItem="clJ-jl-yKj" secondAttribute="leading" type="default" id="opI-BL-NAO"/>
+                                    <constraint firstItem="clJ-jl-yKj" firstAttribute="top" secondItem="g3x-pu-xHJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="qgk-Fn-f1R"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="buyButton" destination="ok4-cS-r4i" id="p1f-FA-IKs"/>
                                     <outlet property="descriptionLabel" destination="PSN-Oj-zDS" id="Zly-DD-tez"/>
                                     <outlet property="mainImageView" destination="g3x-pu-xHJ" id="eIh-bE-Bgu"/>
                                     <outlet property="titleLabel" destination="clJ-jl-yKj" id="Ke8-dR-1o1"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Landscape Store Cell" id="PAJ-5k-aY5" customClass="PGStoreCell">
-                                <rect key="frame" x="290" y="122" width="400" height="260"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="260"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mho-Jy-1kn">
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="240" id="B5d-xV-USd"/>
-                                                <constraint firstAttribute="height" constant="180" id="T36-K6-PDp"/>
-                                            </constraints>
-                                        </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="koU-xY-SEJ">
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="39" id="ap8-yX-9Xp"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Button">
-                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="OgQ-pV-Rq6">
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="62" id="lIJ-0P-9gc"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="5k6-RI-Vvk">
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="240" id="JqB-av-hrn"/>
-                                                <constraint firstAttribute="height" constant="122" id="rz6-Bg-qG6"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="Mho-Jy-1kn" firstAttribute="trailing" secondItem="OgQ-pV-Rq6" secondAttribute="trailing" type="default" id="2md-LG-Dz5"/>
-                                    <constraint firstItem="OgQ-pV-Rq6" firstAttribute="top" secondItem="Mho-Jy-1kn" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="4b1-TQ-2gD"/>
-                                    <constraint firstItem="Mho-Jy-1kn" firstAttribute="leading" secondItem="PAJ-5k-aY5" secondAttribute="leading" constant="10" id="BqE-AP-iIv"/>
-                                    <constraint firstItem="5k6-RI-Vvk" firstAttribute="leading" secondItem="Mho-Jy-1kn" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Ghn-eJ-tzw"/>
-                                    <constraint firstItem="Mho-Jy-1kn" firstAttribute="top" secondItem="PAJ-5k-aY5" secondAttribute="top" constant="4" id="Jiy-kY-KwV"/>
-                                    <constraint firstItem="OgQ-pV-Rq6" firstAttribute="leading" secondItem="Mho-Jy-1kn" secondAttribute="leading" type="default" id="QIr-Hg-ZN3"/>
-                                    <constraint firstItem="OgQ-pV-Rq6" firstAttribute="baseline" secondItem="koU-xY-SEJ" secondAttribute="baseline" type="default" id="TcC-ck-kkK"/>
-                                    <constraint firstAttribute="trailing" secondItem="koU-xY-SEJ" secondAttribute="trailing" constant="36" id="XP4-FW-dMy"/>
-                                    <constraint firstAttribute="bottom" secondItem="koU-xY-SEJ" secondAttribute="bottom" constant="20" type="default" id="Ze6-WO-h4p"/>
-                                    <constraint firstItem="Mho-Jy-1kn" firstAttribute="top" secondItem="5k6-RI-Vvk" secondAttribute="top" type="default" id="t8x-JW-jnh"/>
-                                </constraints>
-                                <size key="customSize" width="400" height="260"/>
-                                <connections>
-                                    <outlet property="buyButton" destination="koU-xY-SEJ" id="jeh-s5-F1Y"/>
-                                    <outlet property="descriptionLabel" destination="5k6-RI-Vvk" id="nT4-ce-31z"/>
-                                    <outlet property="mainImageView" destination="Mho-Jy-1kn" id="gKh-PP-FWK"/>
-                                    <outlet property="titleLabel" destination="OgQ-pV-Rq6" id="a0z-VJ-JiP"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -833,6 +764,114 @@
     <resources>
         <image name="39-circle-check.png" width="28" height="28"/>
     </resources>
+    <classes>
+        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
+        </class>
+        <class className="NGLView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NGLView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PG3DModelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PG3DModelViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGDropboxCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGDropboxCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="PGDropboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGDropboxViewController.h"/>
+        </class>
+        <class className="PGFEModelViewController" superclassName="GLKViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGFEModelViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="tool1Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool2Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool3Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool4Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool5Tapped:"/>
+                <relationship kind="action" name="viewsTapped:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGInfoTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGInfoTableViewController.h"/>
+        </class>
+        <class className="PGMasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGMasterViewController.h"/>
+        </class>
+        <class className="PGModelCollectionViewCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGModelCollectionViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="downloadProgressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="modelImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="topContentView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="PGModelsCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGModelsCollectionViewController.h"/>
+        </class>
+        <class className="PGStoreCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="PGStoreLayout" superclassName="UICollectionViewFlowLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreLayout.h"/>
+        </class>
+        <class className="PGStoreViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGViewDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGViewDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="screenshotImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="PGViewsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGViewsTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addButtonItem" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

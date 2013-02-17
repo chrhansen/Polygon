@@ -23,8 +23,19 @@
 {
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
+        self.layer.cornerRadius = 5;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.layer.borderWidth = 1.0f;
+        self.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.layer.shadowRadius = 3;
+        self.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+        self.layer.shadowOpacity = 0.6f;
+        self.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.layer.shouldRasterize = YES;
+
+        
         self.mainImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.mainImageView.layer.borderWidth = 0.5f;
+        self.mainImageView.layer.borderWidth = 1.0f;
         self.mainImageView.layer.shadowColor = [UIColor blackColor].CGColor;
         self.mainImageView.layer.shadowRadius = 3.0f;
         self.mainImageView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);

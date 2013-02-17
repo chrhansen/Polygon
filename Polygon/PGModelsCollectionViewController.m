@@ -93,7 +93,9 @@
 
 - (void)_showStatusBar
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    if ([[UIApplication sharedApplication] isStatusBarHidden]) {
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    }
 }
 
 

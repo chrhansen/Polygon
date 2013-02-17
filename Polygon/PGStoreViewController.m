@@ -10,11 +10,14 @@
 #import "MKStoreManager.h"
 #import "PGStoreCell.h"
 #import "SKProduct+PriceAsString.h"
+#import "MBProgressHUD.h"
+#import "KGNoise.h"
 
 @interface PGStoreViewController ()
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *restoreButton;
 @property (nonatomic, strong) NSArray *childrenOfPurchasedBatches;
+@property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
 
@@ -35,21 +38,24 @@
     [super viewDidLoad];
 //    [[MKStoreManager sharedManager] removeAllKeychainData];
     [self _addObservings];
-//    [self _addNoiseBackground];
+    [self _addNoiseBackground];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MKStoreManager sharedManager];
+    if ([MKStoreManager sharedManager].purchasableObjects.count == 0) {
+        [self.view addSubview:self.progressHUD];
+    }
 }
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.collectionView reloadData];
+    [self.progressHUD show:NO];
+    //    [self.collectionView reloadData];
 }
 
 
@@ -69,23 +75,35 @@
 
 - (void)_addNoiseBackground
 {
-//    KGNoiseRadialGradientView *collectionNoiseView = [[KGNoiseRadialGradientView alloc] initWithFrame:self.collectionView.bounds];
-//    collectionNoiseView.backgroundColor            = [UIColor colorWithWhite:0.7032 alpha:1.000];
-//    collectionNoiseView.alternateBackgroundColor   = [UIColor colorWithWhite:0.7051 alpha:1.000];
-//    collectionNoiseView.noiseOpacity = 0.07;
-//    collectionNoiseView.noiseBlendMode = kCGBlendModeNormal;
-//    self.collectionView.backgroundView = collectionNoiseView;
+    KGNoiseRadialGradientView *collectionNoiseView = [[KGNoiseRadialGradientView alloc] initWithFrame:self.collectionView.bounds];
+    collectionNoiseView.backgroundColor            = [UIColor colorWithWhite:0.5032 alpha:1.000];
+    collectionNoiseView.alternateBackgroundColor   = [UIColor colorWithWhite:0.5051 alpha:1.000];
+    collectionNoiseView.noiseOpacity = 0.07;
+    collectionNoiseView.noiseBlendMode = kCGBlendModeNormal;
+    self.collectionView.backgroundView = collectionNoiseView;
 }
 
 
+- (MBProgressHUD *)progressHUD
+{
+    if (_progressHUD == nil) {
+        _progressHUD = [MBProgressHUD.alloc initWithView:self.view];
+        _progressHUD.dimBackground = YES;
+    }
+    return _progressHUD;
+}
+
 - (void)buyButtonTapped:(id)sender
 {
+    [self.progressHUD show:YES];
     NSInteger productIndex = [(UIButton *)sender tag];
     [[MKStoreManager sharedManager] buyFeature:[[MKStoreManager sharedManager].purchasableObjects[productIndex] productIdentifier] onComplete:^(NSString *purchasedFeature, NSData *purchasedReceipt, NSArray *availableDownloads) {
+        [self.progressHUD hide:YES];
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
         [self loadBatchPurchases];
         [self reloadProductWithIdentifier:purchasedFeature];
     } onCancelled:^{
+        [self.progressHUD hide:YES];
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
     }];
 }
@@ -93,12 +111,15 @@
 
 - (IBAction)restoreTapped:(id)sender
 {
+    [self.progressHUD show:YES];
     [[MKStoreManager sharedManager] restorePreviousTransactionsOnComplete:^{
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
+        [self.progressHUD hide:YES];
         [self loadBatchPurchases];
         [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
     } onError:^(NSError *error) {
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
+        [self.progressHUD hide:YES];
         [self _presentErrorMessage:error.localizedDescription];
     }];
 }
@@ -109,8 +130,8 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
                                                         message:errorMessage
                                                        delegate:nil
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles: nil];
+                                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                              otherButtonTitles:nil];
     [alertView show];
 }
 
@@ -131,6 +152,7 @@
 #pragma mark Store updates
 - (void)productsFetched:(NSNotification *)notification
 {
+    [self.progressHUD hide:YES];
     NSNumber *isProductsAvailable = notification.object;
     if (isProductsAvailable.boolValue) {
         [self loadBatchPurchases];
@@ -175,6 +197,23 @@
             [storeCell.buyButton addTarget:self action:@selector(buyButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
+    storeCell.mainImageView.image = [self imageForProductIdentifier:product.productIdentifier];
+}
+
+
+- (UIImage *)imageForProductIdentifier:(NSString *)productIdentifier
+{
+    UIImage *image;
+    if ([productIdentifier isEqualToString:@"it.calcul8.polygon.ansys"]) {
+        image = IS_IPAD ? [UIImage imageNamed:@"fe-purchase-ipad"] : [UIImage imageNamed:@"fe-purchase"];
+    } else if ([productIdentifier isEqualToString:@"it.calcul8.polygon.objmodels"]) {
+        image = IS_IPAD ? [UIImage imageNamed:@"obj-purchase-ipad"] : [UIImage imageNamed:@"obj-purchase"];
+    } else if ([productIdentifier isEqualToString:@"it.calcul8.polygon.daemodels"]) {
+        image = IS_IPAD ? [UIImage imageNamed:@"dae-purchase-ipad"] : [UIImage imageNamed:@"dae-purchase"];
+    } else if ([productIdentifier isEqualToString:@"it.calcul8.polygon.unlimitedmodels"]) {
+        image = IS_IPAD ? [UIImage imageNamed:@"batch-purchase-ipad"] : [UIImage imageNamed:@"batch-purchase"];
+    }
+    return image;
 }
 
 
@@ -187,8 +226,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *PortraitCellIdentifier = @"Store Cell";
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:PortraitCellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"Store Cell";
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     if (cell) [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }

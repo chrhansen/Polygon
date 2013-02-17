@@ -480,21 +480,21 @@
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="80" minimumInteritemSpacing="0.0" id="sbV-Zm-cr2" customClass="PGStoreLayout">
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="60" minimumInteritemSpacing="0.0" id="sbV-Zm-cr2" customClass="PGStoreLayout">
                             <size key="itemSize" width="540" height="556"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="114" minY="0.0" maxX="114" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Store Cell" id="pXW-Tv-vk5" customClass="PGStoreCell">
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Store Cell" id="pXW-Tv-vk5" customClass="PGStoreCell">
                                 <rect key="frame" x="114" y="202" width="540" height="556"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="540" height="556"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CAs-c1-jdN">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="CAs-c1-jdN">
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="336" id="JDX-LG-fJd"/>
@@ -510,11 +510,12 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ud-qV-KxQ">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="408" translatesAutoresizingMaskIntoConstraints="NO" id="0Ud-qV-KxQ">
                                             <constraints>
+                                                <constraint firstAttribute="height" constant="58" id="9im-Rm-Qst"/>
                                                 <constraint firstAttribute="width" constant="408" id="beu-79-PzD"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -531,15 +532,15 @@
                                 </view>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="TTg-BK-IcF" secondAttribute="trailing" constant="20" type="default" id="0Lv-c9-Kqc"/>
-                                    <constraint firstAttribute="trailing" secondItem="Mgp-7q-hbZ" secondAttribute="trailing" constant="20" type="default" id="38M-2s-fo5"/>
+                                    <constraint firstAttribute="trailing" secondItem="Mgp-7q-hbZ" secondAttribute="trailing" constant="20" type="default" id="4p4-7u-hx6"/>
+                                    <constraint firstItem="0Ud-qV-KxQ" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="7h7-cb-oI5"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TTg-BK-IcF" secondAttribute="bottom" constant="28" type="user" id="8UQ-53-tGs"/>
-                                    <constraint firstAttribute="trailing" secondItem="CAs-c1-jdN" secondAttribute="trailing" constant="20" type="default" id="BqJ-0V-Mw0"/>
                                     <constraint firstItem="0Ud-qV-KxQ" firstAttribute="top" secondItem="CAs-c1-jdN" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="IQ8-xf-Wah"/>
-                                    <constraint firstItem="0Ud-qV-KxQ" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="Ku6-1g-s5I"/>
-                                    <constraint firstItem="TTg-BK-IcF" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="U3m-oQ-Jah"/>
-                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="top" secondItem="pXW-Tv-vk5" secondAttribute="top" constant="20" type="default" id="fZl-Nz-ccc"/>
-                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="htO-kA-358"/>
+                                    <constraint firstAttribute="trailing" secondItem="CAs-c1-jdN" secondAttribute="trailing" constant="20" type="default" id="Q1S-ZL-TJP"/>
+                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="top" secondItem="pXW-Tv-vk5" secondAttribute="top" constant="20" type="default" id="QHf-pi-3f9"/>
+                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="X6l-V1-eGA"/>
+                                    <constraint firstItem="TTg-BK-IcF" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="eaq-Zb-hHa"/>
+                                    <constraint firstAttribute="trailing" secondItem="TTg-BK-IcF" secondAttribute="trailing" constant="20" type="default" id="kZF-mi-X3i"/>
                                     <constraint firstItem="Mgp-7q-hbZ" firstAttribute="top" secondItem="CAs-c1-jdN" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="m1k-1U-iVI"/>
                                     <constraint firstItem="TTg-BK-IcF" firstAttribute="top" secondItem="Mgp-7q-hbZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="oXt-bo-ios"/>
                                     <constraint firstItem="0Ud-qV-KxQ" firstAttribute="baseline" secondItem="Mgp-7q-hbZ" secondAttribute="baseline" type="default" id="qIg-Qt-h54"/>
@@ -594,6 +595,7 @@
         <class className="PG3DModelViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PG3DModelViewController.h"/>
             <relationships>
+                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
@@ -611,6 +613,13 @@
         <class className="PGFEModelViewController" superclassName="GLKViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PGFEModelViewController.h"/>
             <relationships>
+                <relationship kind="action" name="doneTapped:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="tool1Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool2Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool3Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool4Tapped:" candidateClass="UIButton"/>
+                <relationship kind="action" name="tool5Tapped:"/>
+                <relationship kind="action" name="viewsTapped:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
@@ -665,6 +674,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

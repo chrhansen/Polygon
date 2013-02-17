@@ -27,8 +27,8 @@
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
         self.modelImageView.layer.cornerRadius = CORNER_RADIUS;
-        self.modelImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.modelImageView.layer.borderWidth = 0.5f;
+//        self.modelImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+//        self.modelImageView.layer.borderWidth = 1.5f;
         self.modelImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         self.modelImageView.layer.shouldRasterize = YES;
         
