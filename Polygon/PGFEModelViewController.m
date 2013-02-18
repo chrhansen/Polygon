@@ -134,6 +134,7 @@
     [self setupBasicGL];
     [self makeGradientBackground];
     [self loadModelFile];
+    [self _setToolBarTransparent];
     self.isPerpective = ![[NSUserDefaults standardUserDefaults] boolForKey:@"UserDefaults_PerspectiveView"];
 }
 
@@ -141,7 +142,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self _hideStatusBar];
+    [self _hideStatusBar];    
 }
 
 
@@ -162,6 +163,19 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
+
+- (void)_setToolBarTransparent
+{
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *transparentImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [self.navigationController.toolbar setBackgroundImage:transparentImage forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
 }
 
 - (void)updateOrientationDependantValues:(UIInterfaceOrientation)newOrientation
@@ -212,7 +226,7 @@
     UIBarButtonItem *transparencyBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"62-contrast"] style:UIBarButtonItemStylePlain target:self action:@selector(transparencyTapped:)];
     UIBarButtonItem *lookAtBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0219"] style:UIBarButtonItemStylePlain target:self action:@selector(lookAtTapped:)];
     UIBarButtonItem *orthoPerspBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0206"] style:UIBarButtonItemStylePlain target:self action:@selector(orthoPerspectiveTapped:)];
-    UIBarButtonItem *resetBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0300"] style:UIBarButtonItemStylePlain target:self action:@selector(resetTapped:)];
+    UIBarButtonItem *resetBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0300"] style:UIBarButtonItemStylePlain target:self action:@selector(animateToReset)];
     [self setToolbarItems:@[flexibleSpace, elemTypeBarButton, transparencyBarButton, lookAtBarButton, orthoPerspBarButton, resetBarButton, flexibleSpace]];
 }
 
@@ -823,7 +837,6 @@
     [self loadSolidVertexData];
 }
 
-#pragma mark - Tool overlay view buttons
 - (void)dismissPopopoverIfVisible
 {
     if (self.thePopoverController.isPopoverVisible) {
@@ -931,13 +944,6 @@
 {
     self.popoverView = [PopoverView showPopoverAtPoint:sender.center inView:self.navigationController.toolbar withTitle:NSLocalizedString(@"View Mode", nil) withStringArray:@[NSLocalizedString(@"Perspective", nil), NSLocalizedString(@"Orthographic", nil)] delegate:self];
     self.popoverView.tag = ORTHO_PERSPECTIVE_TAG;
-}
-
-
-- (void)resetTapped:(id)sender
-{
-    [self dismissPopopoverIfVisible];
-    [self animateToReset];
 }
 
 
