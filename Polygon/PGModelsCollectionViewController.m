@@ -18,6 +18,7 @@
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+Resize.h"
 #import "NSString+_Format.h"
+#import "ATAppRatingFlow.h"
 
 @interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
 
@@ -55,6 +56,13 @@
     PGDownloadManager.sharedInstance.progressDelegate = self;
     [self _setBackgroundShelfViewForInterfaceOrientation:self.interfaceOrientation];
     [self _showStatusBar];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self _showAppRatingDialogIfNeeded];
 }
 
 
@@ -129,6 +137,14 @@
     [self _configureBarButtonItemsForEditing:editing];
     if (!editing) [self _discardEditItems];
     [self _updateVisibelCells];
+}
+
+
+#pragma mark Apptentive
+- (void)_showAppRatingDialogIfNeeded
+{
+    ATAppRatingFlow *sharedFlow = [ATAppRatingFlow sharedRatingFlowWithAppID:ItunesConnectAppID];
+    [sharedFlow appDidLaunch:YES viewController:self];
 }
 
 #pragma mark - Save changes from other contexts
@@ -387,8 +403,7 @@
     if (!model.isDownloaded) {
         return;
     }
-    switch (model.modelType)
-    {
+    switch (model.modelType) {
         case ModelTypeAnsys:
         case ModelTypeNastran:
         case ModelTypeLSPrePost:
@@ -426,8 +441,7 @@
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
     NSMutableDictionary *change = [NSMutableDictionary new];
-    switch(type)
-    {
+    switch(type) {
         case NSFetchedResultsChangeInsert:
             change[@(type)] = @(sectionIndex);
             break;

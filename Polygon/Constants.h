@@ -26,7 +26,7 @@ static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownl
 
 #pragma mark - Apptentive
 #define kApptentiveAPIKey @"5c0c408bf806cb13863ee36e8f30b5942975df717908673a9e28f01633eb6ab6"
-
+#define ItunesConnectAppID @"530960635"
 
 #pragma mark - Source Identifiers
 extern NSString * const SourceEmail;

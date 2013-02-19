@@ -68,6 +68,7 @@
 		E55923A216D2FA0800A087D8 /* 08-chat.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923A016D2FA0800A087D8 /* 08-chat.png */; };
 		E55923AA16D3011F00A087D8 /* dropbox_bw.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923A816D3011F00A087D8 /* dropbox_bw.png */; };
 		E55923AB16D3011F00A087D8 /* dropbox_bw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923A916D3011F00A087D8 /* dropbox_bw@2x.png */; };
+		E55923CC16D38F0C00A087D8 /* ATAppRatingFlow.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923CB16D38F0C00A087D8 /* ATAppRatingFlow.h */; };
 		E57F882C16D1878E003140F4 /* 0159.png in Resources */ = {isa = PBXBuildFile; fileRef = E57F882A16D1878E003140F4 /* 0159.png */; };
 		E57F882D16D1878E003140F4 /* 0159@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57F882B16D1878E003140F4 /* 0159@2x.png */; };
 		E57F883016D18B21003140F4 /* 0219@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E57F882E16D18B21003140F4 /* 0219@2x.png */; };
@@ -318,6 +319,7 @@
 		E55923A016D2FA0800A087D8 /* 08-chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "08-chat.png"; sourceTree = "<group>"; };
 		E55923A816D3011F00A087D8 /* dropbox_bw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_bw.png; sourceTree = "<group>"; };
 		E55923A916D3011F00A087D8 /* dropbox_bw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox_bw@2x.png"; sourceTree = "<group>"; };
+		E55923CB16D38F0C00A087D8 /* ATAppRatingFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; name = ATAppRatingFlow.h; path = "ApptentiveConnect/source/Rating Flow/ATAppRatingFlow.h"; sourceTree = "<group>"; };
 		E57F882A16D1878E003140F4 /* 0159.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0159.png; sourceTree = "<group>"; };
 		E57F882B16D1878E003140F4 /* 0159@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0159@2x.png"; sourceTree = "<group>"; };
 		E57F882E16D18B21003140F4 /* 0219@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0219@2x.png"; sourceTree = "<group>"; };
@@ -845,6 +847,7 @@
 			children = (
 				E559238F16D2E40F00A087D8 /* ATConnect.h */,
 				E559239116D2EAF400A087D8 /* ATSurveys.h */,
+				E55923CB16D38F0C00A087D8 /* ATAppRatingFlow.h */,
 			);
 			name = Apptentive;
 			sourceTree = "<group>";
@@ -1401,6 +1404,7 @@
 				E55923A216D2FA0800A087D8 /* 08-chat.png in Resources */,
 				E55923AA16D3011F00A087D8 /* dropbox_bw.png in Resources */,
 				E55923AB16D3011F00A087D8 /* dropbox_bw@2x.png in Resources */,
+				E55923CC16D38F0C00A087D8 /* ATAppRatingFlow.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
