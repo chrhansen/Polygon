@@ -11,16 +11,18 @@
 #import "PGStyleController.h"
 #import "MSNavigationPaneViewController.h"
 #import "PGMasterViewController.h"
+#import "ATConnect.h"
 
 @implementation PGAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 //    [TestFlight takeOff:@"f146de881ca21798ccf25e64e544d6a0_MTAyNjExMjAxMi0wNi0yNyAwNDozNTozNC4wOTMwNTk"];
-    DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"zys929yd5i93w1u"
-                                                    appSecret:@"46uevc5lcz77wat"
-                                                         root:kDBRootDropbox];
+    DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"zys929yd5i93w1u" appSecret:@"46uevc5lcz77wat" root:kDBRootDropbox];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Polygon.sqlite"];
+    
+    ATConnect *connection = [ATConnect sharedConnection];
+    connection.apiKey = kApptentiveAPIKey;
     
     MSNavigationPaneViewController *navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;
     PGMasterViewController *masterViewController = (PGMasterViewController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];

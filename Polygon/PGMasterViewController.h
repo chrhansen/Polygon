@@ -13,7 +13,8 @@
 typedef NS_ENUM(NSUInteger, PGPaneViewControllerType) {
     PGPaneViewControllerTypeModels,
     PGPaneViewControllerTypeDropbox,
-    PGPaneViewControllerTypeStore
+    PGPaneViewControllerTypeStore,
+    PGPaneViewControllerTypeFeedback
 };
 
 @interface PGMasterViewController : UITableViewController

@@ -24,6 +24,10 @@ extern NSString * const DropboxLinkStateChangedNotification;
 static NSString * const DropboxFileDownloadedNotification = @"DropboxFileDownloadedNotification";
 static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownloadNotification";
 
+#pragma mark - Apptentive
+#define kApptentiveAPIKey @"5c0c408bf806cb13863ee36e8f30b5942975df717908673a9e28f01633eb6ab6"
+
+
 #pragma mark - Source Identifiers
 extern NSString * const SourceEmail;
 extern NSString * const SourceDropbox;

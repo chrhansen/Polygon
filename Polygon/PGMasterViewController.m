@@ -7,6 +7,8 @@
 //
 
 #import "PGMasterViewController.h"
+#import "ATConnect.h"
+#import "ATSurveys.h"
 
 @interface PGMasterViewController ()
 
@@ -22,16 +24,12 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.paneViewControllerType = NSUIntegerMax;
-        self.paneViewControllerTitles = @{
-        @(PGPaneViewControllerTypeModels) : @"Models",
-        @(PGPaneViewControllerTypeDropbox) : @"Dropbox",
-        @(PGPaneViewControllerTypeStore) : @"Store"
-        };
-        self.paneViewControllerIdentifiers = @{
-        @(PGPaneViewControllerTypeModels) : @"modelsCollectionViewController",
-        @(PGPaneViewControllerTypeDropbox) : @"dropboxViewController",
-        @(PGPaneViewControllerTypeStore) : @"storeViewController"
-        };
+        self.paneViewControllerTitles      = @{@(PGPaneViewControllerTypeModels)   : @"Models",
+                                               @(PGPaneViewControllerTypeDropbox)  : @"Dropbox",
+                                               @(PGPaneViewControllerTypeStore)    : @"Store"};
+        self.paneViewControllerIdentifiers = @{@(PGPaneViewControllerTypeModels)   : @"modelsCollectionViewController",
+                                               @(PGPaneViewControllerTypeDropbox)  : @"dropboxViewController",
+                                               @(PGPaneViewControllerTypeStore)    : @"storeViewController"};
     }
     return self;
 }
@@ -43,6 +41,34 @@
     [self.navigationPaneViewController setAppearanceType:MSNavigationPaneAppearanceTypeParallax];
     self.tableView.scrollsToTop = NO;
     [self.navigationController.navigationBar setHidden:NO];
+    [self _observeApptentiveSurveys];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Apptentive
+- (void)_observeApptentiveSurveys
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(surveyBecameAvailable:)
+                                                 name:ATSurveyNewSurveyAvailableNotification object:nil];
+    [ATSurveys checkForAvailableSurveys];
+}
+
+- (void)surveyBecameAvailable:(NSNotification *)notification {
+    // Present survey here as appropriate.
+    // For example, automatically show the survey:
+    [ATSurveys presentSurveyControllerFromViewController:self];
 }
 
 
@@ -90,34 +116,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 4;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"masterViewControllerCellReuseIdentifier"];
-    PGPaneViewControllerType paneViewControllerType = [self paneViewControllerTypeForIndexPath:indexPath];
-    cell.textLabel.text = self.paneViewControllerTitles[@(paneViewControllerType)];
-    return cell;
-}
-
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PGPaneViewControllerType paneViewControllerType = [self paneViewControllerTypeForIndexPath:indexPath];
-    [self transitionToViewController:paneViewControllerType];
-
+    if (paneViewControllerType == PGPaneViewControllerTypeFeedback) {
+        ATConnect *connection = [ATConnect sharedConnection];
+        [connection presentFeedbackControllerFromViewController:self];
+    } else {
+        [self transitionToViewController:paneViewControllerType];
+    }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

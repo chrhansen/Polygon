@@ -99,7 +99,6 @@
 @property (nonatomic, strong) UIPopoverController *thePopoverController;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 @property (strong, nonatomic) GLKTextureInfo *background;
-@property (strong, nonatomic) GLKSkyboxEffect *skyboxEffect;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 @property (nonatomic) BOOL readingModelData;
 @property (nonatomic) float progress;
@@ -183,22 +182,15 @@
     if (UIInterfaceOrientationIsLandscape(newOrientation)) {
         _orientationScale = 1.0f;
     } else if (UIInterfaceOrientationIsPortrait(newOrientation)) {
-        _orientationScale = 0.5f;
+        _orientationScale = 1.0f;
     }
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
-    {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } 
-    else 
-    {
-        [self updateOrientationDependantValues:interfaceOrientation];
-        return YES;
-    }
+    [self updateOrientationDependantValues:interfaceOrientation];
+    return YES;
 }
 
 
@@ -226,7 +218,7 @@
     UIBarButtonItem *transparencyBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"62-contrast"] style:UIBarButtonItemStylePlain target:self action:@selector(transparencyTapped:)];
     UIBarButtonItem *lookAtBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0219"] style:UIBarButtonItemStylePlain target:self action:@selector(lookAtTapped:)];
     UIBarButtonItem *orthoPerspBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0206"] style:UIBarButtonItemStylePlain target:self action:@selector(orthoPerspectiveTapped:)];
-    UIBarButtonItem *resetBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0300"] style:UIBarButtonItemStylePlain target:self action:@selector(animateToReset)];
+    UIBarButtonItem *resetBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0289"] style:UIBarButtonItemStylePlain target:self action:@selector(animateToReset)];
     [self setToolbarItems:@[flexibleSpace, elemTypeBarButton, transparencyBarButton, lookAtBarButton, orthoPerspBarButton, resetBarButton, flexibleSpace]];
 }
 
@@ -262,6 +254,7 @@
 
 - (void)setupBasicGL
 {
+    [self updateOrientationDependantValues:self.interfaceOrientation];
     rotation = 0.0;
     lastPinch = 1.0;
     self.pinchScale = 1.0;
@@ -270,7 +263,7 @@
     viewRotationOffsetMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, 0.0f); 
     viewRotationMatrix = GLKMatrix4Identity;
     boundingBox.lengthMax = 10.0;
-    _backgroundModelViewMatrix = GLKMatrix4MakeTranslation(0, 0, -5);
+    _backgroundModelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -5.0f);
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     if (!self.context) NSLog(@"Failed to create ES context");
@@ -355,7 +348,6 @@
     self.plotShells = YES;
     self.plotBeams = YES;
     self.plotEdges = YES;
-    self.plotNodes = NO;
 }
 
 - (void)loadFaceVertexData
@@ -424,7 +416,8 @@
     // Background ModelViewMatrix
     float scaleFactor = -_orientationScale*_farZ*0.9f*GLKMathDegreesToRadians(65.0f);
     _backgroundModelViewMatrix =  GLKMatrix4Multiply(GLKMatrix4MakeScale(scaleFactor, scaleFactor / aspect, 1.0f), GLKMatrix4MakeTranslation(0.0f, 0.0f, -_farZ*0.9f));
-    //NSLog(@"%@", NSStringFromGLKMatrix4(_backgroundModelViewMatrix));
+//    _backgroundModelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -_farZ*0.9f);
+    
     
     // translation animation
     if (_runPositionAnimation) {
@@ -442,8 +435,6 @@
                                                   -self.panTranslation.y / self.view.bounds.size.height * 2.0f *  cameraDistance, 
                                                   (self.pinchScale-lastPinch)* 1.0f * cameraDistance);
     }
-    
-    // rotation animation
     if (_runRotationAnimation) {
         _slerpCur += self.timeSinceLastUpdate;
         float slerpAmt = _slerpCur / _slerpMax;
@@ -466,7 +457,6 @@
     self.zRotation = 0.0;
     lastPinch = self.pinchScale;
     
-    
     _modelViewMatrix = GLKMatrix4Multiply(_viewMatrix, _modelMatrix);
     
     if (_isPerpective) {
@@ -484,15 +474,15 @@
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Render the background with GLKit
     
     self.effect.transform.modelviewMatrix = _backgroundModelViewMatrix;
-    [self.effect prepareToDraw];
     glBindVertexArrayOES(backgroundVertexArray);
     glBindBuffer(GL_ARRAY_BUFFER, backgroundVertexBuffer);
+    [self.effect prepareToDraw];
     glDrawArrays(GL_TRIANGLES, 0, sizeof(MeshVertexData) / sizeof(vertexDataTextured));
 
     // Reset the model view matrix for the rest of the objects
@@ -500,7 +490,7 @@
     [self.effect prepareToDraw];
     
     
-    if (self.plotSolids) {
+    if (_plotSolids) {
         glBindVertexArrayOES(solidCubeVertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, solidCubeVertexBuffer);
         glEnable (GL_BLEND);
@@ -520,7 +510,7 @@
         glDrawArrays(GL_TRIANGLES, 0, _anAnsysModel.numOfSolidTetraVertices);
     }
         
-    if (self.plotShells) {
+    if (_plotShells) {
         // Render the quads with GLKit
         glBindVertexArrayOES(facesVertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, facesVertexBuffer);
@@ -529,7 +519,7 @@
         glDrawArrays(GL_TRIANGLES, 0, _anAnsysModel.numOfQuadFaces*6+_anAnsysModel.numOfTriFaces*3);
     }
   
-    if (self.plotEdges) {
+    if (_plotEdges) {
 
         glLineWidth(2.0f);
         glColor4f(0, 0, 0, 1);
@@ -538,7 +528,7 @@
         glDrawArrays(GL_LINES, 0, _anAnsysModel.numOfEdges*2);
     }
 
-    if (self.plotBeams) {
+    if (_plotBeams) {
         //Bind all vertices
         glBindVertexArrayOES(allVertexArray);
         glBindBuffer(GL_ARRAY_BUFFER, allVertexBuffer);
@@ -553,13 +543,6 @@
         glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLKVector3), 0);
         
         glDrawElements(GL_LINES, _anAnsysModel.numOfBeams*2, GL_UNSIGNED_INT, 0);
-    }
-    
-    if (self.plotNodes) {
-        glPointSize(2.0f);
-        glBindVertexArrayOES(allVertexArray);
-        glBindBuffer(GL_ARRAY_BUFFER, allVertexBuffer);
-        glDrawArrays(GL_POINTS, 0, _anAnsysModel.numOfVertices);
     }
 }
 
