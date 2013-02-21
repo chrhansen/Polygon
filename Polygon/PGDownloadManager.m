@@ -9,6 +9,7 @@
 #import "PGDownloadManager.h"
 #import "PGModel+Management.h"
 #import "NSString+UUID.h"
+#import "NSData+MD5Hash.h"
 
 @interface PGDownloadManager ()
 
@@ -28,6 +29,7 @@
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             _downloadManager = [PGDownloadManager.alloc init];
+            [_downloadManager _addObservings];
         });
 	}
     return _downloadManager;
@@ -77,8 +79,66 @@
 }
 
 
+- (void)_addObservings
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(importEmailAttachment:) name:FileOpenFromEmailNotification object:nil];
+}
+
+
+- (BOOL)isCompressedFile:(NSString *)filePath
+{
+    NSString *extension = [filePath.lastPathComponent.pathExtension lowercaseString];
+    if ([extension isEqualToString:@"zip"]
+        || [extension isEqualToString:@"rar"]) {
+        return YES;
+    }
+    return NO;
+}
+
+
+- (void)importEmailAttachment:(NSNotification *)notification
+{
+    NSString *filePath = [notification.userInfo[@"fileURL"] path];
+    if ([PGModel modelTypeForFileName:filePath.lastPathComponent] != ModelTypeUnknown) {
+        [self importModelFileFromPath:filePath];
+    } else if ([self isCompressedFile:filePath]) {
+        //TODO: show contents and prompt to unzip
+    } else {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+        if (error) NSLog(@"Error deleting unknown file: %@", error.localizedDescription);
+    }
+}
+
+
+- (void)importModelFileFromPath:(NSString *)filePath
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error;
+    NSString *directoryPath = [DOCUMENTS_DIR stringByAppendingPathComponent:[NSString getUUID]];
+    [fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:NO attributes:nil error:&error];
+    if (error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        return;
+    }
+    NSString *destinationPath = [directoryPath stringByAppendingPathComponent:filePath.lastPathComponent];
+    if ([fileManager moveItemAtPath:filePath toPath:destinationPath error:&error]) {
+        [self addSkipBackupAttributeToItemAtFilePath:destinationPath];
+    }
+    NSString *md5Hash = [NSData md5HashForFile:destinationPath];
+    NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:destinationPath error:&error];
+    NSArray *components = destinationPath.pathComponents;
+    NSString *relativePath = [[components[components.count - 3] stringByAppendingPathComponent:components[components.count - 2]] stringByAppendingPathComponent:components.lastObject];
+    NSDictionary *objectDetails = @{@"modelName": relativePath.lastPathComponent,
+                                    @"md5"      : md5Hash,
+                                    @"modelSize": fileAttributes[NSFileSize],
+                                    @"filePath" : relativePath,
+                                    @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
+    [[PGModel MR_importFromArray:@[objectDetails]] lastObject];
+}
+
 - (PGModel *)downloadFile:(DBMetadata *)metadata
-{   
+{
     PGModel *model = [PGModel findFirstByAttribute:@"pGModelID" withValue:metadata.rev];
     if (model.isDownloaded) {
         self.sharableLinks[metadata.path] = model;

@@ -17,6 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //TODO: replace with v1.2 of Testflight
 //    [TestFlight takeOff:@"f146de881ca21798ccf25e64e544d6a0_MTAyNjExMjAxMi0wNi0yNyAwNDozNTozNC4wOTMwNTk"];
     DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"zys929yd5i93w1u" appSecret:@"46uevc5lcz77wat" root:kDBRootDropbox];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Polygon.sqlite"];
@@ -64,14 +65,11 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-//    // E-mail import URL's
-//    if (url != nil && [url isFileURL]) {
-//        NSDictionary *fileDic = [NSDictionary dictionaryWithObject:[url path] forKey:@"filePath"];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:FileOpenFromEmailNotification object:nil userInfo:fileDic];
-//        NSString *hudMessage = [NSString stringWithFormat:@"\"%@\" added", [[url path] lastPathComponent]];
-//        [self showProgressHUDWithText:hudMessage
-//                      detailLabelText:nil];
-//    }
+    // E-mail import URL's
+    if ([url isFileURL]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:FileOpenFromEmailNotification object:nil userInfo:@{@"fileURL": url}];
+        return YES;
+    }
     
     // Dropbox access URL's
     if ([url.absoluteString hasPrefix:@"db-"]

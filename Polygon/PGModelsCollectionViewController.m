@@ -19,6 +19,7 @@
 #import "UIImage+Resize.h"
 #import "NSString+_Format.h"
 #import "ATAppRatingFlow.h"
+#import "PGUploadViewController.h"
 
 @interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
 
@@ -82,6 +83,9 @@
     } else if ([segue.identifier isEqualToString:@"Show 3D Model"]) {
         [(PG3DModelViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
         [(PG3DModelViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModelViewDelegate:self];
+    } else if ([segue.identifier isEqualToString:@"Show Upload Dialog"]) {
+        model = self.editItems.lastObject;
+        [(PGUploadViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
     }
 }
 
@@ -200,7 +204,7 @@
 
 - (void)uploadTapped:(UIBarButtonItem *)button
 {
-    NSLog(@"action tapped: %@", self.editItems);
+    [self performSegueWithIdentifier:@"Show Upload Dialog" sender:button];
 }
 
 
@@ -222,8 +226,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (!buttonIndex == actionSheet.cancelButtonIndex)
-    {
+    if (!buttonIndex == actionSheet.cancelButtonIndex) {
         NSArray *deleteItems = [self.editItems copy];
         [self.editItems removeAllObjects];
         [self _toggleBarButtonStateOnChangedEditItems];
@@ -318,12 +321,9 @@
 - (void)_togglePresenceInEditItems:(id)anObject
 {
     if (!self.editItems) self.editItems = NSMutableArray.array;
-    if ([self.editItems containsObject:anObject])
-    {
+    if ([self.editItems containsObject:anObject]) {
         [self.editItems removeObject:anObject];
-    }
-    else
-    {
+    } else {
         [self.editItems addObject:anObject];
     }
 }
@@ -382,18 +382,12 @@
 {
     PGModel *selectedModel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    
-    switch (self.isEditing)
-    {
-        case YES:
-            [self _togglePresenceInEditItems:selectedModel];
-            [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
-            [self _toggleBarButtonStateOnChangedEditItems];
-            break;
-            
-        case NO:
-            [self _presentModel:selectedModel sender:cell];
-            break;
+    if (self.isEditing) {
+        [self _togglePresenceInEditItems:selectedModel];
+        [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
+        [self _toggleBarButtonStateOnChangedEditItems];
+    } else {
+        [self _presentModel:selectedModel sender:cell];
     }
 }
 

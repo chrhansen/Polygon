@@ -21,6 +21,9 @@ static NSString * const DropboxBaseURL = @"/";
 
 
 extern NSString * const DropboxLinkStateChangedNotification;
+
+extern NSString *const FileOpenFromEmailNotification;
+
 static NSString * const DropboxFileDownloadedNotification = @"DropboxFileDownloadedNotification";
 static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownloadNotification";
 

@@ -52,7 +52,7 @@
 
 #pragma mark - Apptentive
 - (void)_observeApptentiveSurveys
-{
+{    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(surveyBecameAvailable:)
                                                  name:ATSurveyNewSurveyAvailableNotification object:nil];

@@ -128,6 +128,7 @@
     return [format stringFromDate:date];
 }
 
+
 #pragma mark - Custom import methods
 - (BOOL)importGlobalURL:(id)data
 {
@@ -138,17 +139,18 @@
 
 - (BOOL)importModelSize:(id)data
 {
-    long long size = 0;
+    unsigned long long size = 0;
     if ([data isKindOfClass:[DBMetadata class]]) {
         size = [(DBMetadata *)data totalBytes];
+    } else if ([data isKindOfClass:[NSNumber class]]) {
+        size = [(NSNumber *)data unsignedLongLongValue];
     }
-    self.modelSize = [NSNumber numberWithLongLong:size];
+    self.modelSize = [NSNumber numberWithUnsignedLongLong:size];
     return YES;
 }
 
 
 #pragma mark - Deleting models
-
 + (void)deleteModels:(NSArray *)modelsToDelete completion:(void (^)(NSError *error))completion
 {
     NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
