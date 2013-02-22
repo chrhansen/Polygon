@@ -86,6 +86,7 @@
     } else if ([segue.identifier isEqualToString:@"Show Upload Dialog"]) {
         model = self.editItems.lastObject;
         [(PGUploadViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
+        [self setEditing:NO animated:YES];
     }
 }
 
@@ -330,7 +331,7 @@
 
 - (void)_toggleBarButtonStateOnChangedEditItems
 {
-    [self.navigationItem.leftBarButtonItems[0] setEnabled:(self.editItems.count > 0)];
+    [self.navigationItem.leftBarButtonItems[0] setEnabled:(self.editItems.count == 1)];
     [self.navigationItem.leftBarButtonItems[1] setEnabled:(self.editItems.count > 0)];
 }
 

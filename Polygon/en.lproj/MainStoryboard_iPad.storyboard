@@ -9,15 +9,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="dropboxViewController" modalPresentationStyle="currentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qBD-hu-24A" customClass="PGDropboxViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="pfF-G4-aDb">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <rect key="frame" x="0.0" y="64" width="540" height="512"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Dropbox Cell" id="f6g-4J-B5V" customClass="PGDropboxCell">
-                                <rect key="frame" x="0.0" y="22" width="768" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="wi9-oF-CXA">
@@ -66,12 +66,26 @@
                             <outlet property="delegate" destination="qBD-hu-24A" id="1au-fd-3QO"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="922-mV-Yc4"/>
+                        <barButtonItem systemItem="add" id="QpK-iP-vbT">
+                            <connections>
+                                <action selector="newFolderTapped:" destination="qBD-hu-24A" id="Sar-iG-hF0"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Choose" style="done" id="w6I-3m-oXC">
+                            <connections>
+                                <action selector="chooseFolderTapped:" destination="qBD-hu-24A" id="eRE-ub-Pvi"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="RhM-gG-3sL"/>
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="500"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="15S-12-GvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-21442" y="-22249"/>
+            <point key="canvasLocation" x="-21382" y="-22047"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v4k-HA-AxS">
@@ -448,7 +462,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cIS-Ni-DuP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20387" y="-26747"/>
+            <point key="canvasLocation" x="-20387" y="-25955"/>
         </scene>
         <!--Navigation Pane View Controller-->
         <scene sceneID="1JK-r3-uyF">
@@ -918,7 +932,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="dropbox_1.png" translatesAutoresizingMaskIntoConstraints="NO" id="i0D-Fs-VAE">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" image="dropbox_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="i0D-Fs-VAE">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="45" id="8Jk-Q1-c3J"/>
                                                         <constraint firstAttribute="width" constant="45" id="MEc-yy-3TY"/>
@@ -933,6 +947,9 @@
                                             <constraint firstItem="i0D-Fs-VAE" firstAttribute="centerY" secondItem="8pY-oc-FcD" secondAttribute="centerY" type="default" id="Nvo-sN-QZF"/>
                                             <constraint firstItem="8pY-oc-FcD" firstAttribute="leading" secondItem="i0D-Fs-VAE" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="XKZ-96-lhj"/>
                                         </constraints>
+                                        <connections>
+                                            <segue destination="qBD-hu-24A" kind="push" identifier="Show Upload Dropbox" id="dV4-UD-P5b"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="q5s-fq-hzK">
                                         <rect key="frame" x="0.0" y="173" width="540" height="61"/>
@@ -949,7 +966,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="email_1.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZEB-gc-mDm">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" image="18-envelope.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZEB-gc-mDm">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="45" id="eSF-EJ-GPD"/>
                                                         <constraint firstAttribute="height" constant="45" id="nM2-Ee-leU"/>
@@ -973,10 +990,11 @@
                             <outlet property="delegate" destination="sdD-vx-579" id="NyA-Ek-ubV"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Share Options" id="zzI-HU-bMc">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="ZDx-NW-rQq">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="ZDx-NW-rQq">
                             <connections>
-                                <action selector="doneTapped:" destination="sdD-vx-579" id="6qT-bc-YhK"/>
+                                <action selector="cancelTapped:" destination="sdD-vx-579" id="fo9-3g-IDf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -987,7 +1005,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bzS-k1-pPN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-19627" y="-22303"/>
+            <point key="canvasLocation" x="-19637" y="-22323"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="09b-cK-aQb">
@@ -1005,7 +1023,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYj-MS-IqV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20373" y="-22303"/>
+            <point key="canvasLocation" x="-20373" y="-22323"/>
         </scene>
         <!--List Zip Content View Controller-->
         <scene sceneID="glt-Hs-RYa">
@@ -1085,12 +1103,12 @@
     </scenes>
     <resources>
         <image name="08-chat.png" width="24" height="22"/>
+        <image name="18-envelope.png" width="24" height="16"/>
         <image name="39-circle-check.png" width="28" height="28"/>
         <image name="80-shopping-cart.png" width="26" height="19"/>
         <image name="83-calendar.png" width="23" height="19"/>
-        <image name="dropbox_1.png" width="16" height="16"/>
         <image name="dropbox_bw.png" width="40" height="37"/>
-        <image name="email_1.png" width="16" height="16"/>
+        <image name="dropbox_logo.png" width="35" height="35"/>
     </resources>
     <classes>
         <class className="ListZipContentViewController" superclassName="UITableViewController">
@@ -1207,13 +1225,13 @@
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="dV4-UD-P5b"/>
+    </inferredMetricsTieBreakers>
 </document>

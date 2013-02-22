@@ -84,6 +84,11 @@
 		E53E322316D59B1C0075DBA3 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = E53E320816D59B1C0075DBA3 /* uncompr.c */; };
 		E53E322416D59B1C0075DBA3 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = E53E320B16D59B1C0075DBA3 /* zutil.c */; };
 		E53E326216D6E9B80075DBA3 /* ListZipContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E326116D6E9B70075DBA3 /* ListZipContentViewController.m */; };
+		E53E326816D7D7840075DBA3 /* PGUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E326716D7D7840075DBA3 /* PGUploadManager.m */; };
+		E53E326D16D809E20075DBA3 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E326B16D809E20075DBA3 /* 37x-Checkmark.png */; };
+		E53E326E16D809E20075DBA3 /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E326C16D809E20075DBA3 /* 37x-Checkmark@2x.png */; };
+		E53E327116D825C80075DBA3 /* 18-envelope@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E326F16D825B80075DBA3 /* 18-envelope@2x.png */; };
+		E53E327216D825C80075DBA3 /* 18-envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E327016D825BF0075DBA3 /* 18-envelope.png */; };
 		E559237B16D2E0B900A087D8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E559237A16D2E0B900A087D8 /* CoreTelephony.framework */; };
 		E559238C16D2E35100A087D8 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E559238316D2E2D100A087D8 /* libApptentiveConnect.a */; };
 		E559238D16D2E3B300A087D8 /* ApptentiveResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E559238716D2E2D100A087D8 /* ApptentiveResources.bundle */; };
@@ -393,6 +398,12 @@
 		E53E320C16D59B1C0075DBA3 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		E53E326016D6E9B70075DBA3 /* ListZipContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListZipContentViewController.h; sourceTree = "<group>"; };
 		E53E326116D6E9B70075DBA3 /* ListZipContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListZipContentViewController.m; sourceTree = "<group>"; };
+		E53E326616D7D7830075DBA3 /* PGUploadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGUploadManager.h; sourceTree = "<group>"; };
+		E53E326716D7D7840075DBA3 /* PGUploadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGUploadManager.m; sourceTree = "<group>"; };
+		E53E326B16D809E20075DBA3 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
+		E53E326C16D809E20075DBA3 /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
+		E53E326F16D825B80075DBA3 /* 18-envelope@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-envelope@2x.png"; sourceTree = "<group>"; };
+		E53E327016D825BF0075DBA3 /* 18-envelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-envelope.png"; sourceTree = "<group>"; };
 		E559237A16D2E0B900A087D8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		E559237C16D2E2D100A087D8 /* ApptentiveConnect.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ApptentiveConnect.xcodeproj; path = Polygon/ApptentiveConnect/ApptentiveConnect.xcodeproj; sourceTree = "<group>"; };
 		E559238F16D2E40F00A087D8 /* ATConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATConnect.h; path = ApptentiveConnect/source/ATConnect.h; sourceTree = "<group>"; };
@@ -834,6 +845,8 @@
 			children = (
 				E5376C2C167B62C500738979 /* PGDownloadManager.h */,
 				E5376C2D167B62C500738979 /* PGDownloadManager.m */,
+				E53E326616D7D7830075DBA3 /* PGUploadManager.h */,
+				E53E326716D7D7840075DBA3 /* PGUploadManager.m */,
 			);
 			name = "IO Controller";
 			sourceTree = "<group>";
@@ -878,6 +891,8 @@
 				E5BB29461683EE7A000E68FE /* dropbox_logo@2x.png */,
 				E5376C88167B792100738979 /* 0108.png */,
 				E5376C89167B792100738979 /* 0108@2x.png */,
+				E53E327016D825BF0075DBA3 /* 18-envelope.png */,
+				E53E326F16D825B80075DBA3 /* 18-envelope@2x.png */,
 				E5C64DA8167C1208000D850B /* gradient_1600x1.jpg */,
 				E53E31C416D3D4D00075DBA3 /* default_thumb_on_background.png */,
 			);
@@ -1291,6 +1306,8 @@
 		E5FB969816BAA4F0000ECFA9 /* Dropbox */ = {
 			isa = PBXGroup;
 			children = (
+				E53E326B16D809E20075DBA3 /* 37x-Checkmark.png */,
+				E53E326C16D809E20075DBA3 /* 37x-Checkmark@2x.png */,
 				E5FB96A916BAB022000ECFA9 /* 180-stickynote.png */,
 				E5FB96A716BAAF3C000ECFA9 /* 180-stickynote@2x.png */,
 				E5376C86167B792100738979 /* 0107.png */,
@@ -1600,6 +1617,10 @@
 				E55923AB16D3011F00A087D8 /* dropbox_bw@2x.png in Resources */,
 				E55923CC16D38F0C00A087D8 /* ATAppRatingFlow.h in Resources */,
 				E53E31C516D3D4D00075DBA3 /* default_thumb_on_background.png in Resources */,
+				E53E326D16D809E20075DBA3 /* 37x-Checkmark.png in Resources */,
+				E53E326E16D809E20075DBA3 /* 37x-Checkmark@2x.png in Resources */,
+				E53E327116D825C80075DBA3 /* 18-envelope@2x.png in Resources */,
+				E53E327216D825C80075DBA3 /* 18-envelope.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1717,6 +1738,7 @@
 				E53E322316D59B1C0075DBA3 /* uncompr.c in Sources */,
 				E53E322416D59B1C0075DBA3 /* zutil.c in Sources */,
 				E53E326216D6E9B80075DBA3 /* ListZipContentViewController.m in Sources */,
+				E53E326816D7D7840075DBA3 /* PGUploadManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 
 #import "PGDropboxCell.h"
+#import "UIImage+Alpha.h"
 
 @implementation PGDropboxCell
 
@@ -25,6 +26,14 @@
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
+}
+
+- (void)setUnselectable
+{
+    self.userInteractionEnabled = NO;
+    self.folderFileName.textColor = [UIColor lightGrayColor];
+    self.description.textColor = [UIColor lightGrayColor];
+    self.folderFileImage.image = [self.folderFileImage.image imageByApplyingAlpha:0.5f];
 }
 
 

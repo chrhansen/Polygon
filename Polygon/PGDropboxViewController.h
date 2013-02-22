@@ -9,8 +9,19 @@
 #import <UIKit/UIKit.h>
 #import <DropboxSDK/DropboxSDK.h>
 
+@class PGModel;
+
+typedef NS_ENUM(NSInteger, PGDropboxViewControllerType)
+{
+    PGDropboxViewControllerTypeDownload,
+    PGDropboxViewControllerTypeUpload
+};
+
+
 @interface PGDropboxViewController : UITableViewController 
 
 @property (nonatomic, strong) NSString *subPath;
+@property (nonatomic) PGDropboxViewControllerType dropboxViewControllerType;
+@property (nonatomic, strong) PGModel *uploadModel;
 
 @end

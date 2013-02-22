@@ -8,17 +8,19 @@
 
 #import "PGDropboxViewController.h"
 #import "PGDownloadManager.h"
+#import "PGUploadManager.h"
 #import "PGDropboxCell.h"
 #import "NSString+_Format.h"
 #import "PGModel+Management.h"
 #import "UIBarButtonItem+Customview.h"
 #import "UIImage+Alpha.h"
 
-@interface PGDropboxViewController () <DownloadManagerDelegate>
+@interface PGDropboxViewController () <DownloadManagerDelegate, UploadManagerProgressDelegate, MBProgressHUDDelegate>
 
 @property (nonatomic, strong) NSArray *directoryContents;
 @property (nonatomic, strong) NSMutableArray *selectedItems;
 @property (nonatomic, strong) UIBarButtonItem *tempBarButtonItem;
+@property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
 
@@ -35,7 +37,7 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad]; 
+    [super viewDidLoad];
     [self _addObservers];
     [self _addPullToRefresh];
     self.directoryContents = @[];
@@ -52,6 +54,12 @@
 }
 
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.dropboxViewControllerType == PGDropboxViewControllerTypeUpload) [self showUploadInterface];
+}
+
 - (void)dealloc
 {
     [NSNotificationCenter.defaultCenter removeObserver:self];
@@ -64,6 +72,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)showUploadInterface
+{
+    [self.navigationController setToolbarHidden:NO animated:YES];
+}
 
 - (NSMutableArray *)selectedItems
 {
@@ -87,12 +100,39 @@
 }
 
 
+- (IBAction)newFolderTapped:(id)sender
+{
+    UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Folder Name", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add", nil), nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+
+- (IBAction)chooseFolderTapped:(id)sender
+{
+    [self _showSpinner:YES];
+    [self.progressHUD show:YES];
+    self.progressHUD.mode = MBProgressHUDModeIndeterminate;
+    [[PGUploadManager sharedInstance] uploadModel:self.uploadModel toPath:[DropboxBaseURL stringByAppendingPathComponent:self.subPath] progressDelegate:self completion:^(NSError *error) {
+        [self _showSpinner:NO];
+        if (!error) {
+            self.progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+            self.progressHUD.mode = MBProgressHUDModeCustomView;
+            self.progressHUD.labelText = NSLocalizedString(@"Success!", nil);
+            [self.progressHUD hide:YES afterDelay:2.0f];
+        } else {
+            [self showHUDMessage:error.userInfo[@"error"]];
+        }
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
+        [self.navigationItem setRightBarButtonItem:doneButton animated:YES];
+        [self _requestFolderList];
+    }];
+}
+
+
 - (void)_addObservers
 {
-    [NSNotificationCenter.defaultCenter addObserver:self
-                                           selector:@selector(_requestFolderList)
-                                               name:DropboxLinkStateChangedNotification
-                                             object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_requestFolderList) name:DropboxLinkStateChangedNotification object:nil];
 }
 
 - (void)_addPullToRefresh
@@ -118,7 +158,7 @@
 {
     UIBarButtonItem *barbuttonItem;
     if (shouldShow) {
-        UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [spinner startAnimating];
         barbuttonItem = [UIBarButtonItem.alloc initWithCustomView:spinner];
         self.tempBarButtonItem = self.navigationItem.rightBarButtonItem;
@@ -138,6 +178,8 @@
     PGDropboxViewController *nextLevelViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
     nextLevelViewController.subPath = [self.subPath stringByAppendingPathComponent:directoryMetadata.filename];
     nextLevelViewController.title = directoryMetadata.filename;
+    nextLevelViewController.dropboxViewControllerType = self.dropboxViewControllerType;
+    nextLevelViewController.uploadModel = self.uploadModel;
     [self.navigationController pushViewController:nextLevelViewController animated:YES];
 }
 
@@ -155,6 +197,33 @@
     }
 }
 
+#pragma mark - UIAlertView delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self _showSpinner:YES];
+        NSString *folderName = [alertView textFieldAtIndex:0].text;
+        [[PGUploadManager sharedInstance] createDropboxFolder:folderName atPath:self.subPath completion:^(NSError *error) {
+            [self _showSpinner:NO];
+            if (!error) {
+                [self _requestFolderList];
+            } else {
+                [self showHUDMessage:error.userInfo[@"error"]];
+            }
+        }];
+    }
+}
+
+
+- (void)showHUDMessage:(NSString *)message
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = message;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hide:YES afterDelay:3];
+}
+
 #pragma mark - Download manager delegate methods
 - (void)downloadManager:(PGDownloadManager *)sender didLoadDirectoryContents:(NSArray *)contents
 {
@@ -169,7 +238,7 @@
 {
     [self _showSpinner:NO];
     [self.refreshControl endRefreshing];
-    //TODO: alert user
+    [self showHUDMessage:NSLocalizedString(@"Oops! Couldn't load the folder.", nil)];
 }
 
 - (void)downloadManager:(PGDownloadManager *)downloadManager didLoadThumbnail:(DBMetadata *)metadata
@@ -179,12 +248,41 @@
     [self _loadThumbnail:cell.folderFileImage withMetadata:metadata];
 }
 
-#pragma mark - Table view data source
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+
+#pragma mark - Upload manager delegate methods
+- (void)uploadManager:(PGUploadManager *)uploadManager uploadProgress:(CGFloat)progress forModel:(PGModel *)model
 {
-    return 1;
+    self.progressHUD.mode = MBProgressHUDModeAnnularDeterminate;
+    self.progressHUD.progress = progress;
 }
 
+- (void)uploadManager:(PGUploadManager *)uploadManager finishedUploadingModel:(PGModel *)model
+{
+    self.progressHUD.progress = 1.0f;
+}
+
+- (void)uploadManager:(PGUploadManager *)uploadManager failedUploadingModel:(PGModel *)model
+{
+    [self.progressHUD hide:YES];
+    
+}
+
+
+- (MBProgressHUD *)progressHUD
+{
+    if (!_progressHUD) {
+        _progressHUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+        [self.view addSubview:_progressHUD];
+        _progressHUD.mode = MBProgressHUDModeIndeterminate;
+        _progressHUD.delegate = self;
+        _progressHUD.labelText = NSLocalizedString(@"Uploading", nil);
+        _progressHUD.removeFromSuperViewOnHide = YES;
+    }
+    return _progressHUD;
+}
+
+
+#pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -230,30 +328,34 @@
     }
     
     if (metadata.thumbnailExists) [self _loadThumbnail:dropboxCell.folderFileImage withMetadata:metadata];
-    
-    if (self.selectedItems.count == 0) {
-        if (!metadata.isDirectory) {
-            if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) {
-                dropboxCell.userInteractionEnabled = NO;
-                dropboxCell.folderFileName.textColor = [UIColor lightGrayColor];
-                dropboxCell.description.textColor = [UIColor lightGrayColor];
+    switch (self.dropboxViewControllerType) {
+        case PGDropboxViewControllerTypeDownload:
+            
+            if (self.selectedItems.count == 0) {
+                if (!metadata.isDirectory) {
+                    if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) {
+                        [dropboxCell setUnselectable];
+                    }
+                }
+            } else {
+                if ([self.selectedItems containsObject:metadata]) {
+                    dropboxCell.accessoryType = UITableViewCellAccessoryCheckmark;
+                }
+                DBMetadata *primaryItem = self.selectedItems[0];
+                if (primaryItem == metadata) {
+                    dropboxCell.userInteractionEnabled = NO;
+                } else if (![PGModel canHaveSubItems:primaryItem.filename]
+                           || !([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
+                           || metadata.isDirectory) {
+                    [dropboxCell setUnselectable];
+                }
             }
-        }
-    } else {
-        if ([self.selectedItems containsObject:metadata]) {
-            dropboxCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
-        DBMetadata *primaryItem = self.selectedItems[0];
-        if (primaryItem == metadata) {
-            dropboxCell.userInteractionEnabled = NO;
-        } else if (![PGModel canHaveSubItems:primaryItem.filename]
-                   || !([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown)
-                   || metadata.isDirectory) {
-            dropboxCell.userInteractionEnabled = NO;
-            dropboxCell.folderFileName.textColor = [UIColor lightGrayColor];
-            dropboxCell.description.textColor = [UIColor lightGrayColor];
-            dropboxCell.folderFileImage.image = [dropboxCell.folderFileImage.image imageByApplyingAlpha:0.5f];
-        }
+            break;
+        case PGDropboxViewControllerTypeUpload:
+            if (!metadata.isDirectory) {
+                [dropboxCell setUnselectable];
+            }
+            break;
     }
 }
 

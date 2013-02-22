@@ -35,11 +35,23 @@
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
-- (IBAction)doneTapped:(id)sender
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show Upload Dropbox"]) {
+        PGDropboxViewController *dropboxViewController = segue.destinationViewController;
+        dropboxViewController.dropboxViewControllerType = PGDropboxViewControllerTypeUpload;
+        dropboxViewController.uploadModel = self.model;
+    }
+}
+
+- (IBAction)cancelTapped:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#define DROPBOX_ROW 0
+#define EMAIL_ROW 1
 
 #pragma mark - TableViewDelegateMethods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -47,7 +59,7 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     [cell setSelected:NO animated:YES];
     
-    if (indexPath.row == 1) {
+    if (indexPath.row == EMAIL_ROW) {
         Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
         if (mailClass != nil) {
             // We must always check whether the current device is configured for sending emails
@@ -59,12 +71,8 @@
         } else {
             [self launchMailAppOnDevice];
         }
-    } else if (indexPath.section == 1 && indexPath.row == 0) {
-//        DropboxViewController *nextLevelViewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"dropBoxLevelViewController"];
-//        nextLevelViewController.uploadViewController = YES;
-//        nextLevelViewController.uploadFileInfo = [NSMutableDictionary dictionaryWithDictionary:self.sendModelInfo];
-//        [nextLevelViewController.uploadFileInfo setValue:[NSNumber numberWithBool:self.zipSwitch.isOn] forKey:@"shouldzip"];
-//        [self.navigationController pushViewController:nextLevelViewController animated:YES];
+    } else if (indexPath.row == DROPBOX_ROW) {
+        // Handled in storyboard segue
     }
 }
 
@@ -124,12 +132,8 @@
 # pragma mark - MFMailComposerViewController delegate mehods
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
-    [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
-    NSString *errorMessage = NSLocalizedString(@"Email failed", nil);
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
     if (result == MFMailComposeResultFailed) {
+        NSString *errorMessage = NSLocalizedString(@"Email failed", nil);
         UIAlertView *resultAlert = [[UIAlertView alloc] initWithTitle:errorMessage
                                                               message:[error localizedDescription]
                                                              delegate:self
@@ -137,16 +141,24 @@
                                                     otherButtonTitles:nil];
         [resultAlert show];
     } else if (result == MFMailComposeResultSent) {
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//TODO: post notification
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = NSLocalizedString(@"Email sent!", nil);
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:3.0];
     } else if (result == MFMailComposeResultCancelled) {
-        //TODO: post notification
+        //TODO: do nothing
     }
     if (self.zipSwitch.isOn) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *attachmentPath = [self.model.modelName stringByAppendingString:@".zip"];
         [fileManager removeItemAtPath:attachmentPath error:nil];
     }
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 

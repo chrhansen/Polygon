@@ -10,6 +10,8 @@
 
 @interface PGDropboxCell : UITableViewCell
 
+- (void)setUnselectable;
+
 @property (nonatomic, weak) IBOutlet UIImageView *folderFileImage;
 @property (nonatomic, weak) IBOutlet UILabel *folderFileName;
 @property (nonatomic, weak) IBOutlet UILabel *description;
