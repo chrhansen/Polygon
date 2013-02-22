@@ -8,23 +8,23 @@
 
 #import <Foundation/Foundation.h>
 #import "ZipFile.h"
+#import "FileInZipInfo.h"
 
 @protocol ZipHelperDelegate <NSObject>
-
+@optional
 - (void)zipProgress:(float)progress forFile:(NSString *)fileName;
-
 @end
 
 @interface ZipHelper : NSObject
 
-+ (BOOL)extractFileAtPath:(NSString *)filePath;
-
-+ (BOOL)unzipFile:(NSString *)fileName inZipFile:(NSString *)zipFilePath toDestDirectory:(NSString *)destDir withDelegate:(id<ZipHelperDelegate>)delegate;
++ (void)unzipFile:(NSString *)fileName
+        inZipFile:(NSString *)zipFilePath
+    intoDirectory:(NSString *)destDir
+         delegate:(id<ZipHelperDelegate>)delegate
+       completion:(void (^)(NSError *error))completion;
 
 + (NSArray *)listFilesInZipFile:(NSString *)filePath;
 
 + (NSString *)zipFileAtPath:(NSString *)filePath withDelegate:(id<ZipHelperDelegate>)delegate;
-
-@property (nonatomic, weak) id<ZipHelperDelegate> delegate;
 
 @end

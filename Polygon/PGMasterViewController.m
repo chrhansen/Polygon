@@ -9,6 +9,7 @@
 #import "PGMasterViewController.h"
 #import "ATConnect.h"
 #import "ATSurveys.h"
+#import "ListZipContentViewController.h"
 
 @interface PGMasterViewController ()
 
@@ -41,7 +42,7 @@
     [self.navigationPaneViewController setAppearanceType:MSNavigationPaneAppearanceTypeParallax];
     self.tableView.scrollsToTop = NO;
     [self.navigationController.navigationBar setHidden:NO];
-    [self _observeApptentiveSurveys];
+    [self _addObservings];
 }
 
 
@@ -51,12 +52,15 @@
 }
 
 #pragma mark - Apptentive
-- (void)_observeApptentiveSurveys
+- (void)_addObservings
 {    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(surveyBecameAvailable:)
                                                  name:ATSurveyNewSurveyAvailableNotification object:nil];
     [ATSurveys checkForAvailableSurveys];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(multiItemZipFileImported:)
+                                                 name:CompressedFileContainsMultipleItemsNotification object:nil];
 }
 
 - (void)surveyBecameAvailable:(NSNotification *)notification {
@@ -65,6 +69,21 @@
     [ATSurveys presentSurveyControllerFromViewController:self];
 }
 
+
+- (void)multiItemZipFileImported:(NSNotification *)notification
+{
+    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"listZipNavigationController"];
+    ListZipContentViewController *listZipViewController = (ListZipContentViewController *)navigationController.topViewController;
+    listZipViewController.filePathForZip = notification.userInfo[@"filePath"];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    if (self.presentedViewController) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self presentViewController:navigationController animated:YES completion:nil];
+        }];
+    } else {
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }
+}
 
 #pragma mark - MSMasterViewController
 
@@ -116,11 +135,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PGPaneViewControllerType paneViewControllerType = [self paneViewControllerTypeForIndexPath:indexPath];
-    if (paneViewControllerType == PGPaneViewControllerTypeFeedback) {
-        ATConnect *connection = [ATConnect sharedConnection];
-        [connection presentFeedbackControllerFromViewController:self];
-    } else {
-        [self transitionToViewController:paneViewControllerType];
+    switch (paneViewControllerType) {
+        case PGPaneViewControllerTypeFeedback:
+        {
+            ATConnect *connection = [ATConnect sharedConnection];
+            [connection presentFeedbackControllerFromViewController:self];
+        }
+            break;
+            
+        case PGPaneViewControllerTypeDropbox:
+        {
+            // Do nothing (pop over segue)
+        }
+            break;
+            
+        default:
+            [self transitionToViewController:paneViewControllerType];
+            break;
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

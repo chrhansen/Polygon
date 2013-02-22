@@ -10,6 +10,7 @@
 #import "PGModel+Management.h"
 #import "NSString+UUID.h"
 #import "NSData+MD5Hash.h"
+#import "ZipHelper.h"
 
 @interface PGDownloadManager ()
 
@@ -102,7 +103,7 @@
     if ([PGModel modelTypeForFileName:filePath.lastPathComponent] != ModelTypeUnknown) {
         [self importModelFileFromPath:filePath];
     } else if ([self isCompressedFile:filePath]) {
-        //TODO: show contents and prompt to unzip
+        [self handleZIPFileImport:filePath];
     } else {
         NSError *error;
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
@@ -110,6 +111,18 @@
     }
 }
 
+
+- (void)handleZIPFileImport:(NSString *)filePath
+{
+    NSArray *fileList = [ZipHelper listFilesInZipFile:filePath];
+    if (fileList.count == 1) {
+        // TODO: directly unzip that file and try import
+    } else {
+        // Present dialog to pick files to unzip
+        [[NSNotificationCenter defaultCenter] postNotificationName:CompressedFileContainsMultipleItemsNotification object:nil userInfo:@{@"fileList": fileList, @"filePath": filePath}];
+    }
+
+}
 
 - (void)importModelFileFromPath:(NSString *)filePath
 {

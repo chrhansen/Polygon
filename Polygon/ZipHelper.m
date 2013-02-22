@@ -10,22 +10,44 @@
 #import "FileInZipInfo.h"
 #import "ZipReadStream.h"
 #import "ZipWriteStream.h"
+
+#define ZIPHELPER_ERROR_DOMAIN @"it.calcul8.polygon.ziphelper"
+
 @implementation ZipHelper
-@synthesize delegate = _delegate;
+
 
 #define BUFFER_SIZE 256
 
-+ (BOOL)extractFileAtPath:(NSString *)filePath
++ (void)unzipFile:(NSString *)fileName inZipFile:(NSString *)zipFilePath intoDirectory:(NSString *)destDir delegate:(id<ZipHelperDelegate>)delegate completion:(void (^)(NSError *error))completion
 {
-    BOOL succes = NO;
-    
-    if ([[filePath lowercaseString] hasSuffix:@"zip"]) 
-    {
-        ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
-        NSFileHandle *file= [NSFileHandle fileHandleForWritingAtPath:filePath];
-        NSMutableData *buffer= [[NSMutableData alloc] initWithLength:BUFFER_SIZE];
-        ZipReadStream *read= [unzipFile readCurrentFileInZip];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *error;
+        if (![[zipFilePath lowercaseString] hasSuffix:@"zip"]){
+            error = [NSError errorWithDomain:ZIPHELPER_ERROR_DOMAIN code:-100 userInfo:@{@"userInfo": NSLocalizedString(@"File does not have zip-extension", nil)}];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(error);
+            });
+            return;
+        }
         
+        NSString *destFilePath = [destDir stringByAppendingPathComponent:fileName];
+        NSLog(@"destPath: %@", destFilePath);
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if (![fileManager fileExistsAtPath:destFilePath]) {
+            [fileManager createFileAtPath:destFilePath contents:nil attributes:nil];
+        }
+
+        NSFileHandle *destFileHandle = [NSFileHandle fileHandleForWritingAtPath:destFilePath];
+
+        ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:zipFilePath mode:ZipFileModeUnzip];
+        [unzipFile locateFileInZip:fileName];
+        ZipReadStream *read= [unzipFile readCurrentFileInZip];
+        NSUInteger fileSize = [unzipFile getCurrentFileInZipInfo].length;
+        NSUInteger allBytesRead = 0;
+        
+        NSMutableData *buffer= [[NSMutableData alloc] initWithLength:BUFFER_SIZE];
+
         // Read-then-write buffered loop
         do {
             
@@ -33,107 +55,40 @@
             [buffer setLength:BUFFER_SIZE];
             
             // Expand next chunk of bytes
-            int bytesRead= [read readDataWithBuffer:buffer];
+            NSUInteger bytesRead = [read readDataWithBuffer:buffer];
+            
+            allBytesRead += bytesRead;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([delegate respondsToSelector:@selector(zipProgress:forFile:)]) {
+                    [delegate zipProgress:(CGFloat)allBytesRead/fileSize forFile:fileName];
+                }
+            });
+            
             if (bytesRead > 0) {
-                
                 // Write what we have read
                 [buffer setLength:bytesRead];
-                [file writeData:buffer];
-                
+                [destFileHandle writeData:buffer];
             } else
                 break;
             
         } while (YES);
         
         // Clean up
-        [file closeFile];
-        [read finishedReading];
-    }
-    return succes;
-}
-
-+ (BOOL)unzipFile:(NSString *)fileName inZipFile:(NSString *)zipFilePath toDestDirectory:(NSString *)destDir withDelegate:(id<ZipHelperDelegate>)delegate
-{    
-    if (![[zipFilePath lowercaseString] hasSuffix:@"zip"]) 
-    {
-        return NO;
-    }
-    
-    ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:zipFilePath mode:ZipFileModeUnzip];
-    [unzipFile locateFileInZip:fileName];
-
-    
-    NSString *destFilePath = [destDir stringByAppendingPathComponent:fileName];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[destDir stringByAppendingPathComponent:fileName]]) {
-        [[NSFileManager defaultManager] createFileAtPath:destFilePath contents:nil attributes:nil];
-    }
-    else 
-    {
-        destFilePath = [destFilePath stringByAppendingFormat:@"_%@", [[NSDate date] description]];
-        [[NSFileManager defaultManager] createDirectoryAtPath:destFilePath withIntermediateDirectories:NO attributes:nil error:nil];
-    }
-
-    
-    NSFileHandle *destFileHandle = [NSFileHandle fileHandleForWritingAtPath:destFilePath];
-    NSLog(@"destPath: %@", [destDir stringByAppendingPathComponent:fileName]);
-    NSMutableData *buffer= [[NSMutableData alloc] initWithLength:BUFFER_SIZE];
-    ZipReadStream *read= [unzipFile readCurrentFileInZip];
-    
-    NSUInteger fileSize = [unzipFile getCurrentFileInZipInfo].length;
-    NSUInteger allBytesRead = 0;
-    
-    // Read-then-write buffered loop
-    do {
-        
-        // Reset buffer length
-        [buffer setLength:BUFFER_SIZE];
-        
-        // Expand next chunk of bytes
-        NSUInteger bytesRead = [read readDataWithBuffer:buffer];
-        
-        allBytesRead += bytesRead;
-        [delegate zipProgress:(CGFloat)allBytesRead/fileSize forFile:fileName];
-        
-        
-        if (bytesRead > 0) {
-            // Write what we have read
-            [buffer setLength:bytesRead];
-            [destFileHandle writeData:buffer];
-            
-        } else
-            break;
-        
-    } while (YES);
-    
-    // Clean up
-    //destFileHandle 
-    [destFileHandle closeFile];
-    //[read finishedReading];
-    NSLog(@"closing unzip");
-    [unzipFile close];
-    
-    return YES;
+        [destFileHandle closeFile];
+        [unzipFile close];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(error);
+        });
+    });
 }
 
 
 + (NSArray *)listFilesInZipFile:(NSString *)filePath
 {
-    ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
-    NSArray *infos= [unzipFile listFileInZipInfos];
-    
-    NSMutableArray *zipFileContent = [NSMutableArray array];
-    
-    for (FileInZipInfo *info in infos) 
-    {
-        //NSLog(@"info: %@\n", info.name);
-        [zipFileContent addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   info.name, @"filename", 
-                                   [NSNumber numberWithInteger:info.size], @"zipsize", 
-                                   [NSNumber numberWithInteger:info.length], @"unzippedsize", nil]];
-    }
+    ZipFile *unzipFile = [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeUnzip];
+    NSArray *infos     = [unzipFile listFileInZipInfos];
     [unzipFile close];
-    return zipFileContent;
+    return infos;
 }
 
 

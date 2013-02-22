@@ -7,17 +7,17 @@
         <!--Dropbox View Controller-->
         <scene sceneID="ecs-qx-wkd">
             <objects>
-                <tableViewController storyboardIdentifier="dropboxViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qBD-hu-24A" customClass="PGDropboxViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="dropboxViewController" modalPresentationStyle="currentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qBD-hu-24A" customClass="PGDropboxViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="pfF-G4-aDb">
-                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Dropbox Cell" id="f6g-4J-B5V" customClass="PGDropboxCell">
-                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="wi9-oF-CXA">
@@ -67,17 +67,19 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="RhM-gG-3sL"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="500"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="15S-12-GvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20223" y="-25125"/>
+            <point key="canvasLocation" x="-21442" y="-22249"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v4k-HA-AxS">
             <objects>
-                <navigationController modalPresentationStyle="formSheet" id="I6h-qk-uhh" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="currentContext" id="I6h-qk-uhh" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="KDc-TM-uIn"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="400" height="500"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="LDl-wI-Ozy">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -89,7 +91,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IvW-L2-73Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20915" y="-25133"/>
+            <point key="canvasLocation" x="-22348" y="-22249"/>
         </scene>
         <!--Model View Controller-->
         <scene sceneID="hba-iO-xxG">
@@ -115,7 +117,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g5S-AO-eS6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-19933" y="-24352"/>
+            <point key="canvasLocation" x="-19405" y="-24776"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="o7f-0b-qSR">
@@ -139,7 +141,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NSZ-gp-Su1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20915" y="-24352"/>
+            <point key="canvasLocation" x="-20387" y="-24776"/>
         </scene>
         <!--Model View Controller-->
         <scene sceneID="EOS-QM-vxf">
@@ -164,7 +166,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nb9-oU-dLp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-19941" y="-23202"/>
+            <point key="canvasLocation" x="-19399" y="-23474"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="YbT-eK-Ect">
@@ -178,7 +180,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3E0-rd-vFF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-18948" y="-23171"/>
+            <point key="canvasLocation" x="-18471" y="-23459"/>
         </scene>
         <!--Models Collection View Controller-->
         <scene sceneID="aws-F6-QaP">
@@ -280,15 +282,15 @@
                     <navigationItem key="navigationItem" id="Oh6-lQ-lHw"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
-                        <segue destination="I6h-qk-uhh" kind="modal" identifier="Show Dropbox" modalPresentationStyle="formSheet" id="bjF-sZ-Q3h"/>
                         <segue destination="WZp-nv-uHh" kind="modal" identifier="Show FE Model" id="7jr-j2-wkT"/>
                         <segue destination="mKd-hk-wiV" kind="modal" identifier="Show 3D Model" id="MxX-DU-q9a"/>
                         <segue destination="yHw-62-BfQ" kind="modal" identifier="Show Upload Dialog" modalPresentationStyle="formSheet" id="QMW-0Q-CnI"/>
+                        <segue destination="puY-Yb-3fH" kind="modal" id="B0w-aE-yta"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0aB-1i-bHE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-21961" y="-24347"/>
+            <point key="canvasLocation" x="-22348" y="-24355"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sac-Py-FIR">
@@ -306,7 +308,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qFJ-xq-UDL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20915" y="-23202"/>
+            <point key="canvasLocation" x="-20373" y="-23474"/>
         </scene>
         <!--Info Table View Controller-->
         <scene sceneID="ltL-2a-D4f">
@@ -446,7 +448,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cIS-Ni-DuP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20915" y="-26325"/>
+            <point key="canvasLocation" x="-20387" y="-26747"/>
         </scene>
         <!--Navigation Pane View Controller-->
         <scene sceneID="1JK-r3-uyF">
@@ -461,7 +463,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C63-mQ-hTl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-23704" y="-24333"/>
+            <point key="canvasLocation" x="-24503" y="-23571"/>
         </scene>
         <!--Store View Controller - Store-->
         <scene sceneID="zMk-F6-s0J">
@@ -564,7 +566,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIa-HE-LDs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20907" y="-22021"/>
+            <point key="canvasLocation" x="-22388" y="-21083"/>
         </scene>
         <!--Element Type View Controller-->
         <scene sceneID="Oxa-kQ-wZM">
@@ -653,7 +655,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pzQ-gK-1gI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-18999" y="-24347"/>
+            <point key="canvasLocation" x="-18471" y="-24771"/>
         </scene>
         <!--Transparency View Controller-->
         <scene sceneID="Yy8-MN-htU">
@@ -696,7 +698,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="34j-Hx-owq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-18132" y="-24347"/>
+            <point key="canvasLocation" x="-17604" y="-24771"/>
         </scene>
         <!--Master View Controller-->
         <scene sceneID="MFU-Dw-8pj">
@@ -771,6 +773,11 @@
                                             <constraint firstItem="K6Y-xb-dYZ" firstAttribute="top" secondItem="Ddx-tD-h0e" secondAttribute="top" constant="3" id="RqL-SQ-aFt"/>
                                             <constraint firstItem="9ZP-Oe-giN" firstAttribute="centerY" secondItem="Ddx-tD-h0e" secondAttribute="centerY" type="default" id="VQ1-Ec-7ZH"/>
                                         </constraints>
+                                        <connections>
+                                            <segue destination="I6h-qk-uhh" kind="popover" identifier="Show Dropbox" popoverAnchorView="9ZP-Oe-giN" id="y8n-x4-Gyd">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES"/>
+                                            </segue>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="K6l-5o-hZb">
                                         <rect key="frame" x="0.0" y="88" width="768" height="44"/>
@@ -845,10 +852,15 @@
                         </connections>
                     </tableView>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <segue destination="FbG-Mk-xLK" kind="modal" identifier="Show Zip List" modalPresentationStyle="formSheet" id="pwz-RT-X5n"/>
+                        <segue destination="V7Z-0N-UGO" kind="push" identifier="Show Store" id="ney-bp-Wgb"/>
+                        <segue destination="fFf-fL-swU" kind="push" identifier="Show Model List" id="oeg-os-PXa"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KPK-vJ-rCO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-22823" y="-24333"/>
+            <point key="canvasLocation" x="-23618" y="-23579"/>
         </scene>
         <!--Upload View Controller - Share Options-->
         <scene sceneID="8aX-9q-r7o">
@@ -975,7 +987,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bzS-k1-pPN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20169" y="-20863"/>
+            <point key="canvasLocation" x="-19627" y="-22303"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="09b-cK-aQb">
@@ -993,7 +1005,82 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vYj-MS-IqV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20915" y="-20863"/>
+            <point key="canvasLocation" x="-20373" y="-22303"/>
+        </scene>
+        <!--List Zip Content View Controller-->
+        <scene sceneID="glt-Hs-RYa">
+            <objects>
+                <tableViewController modalPresentationStyle="currentContext" id="5A2-WM-YTQ" customClass="ListZipContentViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1uL-kx-N42">
+                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Zip Cell" editingAccessoryType="checkmark" textLabel="qaK-yf-cQQ" detailTextLabel="SsR-gI-kJi" style="IBUITableViewCellStyleSubtitle" id="hjn-bP-F0U">
+                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="520" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qaK-yf-cQQ">
+                                            <rect key="frame" x="10" y="2" width="38" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SsR-gI-kJi">
+                                            <rect key="frame" x="10" y="24" width="36" height="18"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="5A2-WM-YTQ" id="47b-GN-vJE"/>
+                            <outlet property="delegate" destination="5A2-WM-YTQ" id="hY9-90-T0h"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Sgy-gz-EyK">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="oHC-R7-cac">
+                            <connections>
+                                <action selector="tappedCancel:" destination="5A2-WM-YTQ" id="h9K-40-RyN"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Of6-A1-ym3">
+                            <connections>
+                                <action selector="tappedSave:" destination="5A2-WM-YTQ" id="7Ao-Xi-jMz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Akx-34-qPz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-21646" y="-23077"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="N1t-ef-suz">
+            <objects>
+                <navigationController storyboardIdentifier="listZipNavigationController" id="FbG-Mk-xLK" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pey-zZ-bb7">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5A2-WM-YTQ" kind="relationship" relationship="rootViewController" id="zhg-5F-2rx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L9K-cd-na3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-22348" y="-23085"/>
         </scene>
     </scenes>
     <resources>
@@ -1005,6 +1092,125 @@
         <image name="dropbox_bw.png" width="40" height="37"/>
         <image name="email_1.png" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="ListZipContentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListZipContentViewController.h"/>
+        </class>
+        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
+        </class>
+        <class className="NGLView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NGLView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PG3DModelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PG3DModelViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGDropboxCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGDropboxCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="PGDropboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGDropboxViewController.h"/>
+        </class>
+        <class className="PGElementTypeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGElementTypeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="beamAction:"/>
+                <relationship kind="action" name="edgeAction:"/>
+                <relationship kind="action" name="shellAction:"/>
+                <relationship kind="action" name="solidAction:"/>
+                <relationship kind="outlet" name="beamElements" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="edges" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="shellElements" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="solidElements" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="PGFEModelViewController" superclassName="GLKViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGFEModelViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGInfoTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGInfoTableViewController.h"/>
+        </class>
+        <class className="PGMasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGMasterViewController.h"/>
+        </class>
+        <class className="PGModelCollectionViewCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGModelCollectionViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="downloadProgressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="modelImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="topContentView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="PGModelsCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGModelsCollectionViewController.h"/>
+        </class>
+        <class className="PGStoreCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="PGStoreLayout" superclassName="UICollectionViewFlowLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreLayout.h"/>
+        </class>
+        <class className="PGStoreViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGTransparencyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGTransparencyViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="transparencySlider" candidateClass="UISlider"/>
+            </relationships>
+        </class>
+        <class className="PGUploadViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGUploadViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="zipSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

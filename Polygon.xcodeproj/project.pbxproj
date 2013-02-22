@@ -83,6 +83,7 @@
 		E53E322216D59B1C0075DBA3 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = E53E320616D59B1C0075DBA3 /* trees.c */; };
 		E53E322316D59B1C0075DBA3 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = E53E320816D59B1C0075DBA3 /* uncompr.c */; };
 		E53E322416D59B1C0075DBA3 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = E53E320B16D59B1C0075DBA3 /* zutil.c */; };
+		E53E326216D6E9B80075DBA3 /* ListZipContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E326116D6E9B70075DBA3 /* ListZipContentViewController.m */; };
 		E559237B16D2E0B900A087D8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E559237A16D2E0B900A087D8 /* CoreTelephony.framework */; };
 		E559238C16D2E35100A087D8 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E559238316D2E2D100A087D8 /* libApptentiveConnect.a */; };
 		E559238D16D2E3B300A087D8 /* ApptentiveResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E559238716D2E2D100A087D8 /* ApptentiveResources.bundle */; };
@@ -390,6 +391,8 @@
 		E53E320A16D59B1C0075DBA3 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		E53E320B16D59B1C0075DBA3 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		E53E320C16D59B1C0075DBA3 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		E53E326016D6E9B70075DBA3 /* ListZipContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListZipContentViewController.h; sourceTree = "<group>"; };
+		E53E326116D6E9B70075DBA3 /* ListZipContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListZipContentViewController.m; sourceTree = "<group>"; };
 		E559237A16D2E0B900A087D8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		E559237C16D2E2D100A087D8 /* ApptentiveConnect.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ApptentiveConnect.xcodeproj; path = Polygon/ApptentiveConnect/ApptentiveConnect.xcodeproj; sourceTree = "<group>"; };
 		E559238F16D2E40F00A087D8 /* ATConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATConnect.h; path = ApptentiveConnect/source/ATConnect.h; sourceTree = "<group>"; };
@@ -816,6 +819,8 @@
 				E58FB65D16852FEC00085E7D /* PGInfoTableViewController.m */,
 				E5376C8E167B7BC900738979 /* PGDropboxViewController.h */,
 				E5376C8F167B7BC900738979 /* PGDropboxViewController.m */,
+				E53E326016D6E9B70075DBA3 /* ListZipContentViewController.h */,
+				E53E326116D6E9B70075DBA3 /* ListZipContentViewController.m */,
 				E5D3148B16CDAA9300700F57 /* PGStoreViewController.h */,
 				E5D3148C16CDAA9300700F57 /* PGStoreViewController.m */,
 				E53E31D516D5952F0075DBA3 /* PGUploadViewController.h */,
@@ -1711,6 +1716,7 @@
 				E53E322216D59B1C0075DBA3 /* trees.c in Sources */,
 				E53E322316D59B1C0075DBA3 /* uncompr.c in Sources */,
 				E53E322416D59B1C0075DBA3 /* zutil.c in Sources */,
+				E53E326216D6E9B80075DBA3 /* ListZipContentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

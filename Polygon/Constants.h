@@ -42,6 +42,7 @@ extern NSString * const SourceDropbox;
 // Notifications
 extern NSString * const DropboxLinkStateChangedNotification;
 extern NSString * const FileOpenFromEmailNotification;
+extern NSString * const CompressedFileContainsMultipleItemsNotification;
 
 extern NSString * const DropboxNewFileDownLoaded;
 extern NSString * const DropboxZipFileDownLoaded;
