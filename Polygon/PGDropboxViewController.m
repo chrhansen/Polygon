@@ -264,7 +264,6 @@
 - (void)uploadManager:(PGUploadManager *)uploadManager failedUploadingModel:(PGModel *)model
 {
     [self.progressHUD hide:YES];
-    
 }
 
 

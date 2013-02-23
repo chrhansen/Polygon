@@ -53,7 +53,7 @@
 
 #pragma mark - Apptentive
 - (void)_addObservings
-{    
+{
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(surveyBecameAvailable:)
                                                  name:ATSurveyNewSurveyAvailableNotification object:nil];
@@ -104,17 +104,12 @@
         [self.navigationPaneViewController setPaneState:MSNavigationPaneStateClosed animated:YES];
         return;
     }
-    
     BOOL animateTransition = self.navigationPaneViewController.paneViewController != nil;
-    
     UIViewController *paneViewController = [self.navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:self.paneViewControllerIdentifiers[@(paneViewControllerType)]];
-    
     paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
     paneViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"PGBarButtonIconNavigationPane"] style:UIBarButtonItemStyleBordered target:self action:@selector(navigationPaneBarButtonItemTapped:)];
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
-    
     [self.navigationPaneViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
-    
     self.paneViewControllerType = paneViewControllerType;
 }
 
@@ -145,7 +140,11 @@
             
         case PGPaneViewControllerTypeDropbox:
         {
-            // Do nothing (pop over segue)
+            if (IS_IPAD) {
+                // Do nothing (storyboard segue)
+            } else {
+                [self transitionToViewController:PGPaneViewControllerTypeDropbox];
+            }
         }
             break;
             

@@ -152,12 +152,7 @@
                                                     otherButtonTitles:nil];
         [resultAlert show];
     } else if (result == MFMailComposeResultSent) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
-        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.labelText = NSLocalizedString(@"Email sent!", nil);
-        hud.removeFromSuperViewOnHide = YES;
-        [hud hide:YES afterDelay:3.0];
+
     } else if (result == MFMailComposeResultCancelled) {
         //TODO: do nothing
     }
