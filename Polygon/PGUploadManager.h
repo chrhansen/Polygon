@@ -28,5 +28,4 @@
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<UploadManagerProgressDelegate> progressDelegate;
 
-
 @end

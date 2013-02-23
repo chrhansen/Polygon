@@ -17,6 +17,7 @@
 
 
 #define BUFFER_SIZE 256
+#define CALLBACK_BYTE_INTERVAL 25000
 
 + (void)unzipFile:(NSString *)fileName inZipFile:(NSString *)zipFilePath intoDirectory:(NSString *)destDir delegate:(id<ZipHelperDelegate>)delegate completion:(void (^)(NSError *error))completion
 {
@@ -29,17 +30,14 @@
             });
             return;
         }
-        
         NSString *destFilePath = [destDir stringByAppendingPathComponent:fileName];
-        NSLog(@"destPath: %@", destFilePath);
-        
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if (![fileManager fileExistsAtPath:destFilePath]) {
             [fileManager createFileAtPath:destFilePath contents:nil attributes:nil];
         }
-
+        
         NSFileHandle *destFileHandle = [NSFileHandle fileHandleForWritingAtPath:destFilePath];
-
+        
         ZipFile *unzipFile= [[ZipFile alloc] initWithFileName:zipFilePath mode:ZipFileModeUnzip];
         [unzipFile locateFileInZip:fileName];
         ZipReadStream *read= [unzipFile readCurrentFileInZip];
@@ -47,15 +45,10 @@
         NSUInteger allBytesRead = 0;
         
         NSMutableData *buffer= [[NSMutableData alloc] initWithLength:BUFFER_SIZE];
-
-        // Read-then-write buffered loop
+        NSUInteger bytesRead = 0;
         do {
-            
-            // Reset buffer length
             [buffer setLength:BUFFER_SIZE];
-            
-            // Expand next chunk of bytes
-            NSUInteger bytesRead = [read readDataWithBuffer:buffer];
+            bytesRead = [read readDataWithBuffer:buffer];
             
             allBytesRead += bytesRead;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -63,17 +56,14 @@
                     [delegate zipProgress:(CGFloat)allBytesRead/fileSize forFile:fileName];
                 }
             });
-            
             if (bytesRead > 0) {
-                // Write what we have read
                 [buffer setLength:bytesRead];
                 [destFileHandle writeData:buffer];
             } else
                 break;
             
         } while (YES);
-        
-        // Clean up
+
         [destFileHandle closeFile];
         [unzipFile close];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -92,6 +82,71 @@
 }
 
 
++ (void)zipFile:(NSString *)filePath
+  intoDirectory:(NSString *)destinationDirectory
+       delegate:(id<ZipHelperDelegate>)delegate
+     completion:(void (^)(NSError *error, NSString *destinationPath))completion
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSError *error;
+        if (![fileManager fileExistsAtPath:filePath]) {
+            error = [NSError errorWithDomain:ZIPHELPER_ERROR_DOMAIN code:-100 userInfo:@{@"error": NSLocalizedString(@"No file at path", nil)}];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(error, nil);
+            });
+            return;
+        }
+        NSString *zipDestPath       = [filePath.stringByDeletingPathExtension stringByAppendingString:@".zip"];
+        NSUInteger fileSize         = [[fileManager attributesOfItemAtPath:filePath error:&error][NSFileSize] integerValue];
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(error, nil);
+            });
+            return;
+        }
+        NSString *fileName          = [filePath lastPathComponent];
+        ZipFile *zipFile            = [[ZipFile alloc] initWithFileName:zipDestPath mode:ZipFileModeCreate];
+        ZipWriteStream *writeStream = [zipFile writeFileInZipWithName:fileName compressionLevel:ZipCompressionLevelDefault];
+        
+        NSInputStream *myStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+        [myStream open];
+        uint8_t buffer[BUFFER_SIZE];
+        
+        NSUInteger allBytesRead = 0;
+        NSUInteger bytesSinceLastCallback = 0;
+        NSUInteger bytesRead = 0;
+        while ([myStream hasBytesAvailable]) {
+            bytesRead = [myStream read:buffer maxLength:sizeof(buffer)];
+            allBytesRead += bytesRead;
+            bytesSinceLastCallback += bytesRead;
+            if (bytesSinceLastCallback > CALLBACK_BYTE_INTERVAL) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [delegate zipProgress:(CGFloat)allBytesRead/fileSize forFile:fileName];
+                });
+                bytesSinceLastCallback = 0;
+            }
+            NSData *myData = [NSData dataWithBytes:buffer length:bytesRead];
+            [writeStream writeData:myData];
+        }
+        [writeStream finishedWriting];
+        [zipFile close];
+        [myStream close];
+        
+        if (![fileManager fileExistsAtPath:destinationDirectory]) {
+            [fileManager createDirectoryAtPath:destinationDirectory withIntermediateDirectories:NO attributes:nil error:&error];
+        }
+        NSString *destinationPath = [destinationDirectory stringByAppendingPathComponent:zipDestPath.lastPathComponent];
+        [fileManager moveItemAtPath:zipDestPath toPath:destinationPath error:&error];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(error, destinationPath);
+        });
+    });
+}
+
+
+
 + (NSString *)zipFileAtPath:(NSString *)filePath withDelegate:(id<ZipHelperDelegate>)delegate
 {
     NSString *zipDestPath = [filePath stringByAppendingString:@".zip"];
@@ -103,10 +158,10 @@
     NSInputStream *myStream = [NSInputStream inputStreamWithFileAtPath:filePath];
     [myStream open];
     uint8_t buffer[BUFFER_SIZE];
-
+    
     NSUInteger allBytesRead = 0;
-
-    while ([myStream hasBytesAvailable]) 
+    
+    while ([myStream hasBytesAvailable])
     {
         NSUInteger bytesRead = [myStream read:buffer maxLength:sizeof(buffer)];
         

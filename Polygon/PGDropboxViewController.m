@@ -158,7 +158,7 @@
 {
     UIBarButtonItem *barbuttonItem;
     if (shouldShow) {
-        UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [spinner startAnimating];
         barbuttonItem = [UIBarButtonItem.alloc initWithCustomView:spinner];
         self.tempBarButtonItem = self.navigationItem.rightBarButtonItem;
@@ -326,7 +326,6 @@
         dropboxCell.description.text = [metadata.humanReadableSize stringByAppendingString: [@", modified " stringByAppendingString:modifiedDuration]];
         dropboxCell.folderFileImage.image = ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) ? [UIImage imageNamed:@"180-stickynote"] : [UIImage imageNamed:@"dropbox_fileitem.png"];
     }
-    
     if (metadata.thumbnailExists) [self _loadThumbnail:dropboxCell.folderFileImage withMetadata:metadata];
     switch (self.dropboxViewControllerType) {
         case PGDropboxViewControllerTypeDownload:

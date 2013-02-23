@@ -23,6 +23,11 @@
          delegate:(id<ZipHelperDelegate>)delegate
        completion:(void (^)(NSError *error))completion;
 
++ (void)zipFile:(NSString *)filePath
+  intoDirectory:(NSString *)destinationDirectory
+       delegate:(id<ZipHelperDelegate>)delegate
+     completion:(void (^)(NSError *error, NSString *destinationPath))completion;
+
 + (NSArray *)listFilesInZipFile:(NSString *)filePath;
 
 + (NSString *)zipFileAtPath:(NSString *)filePath withDelegate:(id<ZipHelperDelegate>)delegate;

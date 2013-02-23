@@ -14,10 +14,12 @@
 #import "NSString+_Format.h"
 #import "PGDownloadManager.h"
 #import "PGModel+Management.h"
+#import "NSString+UUID.h"
 
 @interface PGUploadViewController () <MFMailComposeViewControllerDelegate, ZipHelperDelegate, MBProgressHUDDelegate>
 
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
+@property (nonatomic, strong) NSString *zipFilePath;
 
 @end
 
@@ -66,10 +68,10 @@
             if ([mailClass canSendMail]) {
                 [self displayComposerSheet];
             } else {
-                [self launchMailAppOnDevice];
+                [self showCantEmailErrorMessage];
             }
         } else {
-            [self launchMailAppOnDevice];
+            [self showCantEmailErrorMessage];
         }
     } else if (indexPath.row == DROPBOX_ROW) {
         // Handled in storyboard segue
@@ -90,18 +92,22 @@
 #pragma mark show MFMailComposerViewController
 - (void)displayComposerSheet
 {
-    __block NSString *attachmentPath = self.model.fullModelFilePath;
     if (self.zipSwitch.isOn) {
-        [self showZippingProgressHUDForFile:[attachmentPath lastPathComponent]];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            attachmentPath = [ZipHelper zipFileAtPath:attachmentPath withDelegate:self];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self showMailComposerWithAttachment:attachmentPath];
-                self.progressHUD.progress = 1.0;
-            });
-        });
+        [self showZippingProgressHUDForFile:self.model.modelName];
+        NSString *destinationDir = [TEMP_DIR stringByAppendingPathComponent:[NSString getUUID]];
+        [ZipHelper zipFile:self.model.fullModelFilePath intoDirectory:destinationDir delegate:self completion:^(NSError *error, NSString *destinationPath) {
+            self.progressHUD.progress = 1.0;
+            self.progressHUD.removeFromSuperViewOnHide = YES;
+            [self.progressHUD hide:YES];
+            self.zipFilePath = destinationPath;
+            if (!error) {
+                [self showMailComposerWithAttachment:destinationPath.lastPathComponent];
+            } else {
+                NSLog(@"Error zipping: %@", error);
+            }
+        }];
     } else {
-        [self showMailComposerWithAttachment:attachmentPath];
+        [self showMailComposerWithAttachment:self.model.fullModelFilePath];
     }
 }
 
@@ -132,6 +138,11 @@
 # pragma mark - MFMailComposerViewController delegate mehods
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
+    if (self.zipFilePath) {
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:self.zipFilePath.stringByDeletingLastPathComponent error:&error];
+        if (error) NSLog(@"Error deleting zip-file: %@", error.localizedDescription);
+    }
     if (result == MFMailComposeResultFailed) {
         NSString *errorMessage = NSLocalizedString(@"Email failed", nil);
         UIAlertView *resultAlert = [[UIAlertView alloc] initWithTitle:errorMessage
@@ -150,11 +161,6 @@
     } else if (result == MFMailComposeResultCancelled) {
         //TODO: do nothing
     }
-    if (self.zipSwitch.isOn) {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString *attachmentPath = [self.model.modelName stringByAppendingString:@".zip"];
-        [fileManager removeItemAtPath:attachmentPath error:nil];
-    }
     [self dismissViewControllerAnimated:YES completion:^{
         [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -162,7 +168,7 @@
 }
 
 
-- (void)launchMailAppOnDevice
+- (void)showCantEmailErrorMessage
 {
     UIAlertView *resultAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
                                                           message:NSLocalizedString(@"Your device is not able to send e-mail", nil)
@@ -175,27 +181,13 @@
 
 - (void)showZippingProgressHUDForFile:(NSString *)fileName
 {
-    self.progressHUD = [[MBProgressHUD alloc] initWithView:self.tableView];
-    [self.tableView addSubview:self.progressHUD];
-    
-    // Set determinate mode
+    self.progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:self.progressHUD];
     self.progressHUD.mode = MBProgressHUDModeAnnularDeterminate;
     self.progressHUD.dimBackground = YES;
-    
     self.progressHUD.delegate = self;
     self.progressHUD.labelText = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Zipping", nil), [fileName fitToLength:21]];
-    
-    // myProgressTask uses the HUD instance to update progress
-    [self.progressHUD showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
-}
-
-
-- (void)myProgressTask
-{
-	while (self.progressHUD.progress < 1.0)
-    {
-		usleep(50000);
-	}
+    [self.progressHUD show:YES];
 }
 
 @end
