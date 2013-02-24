@@ -19,29 +19,33 @@
     for (NSString *filePath in localModels) {
         [[PGDownloadManager sharedInstance] importModelFileFromPath:filePath];
     }
-    
+
     // Import models from main bundle
     [self copyBundleDirectoryToTempDirectory:PGBundledModels];
     NSArray *bundleModels = [self findModelsInDirectory:[TEMP_DIR stringByAppendingPathComponent:PGBundledModels]];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
     for (NSString *filePath in bundleModels) {
         PGModel *model = [[PGDownloadManager sharedInstance] importModelFileFromPath:filePath];
-        NSString *importDirectory = filePath.stringByDeletingLastPathComponent;
-        NSArray *subItems = [fileManager contentsOfDirectoryAtPath:importDirectory error:nil];
-        for (NSString *subItemPath in subItems) {
-            if (![subItemPath isEqualToString:model.fullModelFilePath]) {
-                NSError *error;
-                [fileManager moveItemAtPath:[importDirectory stringByAppendingPathComponent:subItemPath] toPath:[model.enclosingFolder stringByAppendingPathComponent:subItemPath] error:&error];
-                if (error) NSLog(@"Error moving subitem: %@", error.localizedDescription);
-            }
-            
-        }
+        [self moveSubitemsAtDirectory:filePath.stringByDeletingLastPathComponent toModelDirectory:model];
     }
+        
     dispatch_async(dispatch_get_main_queue(), ^{
         if (completion) completion(nil);
     });
 }
 
+
++ (void)moveSubitemsAtDirectory:(NSString *)directoryPath toModelDirectory:(PGModel *)model
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *subItems = [fileManager contentsOfDirectoryAtPath:directoryPath error:nil];
+    for (NSString *subItemPath in subItems) {
+        if (![subItemPath isEqualToString:model.modelName]) {
+            NSError *error;
+            [fileManager moveItemAtPath:[directoryPath stringByAppendingPathComponent:subItemPath] toPath:[model.enclosingFolder stringByAppendingPathComponent:subItemPath] error:&error];
+            if (error) NSLog(@"Error moving subitem: %@", error.localizedDescription);
+        }
+    }
+}
 
 + (NSArray *)findModelsInDirectory:(NSString *)directoryToSearch
 {
