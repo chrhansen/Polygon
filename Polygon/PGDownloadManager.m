@@ -117,14 +117,15 @@
     NSArray *fileList = [ZipHelper listFilesInZipFile:filePath];
     if (fileList.count == 1) {
         // TODO: directly unzip that file and try import
+        [[NSNotificationCenter defaultCenter] postNotificationName:CompressedFileContainsMultipleItemsNotification object:nil userInfo:@{@"fileList": fileList, @"filePath": filePath}];
     } else {
         // Present dialog to pick files to unzip
         [[NSNotificationCenter defaultCenter] postNotificationName:CompressedFileContainsMultipleItemsNotification object:nil userInfo:@{@"fileList": fileList, @"filePath": filePath}];
     }
-
+    
 }
 
-- (void)importModelFileFromPath:(NSString *)filePath
+- (PGModel *)importModelFileFromPath:(NSString *)filePath
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
@@ -132,7 +133,7 @@
     [fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:NO attributes:nil error:&error];
     if (error) {
         NSLog(@"Error: %@", error.localizedDescription);
-        return;
+        return nil;
     }
     NSString *destinationPath = [directoryPath stringByAppendingPathComponent:filePath.lastPathComponent];
     if ([fileManager moveItemAtPath:filePath toPath:destinationPath error:&error]) {
@@ -147,7 +148,7 @@
                                     @"modelSize": fileAttributes[NSFileSize],
                                     @"filePath" : relativePath,
                                     @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
-    [[PGModel MR_importFromArray:@[objectDetails]] lastObject];
+    return [[PGModel MR_importFromArray:@[objectDetails]] lastObject];
 }
 
 - (PGModel *)downloadFile:(DBMetadata *)metadata

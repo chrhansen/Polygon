@@ -6,6 +6,29 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>${PRODUCT_NAME}</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>default_thumb_on_background.png</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Polygon Document</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>it.calcul8.polygon.obj</string>
+				<string>it.calcul8.polygon.inp</string>
+				<string>it.calcul8.polygon.ans</string>
+				<string>it.calcul8.polygon.cdb</string>
+				<string>it.calcul8.polygon.dat</string>
+				<string>it.calcul8.polygon.dae</string>
+				<string>it.calcul8.polygon.zip</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
@@ -32,7 +55,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -45,7 +68,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
@@ -86,32 +109,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeIconFiles</key>
-			<array>
-				<string>default_thumb_on_background.png</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>Polygon Document</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>it.calcul8.polygon.obj</string>
-				<string>it.calcul8.polygon.inp</string>
-				<string>it.calcul8.polygon.ans</string>
-                <string>it.calcul8.polygon.cdb</string>
-				<string>it.calcul8.polygon.dat</string>
-                <string>it.calcul8.polygon.dae</string>
-                <string>it.calcul8.polygon.zip</string>
-			</array>
-		</dict>
-	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
-        <dict>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.text</string>
@@ -124,13 +124,13 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-                    <string>obj</string>
+					<string>obj</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/polygon-obj</string>
 			</dict>
 		</dict>
-        <dict>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.text</string>
@@ -143,13 +143,13 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-                    <string>inp</string>
+					<string>inp</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/polygon-inp</string>
 			</dict>
 		</dict>
-        <dict>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.text</string>
@@ -162,13 +162,13 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-                    <string>ans</string>
+					<string>ans</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/polygon-ans</string>
 			</dict>
 		</dict>
-        <dict>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.text</string>
@@ -181,13 +181,13 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-                    <string>cdb</string>
+					<string>cdb</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/polygon-cdb</string>
 			</dict>
 		</dict>
-        <dict>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.text</string>
@@ -200,7 +200,7 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-                    <string>dat</string>
+					<string>dat</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/polygon-dat</string>
@@ -219,13 +219,13 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-                    <string>dae</string>
+					<string>dae</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/polygon-dae</string>
 			</dict>
 		</dict>
-        <dict>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.text</string>
@@ -238,7 +238,7 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-                    <string>zip</string>
+					<string>zip</string>
 				</array>
 				<key>public.mime-type</key>
 				<string>application/polygon-zip</string>

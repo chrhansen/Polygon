@@ -35,6 +35,8 @@ static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownl
 extern NSString * const SourceEmail;
 extern NSString * const SourceDropbox;
 
+// First Launch
+extern NSString * const PGFirstLaunch;
 
 
 #pragma mark - From Old Polygon Constants
@@ -59,7 +61,7 @@ extern NSString * const PolygonModelTypeNotPurchased;
 
 
 // User Defaults
-extern NSString * const BundledModels;
+extern NSString * const PGBundledModels;
 extern NSString * const UserDefaults_PerspectiveView;
 extern NSString * const POLYGON_PURCHASED_PRODUCTS;
 

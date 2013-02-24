@@ -467,7 +467,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ms6-bx-eli">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ms6-bx-eli">
                                     <constraints>
                                         <constraint firstAttribute="width" constant="135" id="Oi6-ei-nEU"/>
                                         <constraint firstAttribute="height" constant="135" id="P7g-iy-zWt"/>
@@ -482,16 +482,16 @@
                         <sections>
                             <tableViewSection headerTitle="" id="Nye-Gb-JIB">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="LU0-ZJ-JqF">
-                                        <rect key="frame" x="0.0" y="160" width="320" height="46"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="LU0-ZJ-JqF">
+                                        <rect key="frame" x="0.0" y="160" width="320" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="300" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Title" translatesAutoresizingMaskIntoConstraints="NO" id="Lkx-mx-jjC">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="43" id="myR-ax-t1p"/>
+                                                        <constraint firstAttribute="height" constant="79" id="NgN-XE-nnw"/>
                                                         <constraint firstAttribute="width" constant="300" id="zN5-kU-zdy"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -504,8 +504,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="Lkx-mx-jjC" firstAttribute="top" secondItem="LU0-ZJ-JqF" secondAttribute="top" constant="1" id="4OG-bN-Whn"/>
                                             <constraint firstItem="Lkx-mx-jjC" firstAttribute="centerX" secondItem="LU0-ZJ-JqF" secondAttribute="centerX" type="default" id="TOJ-a7-QRh"/>
-                                            <constraint firstItem="Lkx-mx-jjC" firstAttribute="top" secondItem="LU0-ZJ-JqF" secondAttribute="top" constant="1" id="boB-Jo-vAg"/>
                                         </constraints>
                                     </tableViewCell>
                                 </cells>
@@ -529,7 +529,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rhe-jP-hdf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-8480" y="-9338"/>
+            <point key="canvasLocation" x="-8466" y="-9338"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ctj-xE-oae">
@@ -1268,6 +1268,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ndl-LX-hy6"/>
+        <segue reference="Di2-KF-Dll"/>
     </inferredMetricsTieBreakers>
 </document>

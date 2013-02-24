@@ -31,9 +31,11 @@ NSString *const SourceDropbox = @"http://www.dropbox.com";
 
 
 // user default constants
+// First Launch
+NSString * const PGFirstLaunch = @"PGFirstLaunch";
 
 NSString *const yyy = @"yyy";
-NSString *const BundledModels = @"BundledModels";
+NSString *const PGBundledModels = @"PGBundledModels";
 NSString *const UserDefaults_PerspectiveView = @"UserDefaults_PerspectiveView";
 NSString *const POLYGON_PURCHASED_PRODUCTS = @"POLYGON_PURCHASED_PRODUCTS";
 

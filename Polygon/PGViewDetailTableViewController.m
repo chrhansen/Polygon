@@ -18,6 +18,10 @@
     
     [self configureBarButtonsForState:self.isEditing];
     if (self.isEditing) [self.titleTextView becomeFirstResponder];
+    
+    self.screenshotImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.screenshotImageView.layer.borderWidth = 2.0f;
+
 }
 
 

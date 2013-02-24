@@ -12,13 +12,13 @@
 #import "MSNavigationPaneViewController.h"
 #import "PGMasterViewController.h"
 #import "ATConnect.h"
+#import "PGFirstLaunchTasks.h"
 
 @implementation PGAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //TODO: replace with v1.2 of Testflight
-//    [TestFlight takeOff:@"f146de881ca21798ccf25e64e544d6a0_MTAyNjExMjAxMi0wNi0yNyAwNDozNTozNC4wOTMwNTk"];
+    [TestFlight takeOff:@"f146de881ca21798ccf25e64e544d6a0_MTAyNjExMjAxMi0wNi0yNyAwNDozNTozNC4wOTMwNTk"];
     DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"zys929yd5i93w1u" appSecret:@"46uevc5lcz77wat" root:kDBRootDropbox];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Polygon.sqlite"];
     
@@ -32,6 +32,15 @@
     [masterViewController transitionToViewController:PGPaneViewControllerTypeModels];
     
     [PGStyleController applyAppearance];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL firstLaunch = ![userDefaults boolForKey:PGFirstLaunch];
+    if (firstLaunch) {
+        [userDefaults setBool:YES forKey:PGFirstLaunch];
+        [userDefaults synchronize];
+        [PGFirstLaunchTasks performFirstLaunchTasksWithCompletion:nil];
+    }
+    
     return YES;
 }
 							
