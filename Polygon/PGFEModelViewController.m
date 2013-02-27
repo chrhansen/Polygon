@@ -251,9 +251,8 @@
         } else if (_anAnsysModel.isAnsysParsingPurchased == NO) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 PGModel *model = self.model;
-                [self dismissViewControllerAnimated:YES completion:^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:InAppNotPurchasedNotification object:nil userInfo:@{@"model": model}];
-                }];
+                [self showHUDMessage:[NSString stringWithFormat:@"%@ %@", model.modelName, NSLocalizedString(@"has more than 5000 nodes. Please upgrade.", nil)]];
+                [self performSelector:@selector(_dismissViewAfterHUDMessage) withObject:nil afterDelay:3.0];
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -263,6 +262,22 @@
     });
 }
 
+- (void)_dismissViewAfterHUDMessage
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:InAppNotPurchasedNotification object:nil userInfo:@{@"model": self.model}];
+    }];
+}
+
+
+- (void)showHUDMessage:(NSString *)message
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = message;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hide:YES afterDelay:3];
+}
 
 - (void)setupBasicGL
 {

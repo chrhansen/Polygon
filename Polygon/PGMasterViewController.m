@@ -92,10 +92,9 @@
 
 - (void)notPurchased:(NSNotification *)notification
 {
-    PGModel *model = notification.userInfo[@"model"];
     [self transitionToViewController:PGPaneViewControllerTypeStore];
-    NSLog(@"Model type not purchased: %@", model);
 }
+
 
 #pragma mark - MSMasterViewController
 

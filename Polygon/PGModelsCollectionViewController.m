@@ -389,10 +389,12 @@
         [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
         [self _toggleBarButtonStateOnChangedEditItems];
     } else {
-        if ([self isModelTypePurchased:selectedModel]) {
+        if ([self isModelTypePurchased:selectedModel] || [self isBundledModel:selectedModel]) {
             [self _presentModel:selectedModel sender:cell];
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:InAppNotPurchasedNotification object:nil userInfo:@{@"model": selectedModel}];;
+            [self showHUDMessage:[NSString stringWithFormat:@"%@ %@-%@", NSLocalizedString(@"You have not purchased", nil), selectedModel.modelName.pathExtension.uppercaseString, NSLocalizedString(@"models.", nil)]];
+            [self performSelector:@selector(_postNotificationAfterHUDMessage) withObject:nil afterDelay:2.0];
+
         }
     }
 }
@@ -434,6 +436,28 @@
             break;
     }
     return YES;
+}
+
+
+- (BOOL)isBundledModel:(PGModel *)model
+{
+    return [model.pGModelID isEqualToString:BUNDLED_MD5_ID_1];
+}
+
+
+- (void)_postNotificationAfterHUDMessage
+{
+    PGModel *model = [self.fetchedResultsController objectAtIndexPath:self.collectionView.indexPathsForSelectedItems.lastObject];
+    [[NSNotificationCenter defaultCenter] postNotificationName:InAppNotPurchasedNotification object:nil userInfo:@{@"model": model}];;
+}
+
+- (void)showHUDMessage:(NSString *)message
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = message;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hide:YES afterDelay:2];
 }
 
 #pragma mark - Fetched Results Controller

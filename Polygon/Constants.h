@@ -102,5 +102,5 @@ extern NSString * const InAppIdentifierDAEModels;
 
 extern NSString * const InAppNotPurchasedNotification;
 
-
+extern NSString * const BUNDLED_MD5_ID_1;
 

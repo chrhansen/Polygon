@@ -46,9 +46,7 @@
         self.subPath = @"";
         self.title = @"Dropbox";
     }
-    if (!DBSession.sharedSession.isLinked) {
-        [DBSession.sharedSession linkFromController:self];
-    } else {
+    if (DBSession.sharedSession.isLinked) {
         [self _requestFolderList];
     }
 }
@@ -58,6 +56,9 @@
 {
     [super viewDidAppear:animated];
     if (self.dropboxViewControllerType == PGDropboxViewControllerTypeUpload) [self showUploadInterface];
+    if (!DBSession.sharedSession.isLinked) {
+        [DBSession.sharedSession linkFromController:self];
+    }
 }
 
 - (void)dealloc
