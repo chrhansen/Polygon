@@ -20,6 +20,7 @@
 #import "NSString+_Format.h"
 #import "ATAppRatingFlow.h"
 #import "PGUploadViewController.h"
+#import "MKStoreManager.h"
 
 @interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
 
@@ -388,7 +389,11 @@
         [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
         [self _toggleBarButtonStateOnChangedEditItems];
     } else {
-        [self _presentModel:selectedModel sender:cell];
+        if ([self isModelTypePurchased:selectedModel]) {
+            [self _presentModel:selectedModel sender:cell];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:InAppNotPurchasedNotification object:nil userInfo:@{@"model": selectedModel}];;
+        }
     }
 }
 
@@ -413,6 +418,22 @@
         default:
             break;
     }
+}
+
+
+- (BOOL)isModelTypePurchased:(PGModel *)model
+{
+    switch (model.modelType) {
+        case ModelTypeDAE:
+            return ([MKStoreManager isFeaturePurchased:InAppIdentifierUnlimitedModels] || [MKStoreManager isFeaturePurchased:InAppIdentifierDAEModels]);
+            break;
+        case ModelTypeOBJ:
+            return ([MKStoreManager isFeaturePurchased:InAppIdentifierUnlimitedModels] || [MKStoreManager isFeaturePurchased:InAppIdentifierOBJModels]);
+            break;
+        default:
+            break;
+    }
+    return YES;
 }
 
 #pragma mark - Fetched Results Controller

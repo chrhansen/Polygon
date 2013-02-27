@@ -22,7 +22,7 @@ static NSString * const DropboxBaseURL = @"/";
 
 extern NSString * const DropboxLinkStateChangedNotification;
 
-extern NSString *const FileOpenFromEmailNotification;
+extern NSString * const FileOpenFromEmailNotification;
 
 static NSString * const DropboxFileDownloadedNotification = @"DropboxFileDownloadedNotification";
 static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownloadNotification";
@@ -52,10 +52,6 @@ extern NSString * const DropboxUploadFolderSelected;
 
 extern NSString * const DropboxNewFileUpLoaded;
 extern NSString * const DropboxUpLoadedError;
-
-extern NSString * const PolygonAnsysModelLimitPassed;
-
-extern NSString * const PolygonModelTypeNotPurchased;
 
 //extern NSString * const kReachabilityChangedNotification;
 
@@ -96,5 +92,15 @@ typedef enum {
     ModelTypeOBJ,
     ModelTypeDAE
 } ModelType;
+
+
+// In-App purchases
+extern NSString * const InAppIdentifierUnlimitedModels;
+extern NSString * const InAppIdentifierOBJModels;
+extern NSString * const InAppIdentifierAnsys; 
+extern NSString * const InAppIdentifierDAEModels;
+
+extern NSString * const InAppNotPurchasedNotification;
+
 
 

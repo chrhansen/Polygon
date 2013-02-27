@@ -62,8 +62,8 @@
 
 - (void) requestProductData;
 - (void) startVerifyingSubscriptionReceipts;
--(void) rememberPurchaseOfProduct:(NSString*) productIdentifier withReceipt:(NSData*) receiptData;
--(void) addToQueue:(NSString*) productId;
+- (void) rememberPurchaseOfProduct:(NSString*) productIdentifier withReceipt:(NSData*) receiptData;
+- (void) addToQueue:(NSString*) productId;
 @end
 
 @implementation MKStoreManager

@@ -8,6 +8,7 @@
 
 #import "AnsysModel.h"
 #import "ColorArrays.h"
+#import "MKStoreManager.h"
 
 @interface AnsysModel () {
     //NSMutableDictionary *materialNumbers;
@@ -19,8 +20,7 @@
 @property (nonatomic, strong) NSDictionary *validShellETypes;
 @property (nonatomic, strong) NSDictionary *validBeamETypes;
 @property (nonatomic) MemoryReadingFormat readMode;
-@property (nonatomic) BOOL bigModelLimitIsVerified;
-@property (nonatomic) BOOL modelParsingShouldContinue;
+@property (nonatomic) BOOL purchaseChecked;
 
 @end
 
@@ -41,7 +41,7 @@
     [_ansysModel nodesWithAnsysFile:path fileSize:fileSize];
     dispatch_async(dispatch_get_main_queue(), ^{ [_ansysModel.delegate finishedParsingNodes:_ansysModel.numOfVertices]; });;
     
-    if (_ansysModel.modelParsingShouldContinue)
+    if (_ansysModel.isAnsysParsingPurchased)
     {
         [_ansysModel elementsWithAnsysFile:path fileSize:fileSize];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -97,7 +97,8 @@
     NSCharacterSet *commaCharacter = [NSCharacterSet characterSetWithCharactersInString:@","];
     spaceAndNewLineSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     NSCharacterSet *decimalCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
-    self.modelParsingShouldContinue = YES;
+    self.isAnsysParsingPurchased = YES;
+    self.purchaseChecked = NO;
     [myStream open];
     uint8_t buffer[65536];
     NSMutableArray *lines;
@@ -124,7 +125,7 @@
     CGFloat parseRatio = 0.4;
     NSString *firstLineInBuffer;
 
-    while ([myStream hasBytesAvailable] && _modelParsingShouldContinue)
+    while ([myStream hasBytesAvailable] && _isAnsysParsingPurchased)
     {
         NSUInteger bytesRead = [myStream read:buffer maxLength:sizeof(buffer)];
         allBytesRead += bytesRead;
@@ -179,13 +180,9 @@
                         self.vertexPositions[vertexCount] = [ansysNBlock extractVertexPositionFromLine:aLine];
                         //NSLog(@"self.vertexPositions[vertexCount].vertex: %@", NSStringFromGLKVector3(self.vertexPositions[vertexCount].vertex));
                         vertexCount++;
-                        if (!_bigModelLimitIsVerified && vertexCount > BIG_MODEL_LIMIT)
-                        {
-                            if (![self.delegate shouldContinueAfterNodeCountLimitPassed:vertexCount forModel:ansysFile.lastPathComponent])
-                            {
-                                self.modelParsingShouldContinue = NO;
-                            }
-                            _bigModelLimitIsVerified = YES;
+                        if (!_purchaseChecked && vertexCount > BIG_MODEL_LIMIT) {
+                            self.isAnsysParsingPurchased = ([MKStoreManager isFeaturePurchased:InAppIdentifierUnlimitedModels] || [MKStoreManager isFeaturePurchased:InAppIdentifierAnsys]);
+                            _purchaseChecked = YES;
                         }
                     }
                 }

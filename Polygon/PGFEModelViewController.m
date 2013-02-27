@@ -91,10 +91,9 @@
     GLuint allVertexArray;
     
     BoundingBox boundingBox;
-    AnsysModel *_anAnsysModel;   
 }
 
-
+@property (nonatomic, strong) AnsysModel *anAnsysModel;
 @property (strong, nonatomic) EAGLContext *context;
 @property (nonatomic, strong) UIPopoverController *thePopoverController;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -126,13 +125,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bigModelLimitPassed:) name:PolygonModelTypeNotPurchased object:nil];
     self.title = self.model.filePath.lastPathComponent;
     [self.navigationController.navigationBar setTranslucent:YES];
     [self _configureToolBarButtonItems];
     [self setupBasicGL];
     [self makeGradientBackground];
-    [self loadModelFile];
     [self _setToolBarTransparent];
     self.isPerpective = ![[NSUserDefaults standardUserDefaults] boolForKey:@"UserDefaults_PerspectiveView"];
 }
@@ -142,6 +139,14 @@
 {
     [super viewWillAppear:animated];
     [self _hideStatusBar];    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (!self.anAnsysModel) {
+        [self loadModelFile];
+    }
 }
 
 
@@ -235,13 +240,20 @@
     NSString *modelPath = [self.model.fullModelFilePath copy];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         _anAnsysModel = [AnsysModel ansysFileWithPath:modelPath andDelegate:self andSettings:initialSettings];
-        if (_anAnsysModel) {
+        if (_anAnsysModel && _anAnsysModel.isAnsysParsingPurchased) {
             boundingBox = _anAnsysModel.boundingBox[0];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loadModelDataToGL];
                 self.readingModelData = NO;
                 [self _addGestureRecognizers];
                 [self animateToReset];
+            });
+        } else if (_anAnsysModel.isAnsysParsingPurchased == NO) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                PGModel *model = self.model;
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:InAppNotPurchasedNotification object:nil userInfo:@{@"model": model}];
+                }];
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -273,7 +285,7 @@
     
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24; // check resolution
     view.drawableMultisample = GLKViewDrawableMultisample4X;//GLKViewDrawableMultisample4X;
-    
+
     [EAGLContext setCurrentContext:self.context];
     
     self.effect = [[GLKBaseEffect alloc] init];
@@ -432,7 +444,7 @@
     } else {
         viewTranslateMatrix = GLKMatrix4Translate(viewTranslateMatrix, 
                                                   self.panTranslation.x / self.view.bounds.size.width * 2.0f * cameraDistance, 
-                                                  -self.panTranslation.y / self.view.bounds.size.height * 2.0f *  cameraDistance, 
+                                                  -self.panTranslation.y / self.view.bounds.size.height * 2.0f *  cameraDistance,
                                                   (self.pinchScale-lastPinch)* 1.0f * cameraDistance);
     }
     if (_runRotationAnimation) {
@@ -1003,20 +1015,6 @@
     self.progressHUD.labelText = [NSString stringWithFormat:@"Read %i elements", noOfElements];
 }
 
-- (BOOL)shouldContinueAfterNodeCountLimitPassed:(NSUInteger)allowedNodeCount forModel:(NSString *)fileName
-{
-    if ([self fileTypeIsPurchased:fileName]) {
-        return YES;
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressHUD hide:YES];
-        //[self.delegate doneButtonTapped:self];
-        
-        [NSNotificationCenter.defaultCenter postNotificationName:PolygonModelTypeNotPurchased object:self userInfo:[NSDictionary dictionaryWithObject:fileName forKey:@"filename"]];
-    }); 
-    return NO;
-}
-
 
 #pragma mark - Views Table View Controller Delegate
 - (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
@@ -1071,16 +1069,5 @@
 //    [self animationToEndOrientation:aRoi.orientation];
 //    [self animateCameraToEndLocation:aRoi.location];
 //}
-
-#pragma mark - Helper methods
-
-- (BOOL)fileTypeIsPurchased:(NSString *)fileName
-{
-    NSLog(@"IS purchased not implemented");
-//    NSString *modelTypeIdentifier = [ModelAssetsLibrary modelTypeIdentifierForFile:fileName];
-//    NSString *productIdentifier = [InAppPolygonIAPHelper productIdentifierForModelTypeIdentifier:modelTypeIdentifier];
-    return YES;
-//    return [InAppPolygonIAPHelper productIdentifierIsPurchased:productIdentifier];
-}
 
 @end

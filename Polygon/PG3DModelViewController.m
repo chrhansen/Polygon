@@ -60,13 +60,15 @@ typedef enum {
     self.title = self.model.filePath.lastPathComponent;
     _shouldCreateScreenShot = NO;
     [self _addGestureRecognizers];
-    
-    NGLMesh *mesh = [self _loadMesh];
-    if (mesh) {
-        [self _startCameraWithMesh:mesh];
-    } else {
-        NSLog(@"Error: Couldn't initialize mesh");
+    if (!_camera) {
+        NGLMesh *mesh = [self _loadMesh];
+        if (mesh) {
+            [self _startCameraWithMesh:mesh];
+        } else {
+            NSLog(@"Error: Couldn't initialize mesh");
+        }
     }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -75,11 +77,11 @@ typedef enum {
     [self _hideStatusBar];
 }
 
-
-- (void)dealloc
+- (void)viewDidAppear:(BOOL)animated
 {
-    
+    [super viewDidAppear:animated];
 }
+
 
 - (NGLMesh *)_loadMesh
 {

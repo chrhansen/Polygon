@@ -10,6 +10,7 @@
 #import "ATConnect.h"
 #import "ATSurveys.h"
 #import "ListZipContentViewController.h"
+#import "PGModel+Management.h"
 
 @interface PGMasterViewController ()
 
@@ -61,6 +62,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(multiItemZipFileImported:)
                                                  name:CompressedFileContainsMultipleItemsNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notPurchased:)
+                                                 name:InAppNotPurchasedNotification object:nil];
 }
 
 - (void)surveyBecameAvailable:(NSNotification *)notification {
@@ -83,6 +88,13 @@
     } else {
         [self presentViewController:navigationController animated:YES completion:nil];
     }
+}
+
+- (void)notPurchased:(NSNotification *)notification
+{
+    PGModel *model = notification.userInfo[@"model"];
+    [self transitionToViewController:PGPaneViewControllerTypeStore];
+    NSLog(@"Model type not purchased: %@", model);
 }
 
 #pragma mark - MSMasterViewController

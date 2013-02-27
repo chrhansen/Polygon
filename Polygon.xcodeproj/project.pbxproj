@@ -744,7 +744,7 @@
 			isa = PBXGroup;
 			children = (
 				E5376BA5167B5E7C00738979 /* PGModel.xcdatamodeld */,
-				E5376BAF167B5F6F00738979 /* CoreDat Managed Classes */,
+				E5376BAF167B5F6F00738979 /* CoreData Managed Classes */,
 				E5376BAC167B5F6800738979 /* PGModel+Management.h */,
 				E5376BAD167B5F6800738979 /* PGModel+Management.m */,
 				E5EA5B0616852523008729C3 /* PGView+Management.h */,
@@ -754,7 +754,7 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		E5376BAF167B5F6F00738979 /* CoreDat Managed Classes */ = {
+		E5376BAF167B5F6F00738979 /* CoreData Managed Classes */ = {
 			isa = PBXGroup;
 			children = (
 				E5EA5B1516852707008729C3 /* PGModel.h */,
@@ -762,7 +762,7 @@
 				E5F5B104168CB3F0006205E9 /* PGView.h */,
 				E5F5B105168CB3F0006205E9 /* PGView.m */,
 			);
-			name = "CoreDat Managed Classes";
+			name = "CoreData Managed Classes";
 			sourceTree = "<group>";
 		};
 		E5376BB6167B60CF00738979 /* 3rd Party */ = {
@@ -1817,7 +1817,6 @@
 				INFOPLIST_FILE = "Polygon/Polygon-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Polygon/TestFlightSDK1.1\"",
 					"\"$(SRCROOT)/Polygon/TestFlightSDK1.2beta2\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1843,7 +1842,6 @@
 				INFOPLIST_FILE = "Polygon/Polygon-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Polygon/TestFlightSDK1.1\"",
 					"\"$(SRCROOT)/Polygon/TestFlightSDK1.2beta2\"",
 				);
 				OTHER_LDFLAGS = (

@@ -69,6 +69,7 @@
 @property (nonatomic) NSUInteger numOfMatProperties;
 @property (nonatomic) NSUInteger numOfSecProperties;
 @property (nonatomic) ColorMode colorMode; 
+@property (nonatomic) BOOL isAnsysParsingPurchased;
 
 
 @end

@@ -22,7 +22,6 @@ NSString *const CompressedFileContainsMultipleItemsNotification = @"CompressedFi
 
 
 NSString *const PolygonAnsysModelLimitPassed = @"PolygonAnsysModelLimitPassed";
-NSString *const PolygonModelTypeNotPurchased = @"PolygonModelTypeNotPurchased";
 
 #pragma mark - Source Identifiers
 NSString *const SourceEmail = @"SourceEmail";
@@ -50,3 +49,12 @@ NSString *const ParsableFormats = @"ParsableFormats";
 // ROI list
 NSString *const ROIs = @"ROIs";
 NSString *const PolygonROIs = @"PolygonROIs";
+
+
+// In-App purchases
+NSString * const InAppIdentifierUnlimitedModels = @"it.calcul8.polygon.unlimitedmodels";
+NSString * const InAppIdentifierOBJModels       = @"it.calcul8.polygon.objmodels";
+NSString * const InAppIdentifierAnsys           = @"it.calcul8.polygon.ansys";
+NSString * const InAppIdentifierDAEModels       = @"it.calcul8.polygon.daemodels";
+
+NSString * const InAppNotPurchasedNotification  = @"InAppNotPurchasedNotification";
