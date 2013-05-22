@@ -91,4 +91,6 @@
 +(void) setObject:(id) object forKey:(NSString*) key;
 +(NSNumber*) numberForKey:(NSString*) key;
 
+- (void)reloadProducts;
+
 @end

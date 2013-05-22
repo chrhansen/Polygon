@@ -26,7 +26,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.paneViewControllerType = NSUIntegerMax;
-        self.paneViewControllerTitles      = @{@(PGPaneViewControllerTypeModels)   : @"Models",
+        self.paneViewControllerTitles      = @{@(PGPaneViewControllerTypeModels)   : @"Polygon",
                                                @(PGPaneViewControllerTypeDropbox)  : @"Dropbox",
                                                @(PGPaneViewControllerTypeStore)    : @"Store"};
         self.paneViewControllerIdentifiers = @{@(PGPaneViewControllerTypeModels)   : @"modelsCollectionViewController",

@@ -207,6 +207,12 @@ static MKStoreManager* _sharedStoreManager;
              @"MKStoreKitConfigs.plist"]];
 }
 
+
+- (void)reloadProducts
+{
+    [self requestProductData];
+}
+
 - (void) restorePreviousTransactionsOnComplete:(void (^)(void)) completionBlock
                                        onError:(void (^)(NSError*)) errorBlock
 {
@@ -293,7 +299,7 @@ static MKStoreManager* _sharedStoreManager;
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
-	[self.purchasableObjects addObjectsFromArray:response.products];
+    if (!self.isProductsAvailable) [self.purchasableObjects addObjectsFromArray:response.products];
 	
 #ifndef NDEBUG
 	for(int i=0;i<[self.purchasableObjects count];i++)
@@ -307,7 +313,7 @@ static MKStoreManager* _sharedStoreManager;
 		NSLog(@"Problem in iTunes connect configuration for product: %@", invalidProduct);
 #endif
     
-	self.isProductsAvailable = YES;
+	self.isProductsAvailable = [self.purchasableObjects count];
     [[NSNotificationCenter defaultCenter] postNotificationName:kProductFetchedNotification
                                                         object:[NSNumber numberWithBool:self.isProductsAvailable]];
 	self.productsRequest = nil;

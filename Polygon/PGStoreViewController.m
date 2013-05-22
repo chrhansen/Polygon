@@ -35,6 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[MKStoreManager sharedManager] reloadProducts];
     if ([[self purchases] count] == 0) {
         [self.view addSubview:self.progressHUD];
     }
