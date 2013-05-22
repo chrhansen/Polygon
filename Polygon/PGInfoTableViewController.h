@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@class PGModel;
+@class PGModel, PGInfoTableViewController;
+
+@protocol PGInfoTableViewControllerDelegate <NSObject>
+
+- (void)infoTableViewController:(PGInfoTableViewController *)infoController didRequestAddingSubItemsToModel:(PGModel *)model;
+
+@end
+
 @interface PGInfoTableViewController : UITableViewController
 
 @property (nonatomic, strong) PGModel *model;
-
+@property (nonatomic, weak) id <PGInfoTableViewControllerDelegate> delegate;
 @end

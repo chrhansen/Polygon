@@ -85,7 +85,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="15S-12-GvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-21382" y="-22047"/>
+            <point key="canvasLocation" x="-21344" y="-22249"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="v4k-HA-AxS">
@@ -298,6 +298,7 @@
                         <segue destination="mKd-hk-wiV" kind="modal" identifier="Show 3D Model" id="MxX-DU-q9a"/>
                         <segue destination="yHw-62-BfQ" kind="modal" identifier="Show Upload Dialog" modalPresentationStyle="formSheet" id="QMW-0Q-CnI"/>
                         <segue destination="hI0-mh-2LI" kind="modal" identifier="Show Info Table View Controller" id="B0w-aE-yta"/>
+                        <segue destination="I6h-qk-uhh" kind="modal" identifier="Show Add To Dropbox" id="Ddc-IJ-CQc"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0aB-1i-bHE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1324,6 +1325,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="Ddc-IJ-CQc"/>
         <segue reference="Myr-wD-Yda"/>
         <segue reference="UOu-JS-BHs"/>
     </inferredMetricsTieBreakers>

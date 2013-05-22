@@ -84,7 +84,7 @@
             break;
             
         default:
-            NSLog(@"Error: Unknown file extension: %@", fileNameWithExtension);
+            return NO;
             break;
     }
     return YES;

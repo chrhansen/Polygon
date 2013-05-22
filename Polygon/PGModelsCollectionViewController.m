@@ -22,8 +22,9 @@
 #import "PGUploadViewController.h"
 #import "MKStoreManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import "PGDropboxViewController.h"
 
-@interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
+@interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate, PGInfoTableViewControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) TSPopoverController *tsPopoverController;
@@ -104,6 +105,14 @@
         model = self.editItems.lastObject;
         [(PGUploadViewController *)[(UINavigationController *)segue.destinationViewController topViewController] setModel:model];
         [self setEditing:NO animated:YES];
+    } else if ([segue.identifier isEqualToString:@"Show Add To Dropbox"]) {
+        if ([sender isKindOfClass:[PGInfoTableViewController class]]) {
+            model = [(PGInfoTableViewController *)sender model];
+        }
+        PGDropboxViewController *dropboxViewController = (PGDropboxViewController *)[(UINavigationController *)segue.destinationViewController topViewController];
+        [(UIViewController *)segue.destinationViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+        dropboxViewController.addToModel = model;
+        dropboxViewController.dropboxViewControllerType = PGDropboxViewControllerTypeAddTo;
     }
 }
 
@@ -212,6 +221,7 @@
     PGModel *model = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UINavigationController *navCon = [self.storyboard instantiateViewControllerWithIdentifier:@"navigationInfoTableViewController"];
     PGInfoTableViewController *infoViewController = (PGInfoTableViewController *)navCon.topViewController;//[self.storyboard instantiateViewControllerWithIdentifier:@"infoTableViewController"];
+    infoViewController.delegate = self;
     infoViewController.model = model;
     navCon.view.frame = CGRectMake(0,0, 320, 350);
     self.tsPopoverController = [[TSPopoverController alloc] initWithContentViewController:navCon];
@@ -481,6 +491,15 @@
     hud.labelText = message;
     hud.removeFromSuperViewOnHide = YES;
     [hud hide:YES afterDelay:2];
+}
+
+#pragma mark PGInfoTableViewController Delegate methods
+- (void)infoTableViewController:(PGInfoTableViewController *)infoController didRequestAddingSubItemsToModel:(PGModel *)model
+{
+    if (!IS_IPAD) {
+        [self.tsPopoverController dismissPopoverAnimatd:YES];
+    }
+    [self performSegueWithIdentifier:@"Show Add To Dropbox" sender:infoController];
 }
 
 #pragma mark - Fetched Results Controller

@@ -11,7 +11,6 @@
 #import "NSString+_Format.h"
 #import "PGView+Management.h"
 #import "UIImage+Resize.h"
-#import "PGDropboxViewController.h"
 
 @interface PGInfoTableViewController ()
 
@@ -68,10 +67,7 @@
 
 - (IBAction)showDropbox
 {
-    PGDropboxViewController *dropboxViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
-    UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:dropboxViewController];
-    navCon.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:navCon animated:YES completion:nil];
+    [self.delegate infoTableViewController:self didRequestAddingSubItemsToModel:self.model];
 }
 
 
@@ -169,11 +165,11 @@
             break;
             
         case 1:
-            return self.views.count;
+            return self.subitems.count;
             break;
             
         case 2:
-            return self.subitems.count;
+            return self.views.count;
             break;
             
         default:
@@ -198,16 +194,16 @@
             break;
             
         case 1:
-            cell = [tableView dequeueReusableCellWithIdentifier:SavedViewCellIdentifier forIndexPath:indexPath];
+            cell = [tableView dequeueReusableCellWithIdentifier:SubItemCellIdentifier forIndexPath:indexPath];
             if (cell) {
-                [self configureSavedViewCell:cell atRow:indexPath.row];
+                [self configureSubitemCell:cell atRow:indexPath.row];
             }
             break;
             
         case 2:
-            cell = [tableView dequeueReusableCellWithIdentifier:SubItemCellIdentifier forIndexPath:indexPath];
+            cell = [tableView dequeueReusableCellWithIdentifier:SavedViewCellIdentifier forIndexPath:indexPath];
             if (cell) {
-                [self configureSubitemCell:cell atRow:indexPath.row];
+                [self configureSavedViewCell:cell atRow:indexPath.row];
             }
             break;
             
@@ -228,11 +224,11 @@
             break;
             
         case 1:
-            return NSLocalizedString(@"Saved Views", nil);
+            return NSLocalizedString(@"Sub Items", nil);
             break;
             
         case 2:
-            return NSLocalizedString(@"Sub Items", nil);
+            return NSLocalizedString(@"Saved Views", nil);
             break;
             
         default:
@@ -247,14 +243,14 @@
     switch (section)
     {
         case 1:
-            if (self.views.count == 0) {
-                return NSLocalizedString(@"There is no saved views", nil);
+            if (self.subitems.count == 0) {
+                return NSLocalizedString(@"This model has no subitems", nil);
             }
             break;
             
         case 2:
-            if (self.subitems.count == 0) {
-                return NSLocalizedString(@"This model has no subitems", nil);
+            if (self.views.count == 0) {
+                return NSLocalizedString(@"There are no saved views", nil);
             }
             break;
             

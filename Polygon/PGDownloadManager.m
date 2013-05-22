@@ -185,6 +185,7 @@
 }
 
 
+
 - (PGModel *)downloadFilesAndDirectories:(NSArray *)metadatas rootFile:(DBMetadata *)rootMetadata
 {
     PGModel *model = [self downloadFile:rootMetadata];
@@ -197,7 +198,7 @@
 }
 
 
-- (void)downloadFilesAndDirectories:(NSArray *)metadatas forModel:(PGModel *)model
+- (void)downloadFilesAndDirectories:(NSArray *)metadatas toModel:(PGModel *)model
 {
     for (DBMetadata* child in metadatas) {
         if (child.isDirectory) {
@@ -231,6 +232,8 @@
 
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata
 {
+    if (!metadata.path) return;
+    
     if (self.waitingSubItems[metadata.path]) {
         [self downloadDirectoryAndSubDirectories:metadata toDirectory:self.waitingSubItems[metadata.path]];
         return;
@@ -254,8 +257,9 @@
 #pragma mark Download callbacks
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata
 {
+    if (!destPath) return;
+    
     PGModel *modelDownloaded = self.currentDownloads[destPath];
-    NSLog(@"Name: %@, GlobalURL: %@", modelDownloaded.modelName, modelDownloaded.globalURL);
     if (modelDownloaded) {
         [self.currentDownloads removeObjectForKey:destPath];
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
@@ -269,7 +273,7 @@
                 [self.progressDelegate downloadManager:self finishedDownloadingModel:modelDownloaded];
             }
             NSArray *subItemsToDownload = self.waitingSubItems[modelDownloaded.enclosingFolder.lastPathComponent];
-            if (subItemsToDownload) [self downloadFilesAndDirectories:subItemsToDownload forModel:modelDownloaded];
+            if (subItemsToDownload) [self downloadFilesAndDirectories:subItemsToDownload toModel:modelDownloaded];
         }];
     }
 }
@@ -318,9 +322,10 @@
 #pragma mark Sharable Links
 - (void)restClient:(DBRestClient *)restClient loadedSharableLink:(NSString *)link forFile:(NSString *)path
 {
+    if (!path) return;
+    
     PGModel *model = self.sharableLinks[path];
     model.globalURL = link;
-    NSLog(@"Name: %@, GlobalURL: %@", model.modelName, model.globalURL);
     [self.sharableLinks removeObjectForKey:path];
 }
 

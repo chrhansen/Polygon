@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSArray *directoryContents;
 @property (nonatomic, strong) NSMutableArray *selectedItems;
 @property (nonatomic, strong) UIBarButtonItem *tempBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *tempLeftBarButtonItem;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
@@ -41,11 +42,11 @@
     [self _addObservers];
     [self _addPullToRefresh];
     self.directoryContents = @[];
-    
     if (!self.subPath) {
         self.subPath = @"";
         self.title = @"Dropbox";
     }
+    [self _toggleSelectSubitemsState];
     if (DBSession.sharedSession.isLinked) {
         [self _requestFolderList];
     }
@@ -67,13 +68,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 - (void)showUploadInterface
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
@@ -81,9 +75,7 @@
 
 - (NSMutableArray *)selectedItems
 {
-    if (!_selectedItems) {
-        _selectedItems = [NSMutableArray new];
-    }
+    if (!_selectedItems) _selectedItems = [NSMutableArray new];
     return _selectedItems;
 }
 
@@ -96,8 +88,12 @@
 - (void)_cancelTapped
 {
     [self.selectedItems removeAllObjects];
-    [self _setSelectSubitemsState];
-    [self.tableView reloadData];
+    [self _toggleSelectSubitemsState];
+    if (self.dropboxViewControllerType == PGDropboxViewControllerTypeAddTo) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.tableView reloadData];
+    }
 }
 
 
@@ -119,7 +115,7 @@
         if (!error) {
             self.progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
             self.progressHUD.mode = MBProgressHUDModeCustomView;
-            self.progressHUD.labelText = NSLocalizedString(@"Success!", nil);
+            self.progressHUD.labelText = NSLocalizedString(@"Uploaded!", nil);
             [self.progressHUD hide:YES afterDelay:2.0f];
         } else {
             [self showHUDMessage:error.userInfo[@"error"]];
@@ -181,20 +177,33 @@
     nextLevelViewController.title = directoryMetadata.filename;
     nextLevelViewController.dropboxViewControllerType = self.dropboxViewControllerType;
     nextLevelViewController.uploadModel = self.uploadModel;
+    nextLevelViewController.addToModel = self.addToModel;
     [self.navigationController pushViewController:nextLevelViewController animated:YES];
 }
 
 
-- (void)_setSelectSubitemsState
+- (void)_toggleSelectSubitemsState
 {
-    if (self.selectedItems.count > 0) {
+    if ([self.selectedItems count]) {
         UIBarButtonItem *cancelButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
         [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
         UIBarButtonItem *downloadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(_downloadSelectedItems)];
         [self.navigationItem setLeftBarButtonItem:downloadButton animated:YES];
     } else {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+        if (self.dropboxViewControllerType == PGDropboxViewControllerTypeAddTo) {
+            UIBarButtonItem *cancelButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
+            [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
+        } else {
+            [self.navigationItem setRightBarButtonItem:nil animated:YES];
+            if ([self.subPath isEqualToString:@""]) {
+                if (!self.tempLeftBarButtonItem) {
+                    self.tempLeftBarButtonItem = self.navigationItem.leftBarButtonItem;
+                }
+                [self.navigationItem setLeftBarButtonItem:self.tempLeftBarButtonItem animated:YES];
+            } else {
+                [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+            }
+        }
     }
 }
 
@@ -355,6 +364,13 @@
                 [dropboxCell setUnselectable];
             }
             break;
+        case PGDropboxViewControllerTypeAddTo:
+            if ([self.selectedItems containsObject:metadata]) dropboxCell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+            if (![PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) {
+                [dropboxCell setUnselectable];
+            }
+            break;
     }
 }
 
@@ -371,9 +387,13 @@
 #pragma mark - Table view delegate
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.selectedItems.count > 0) {
-        DBMetadata *primaryItem = self.selectedItems[0];
-        return [PGModel canHaveSubItems:primaryItem.filename];
+    if ([self.selectedItems count]) {
+        NSString *fileName = self.addToModel.filePath.lastPathComponent;
+        if (!fileName) {
+            DBMetadata *primaryItem = self.selectedItems[0];
+            fileName = primaryItem.filename;
+        }
+        return [PGModel canHaveSubItems:fileName];
     }
     return YES;
 }
@@ -385,11 +405,21 @@
         if (pickedItem.isDirectory) {
             [self _showSubDirectory:pickedItem];
         } else {
-            [self _selectedPrimaryFile:self.directoryContents[indexPath.row] atIndexPath:indexPath];
+            if (self.addToModel) {
+                [self _togglePresenceInSelectedItems:pickedItem];
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [self _toggleSelectSubitemsState];
+            } else {
+                [self _selectedPrimaryFile:self.directoryContents[indexPath.row] atIndexPath:indexPath];
+            }
         }
     } else {
-        DBMetadata *primaryItem = self.selectedItems[0];
-        switch ([PGModel modelTypeForFileName:primaryItem.filename]) {
+        NSString *fileName = self.addToModel.filePath.lastPathComponent;
+        if (!fileName) {
+            DBMetadata *primaryItem = self.selectedItems[0];
+            fileName = primaryItem.filename;
+        }
+        switch ([PGModel modelTypeForFileName:fileName]) {
             case ModelTypeOBJ:
             case ModelTypeDAE:
                 [self _togglePresenceInSelectedItems:pickedItem];
@@ -408,19 +438,25 @@
         return;
     }
     [self.selectedItems addObject:primaryItem];
-    [self _setSelectSubitemsState];
+    [self _toggleSelectSubitemsState];
     [self.tableView reloadData];
 }
 
 
 - (void)_downloadSelectedItems
 {
-    DBMetadata *rootModel = self.selectedItems[0];
-    [self.selectedItems removeObjectAtIndex:0];
-    [PGDownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy rootFile:rootModel];
-    [self.selectedItems removeAllObjects];
-    [self _setSelectSubitemsState];
-    [self.tableView reloadData];
+    if (self.addToModel) {
+        [PGDownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy toModel:self.addToModel];
+        [self.selectedItems removeAllObjects];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        DBMetadata *rootModel = self.selectedItems[0];
+        [self.selectedItems removeObjectAtIndex:0];
+        [PGDownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy rootFile:rootModel];
+        [self.selectedItems removeAllObjects];
+        [self _toggleSelectSubitemsState];
+        [self.tableView reloadData];
+    }
 }
 
 @end

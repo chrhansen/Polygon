@@ -14,7 +14,8 @@
 typedef NS_ENUM(NSInteger, PGDropboxViewControllerType)
 {
     PGDropboxViewControllerTypeDownload,
-    PGDropboxViewControllerTypeUpload
+    PGDropboxViewControllerTypeUpload,
+    PGDropboxViewControllerTypeAddTo
 };
 
 @protocol PGDropboxUploadDelegate <NSObject>
@@ -29,6 +30,7 @@ typedef NS_ENUM(NSInteger, PGDropboxViewControllerType)
 @property (nonatomic, strong) NSString *subPath;
 @property (nonatomic) PGDropboxViewControllerType dropboxViewControllerType;
 @property (nonatomic, strong) PGModel *uploadModel;
+@property (nonatomic, strong) PGModel *addToModel;
 @property (nonatomic, weak) id<PGDropboxUploadDelegate> delegate;
 
 @end

@@ -191,6 +191,7 @@
                         <segue destination="6i4-9Z-m2K" kind="modal" identifier="Show FE Model" id="yXA-yF-LKP"/>
                         <segue destination="Tpb-kF-w5L" kind="modal" identifier="Show 3D Model" id="DEx-hm-BFq"/>
                         <segue destination="RGt-OM-uic" kind="modal" identifier="Show Upload Dialog" id="cCI-AC-hd2"/>
+                        <segue destination="eic-qy-ZSy" kind="modal" identifier="Show Add To Dropbox" id="i2A-15-CuI"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpm-UH-sAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -797,6 +798,21 @@
             </objects>
             <point key="canvasLocation" x="-9599" y="-10071"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="GgC-DJ-o0i">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="eic-qy-ZSy" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DYW-s9-0Fy">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="j16-7i-iAl" kind="relationship" relationship="rootViewController" id="w0J-k0-CqA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Pw-9d-Whp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-11012" y="-10439"/>
+        </scene>
         <!--Dropbox View Controller-->
         <scene sceneID="Gee-zY-69z">
             <objects>
@@ -1297,5 +1313,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Di2-KF-Dll"/>
+        <segue reference="w0J-k0-CqA"/>
     </inferredMetricsTieBreakers>
 </document>

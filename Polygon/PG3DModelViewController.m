@@ -87,7 +87,7 @@ typedef enum {
 {
 	NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
 							  @"1.0", kNGLMeshKeyNormalize,
-                              kNGLMeshCentralizeYes, kNGLMeshKeyCentralize, nil];
+                              kNGLMeshCentralizeYes, kNGLMeshKeyCentralize, kNGLMeshOriginalYes, kNGLMeshKeyOriginal, nil];
     NGLMesh *modelMesh = [[NGLMesh alloc] initWithFile:self.model.fullModelFilePath settings:settings delegate:self];
     modelMesh.rotationSpace = NGLRotationSpaceWorld;
 	return modelMesh;
