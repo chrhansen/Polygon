@@ -103,8 +103,6 @@
 		E55923AA16D3011F00A087D8 /* dropbox_bw.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923A816D3011F00A087D8 /* dropbox_bw.png */; };
 		E55923AB16D3011F00A087D8 /* dropbox_bw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923A916D3011F00A087D8 /* dropbox_bw@2x.png */; };
 		E55923CC16D38F0C00A087D8 /* ATAppRatingFlow.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923CB16D38F0C00A087D8 /* ATAppRatingFlow.h */; };
-		E570CCCD16DA6FDE00418413 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E570CCCA16DA6FDE00418413 /* libTestFlight.a */; };
-		E570CCCE16DA6FDE00418413 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E570CCCB16DA6FDE00418413 /* release_notes.md */; };
 		E570CCD116DA92EE00418413 /* PGFirstLaunchTasks.m in Sources */ = {isa = PBXBuildFile; fileRef = E570CCD016DA92EE00418413 /* PGFirstLaunchTasks.m */; };
 		E570CCD916DAA1C700418413 /* PGBundledModels in Resources */ = {isa = PBXBuildFile; fileRef = E570CCD816DAA1C700418413 /* PGBundledModels */; };
 		E57F882C16D1878E003140F4 /* 0159.png in Resources */ = {isa = PBXBuildFile; fileRef = E57F882A16D1878E003140F4 /* 0159.png */; };
@@ -135,6 +133,7 @@
 		E59B5FFF16B7012C00F868AD /* PGMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */; };
 		E59B600A16B7079900F868AD /* PGBarButtonIconNavigationPane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E59B600816B7079800F868AD /* PGBarButtonIconNavigationPane@2x.png */; };
 		E59B600B16B7079900F868AD /* PGBarButtonIconNavigationPane.png in Resources */ = {isa = PBXBuildFile; fileRef = E59B600916B7079900F868AD /* PGBarButtonIconNavigationPane.png */; };
+		E59E0772174C6677003F33CB /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E59E0771174C6677003F33CB /* Crashlytics.framework */; };
 		E5A1BC7B16D0422D001CABF8 /* fe-purchase.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC7916D0422D001CABF8 /* fe-purchase.png */; };
 		E5A1BC7C16D0422D001CABF8 /* fe-purchase@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC7A16D0422D001CABF8 /* fe-purchase@2x.png */; };
 		E5A1BC8016D0438F001CABF8 /* obj-purchase.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC7E16D0438F001CABF8 /* obj-purchase.png */; };
@@ -416,9 +415,6 @@
 		E55923A816D3011F00A087D8 /* dropbox_bw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox_bw.png; sourceTree = "<group>"; };
 		E55923A916D3011F00A087D8 /* dropbox_bw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox_bw@2x.png"; sourceTree = "<group>"; };
 		E55923CB16D38F0C00A087D8 /* ATAppRatingFlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATAppRatingFlow.h; path = "ApptentiveConnect/source/Rating Flow/ATAppRatingFlow.h"; sourceTree = "<group>"; };
-		E570CCCA16DA6FDE00418413 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		E570CCCB16DA6FDE00418413 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		E570CCCC16DA6FDE00418413 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		E570CCCF16DA92EE00418413 /* PGFirstLaunchTasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGFirstLaunchTasks.h; sourceTree = "<group>"; };
 		E570CCD016DA92EE00418413 /* PGFirstLaunchTasks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGFirstLaunchTasks.m; sourceTree = "<group>"; };
 		E570CCD816DAA1C700418413 /* PGBundledModels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PGBundledModels; sourceTree = "<group>"; };
@@ -463,6 +459,7 @@
 		E59B5FFE16B7012C00F868AD /* PGMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMasterViewController.m; sourceTree = "<group>"; };
 		E59B600816B7079800F868AD /* PGBarButtonIconNavigationPane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PGBarButtonIconNavigationPane@2x.png"; sourceTree = "<group>"; };
 		E59B600916B7079900F868AD /* PGBarButtonIconNavigationPane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PGBarButtonIconNavigationPane.png; sourceTree = "<group>"; };
+		E59E0771174C6677003F33CB /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		E5A1BC7916D0422D001CABF8 /* fe-purchase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fe-purchase.png"; sourceTree = "<group>"; };
 		E5A1BC7A16D0422D001CABF8 /* fe-purchase@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fe-purchase@2x.png"; sourceTree = "<group>"; };
 		E5A1BC7E16D0438F001CABF8 /* obj-purchase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "obj-purchase.png"; sourceTree = "<group>"; };
@@ -630,7 +627,7 @@
 				E5376B7A167B5C6200738979 /* Foundation.framework in Frameworks */,
 				E5376C35167B640300738979 /* DropboxSDK.framework in Frameworks */,
 				E5A4F11C167FFB90007DE0CB /* NinevehGL.framework in Frameworks */,
-				E570CCCD16DA6FDE00418413 /* libTestFlight.a in Frameworks */,
+				E59E0772174C6677003F33CB /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,7 +765,7 @@
 		E5376BB6167B60CF00738979 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				E570CCC916DA6FDE00418413 /* TestFlightSDK1.2beta2 */,
+				E59E0771174C6677003F33CB /* Crashlytics.framework */,
 				E53E31DC16D59B050075DBA3 /* Objective-Zip */,
 				E53E31BC16D3CC8D0075DBA3 /* MD5Hash */,
 				E559238E16D2E3F300A087D8 /* Apptentive */,
@@ -1044,16 +1041,6 @@
 				E559239C16D2F7F600A087D8 /* 83-calendar.png */,
 			);
 			name = MasterViewController;
-			sourceTree = "<group>";
-		};
-		E570CCC916DA6FDE00418413 /* TestFlightSDK1.2beta2 */ = {
-			isa = PBXGroup;
-			children = (
-				E570CCCA16DA6FDE00418413 /* libTestFlight.a */,
-				E570CCCB16DA6FDE00418413 /* release_notes.md */,
-				E570CCCC16DA6FDE00418413 /* TestFlight.h */,
-			);
-			path = TestFlightSDK1.2beta2;
 			sourceTree = "<group>";
 		};
 		E57F883A16D18F4D003140F4 /* PopoverView */ = {
@@ -1392,6 +1379,7 @@
 				E5376B6F167B5C6200738979 /* Sources */,
 				E5376B70167B5C6200738979 /* Frameworks */,
 				E5376B71167B5C6200738979 /* Resources */,
+				E59E0770174C663B003F33CB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1580,12 +1568,27 @@
 				E53E326E16D809E20075DBA3 /* 37x-Checkmark@2x.png in Resources */,
 				E53E327116D825C80075DBA3 /* 18-envelope@2x.png in Resources */,
 				E53E327216D825C80075DBA3 /* 18-envelope.png in Resources */,
-				E570CCCE16DA6FDE00418413 /* release_notes.md in Resources */,
 				E570CCD916DAA1C700418413 /* PGBundledModels in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E59E0770174C663B003F33CB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 0387772ffe94f1d824a25caa46697d6294cc3f90";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E5376B6F167B5C6200738979 /* Sources */ = {
@@ -1815,10 +1818,7 @@
 				GCC_PREFIX_HEADER = "Polygon/Polygon-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Polygon/Polygon-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Polygon/TestFlightSDK1.2beta2\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1840,10 +1840,7 @@
 				GCC_PREFIX_HEADER = "Polygon/Polygon-Prefix.pch";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Polygon/Polygon-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Polygon/TestFlightSDK1.2beta2\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

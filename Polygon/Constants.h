@@ -38,6 +38,8 @@ extern NSString * const SourceDropbox;
 // First Launch
 extern NSString * const PGFirstLaunch;
 
+//Crashlytics API-key
+#define kCrashlyticsAPIKey @"0387772ffe94f1d824a25caa46697d6294cc3f90"
 
 #pragma mark - From Old Polygon Constants
 

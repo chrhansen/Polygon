@@ -35,7 +35,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([MKStoreManager sharedManager].purchasableObjects.count == 0) {
+    if ([[self purchases] count] == 0) {
         [self.view addSubview:self.progressHUD];
     }
 }
@@ -87,7 +87,7 @@
 {
     [self.progressHUD show:YES];
     NSInteger productIndex = [(UIButton *)sender tag];
-    [[MKStoreManager sharedManager] buyFeature:[[MKStoreManager sharedManager].purchasableObjects[productIndex] productIdentifier] onComplete:^(NSString *purchasedFeature, NSData *purchasedReceipt, NSArray *availableDownloads) {
+    [[MKStoreManager sharedManager] buyFeature:[[self purchases][productIndex] productIdentifier] onComplete:^(NSString *purchasedFeature, NSData *purchasedReceipt, NSArray *availableDownloads) {
         [self.progressHUD hide:YES];
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
         [self loadBatchPurchases];
@@ -130,7 +130,7 @@
 {
     NSDictionary *batchProducts = [NSDictionary dictionaryWithContentsOfFile: [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"MKStoreKitConfigs.plist"]][@"Non-Consumables-batch"];
     NSMutableArray *childProducts = [NSMutableArray array];
-    for (SKProduct *product in [[MKStoreManager sharedManager] purchasableObjects]) {
+    for (SKProduct *product in [self purchases]) {
         if ([MKStoreManager isFeaturePurchased:product.productIdentifier] && batchProducts[product.productIdentifier]) {
             [childProducts addObjectsFromArray:batchProducts[product.productIdentifier]];
         }
@@ -154,7 +154,7 @@
 - (void)reloadProductWithIdentifier:(NSString *)productIdentifier
 {
     if (!productIdentifier) return;
-    NSUInteger row = [[[MKStoreManager sharedManager] purchasableObjects] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+    NSUInteger row = [[self purchases] indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         SKProduct *product = (SKProduct *)obj;
         if (product.productIdentifier == productIdentifier) {
             *stop = YES;
@@ -167,7 +167,7 @@
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    SKProduct *product = [[[MKStoreManager sharedManager] purchasableObjects] objectAtIndex:indexPath.row];
+    SKProduct *product = [[self purchases] objectAtIndex:indexPath.row];
     PGStoreCell *storeCell = (PGStoreCell *)cell;
     storeCell.titleLabel.text = product.localizedTitle;
     storeCell.descriptionLabel.text = product.localizedDescription;
@@ -207,11 +207,20 @@
 }
 
 
+- (NSArray *)purchases
+{
+    return [[[MKStoreManager sharedManager] purchasableObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        SKProduct *product1 = (SKProduct *)obj1;
+        SKProduct *product2 = (SKProduct *)obj2;
+        return [product2.productIdentifier compare:product1.productIdentifier];
+    }];
+}
+
 #pragma mark - Table view data source
 #pragma mark - UICollectionView Datasource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [[MKStoreManager sharedManager] purchasableObjects].count;
+    return [[self purchases] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath

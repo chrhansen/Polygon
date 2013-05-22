@@ -19,7 +19,6 @@
     #import "CoreData+MagicalRecord.h"
     #import "Constants.h"
     #import "MBProgressHUD.h"
-    #import "TestFlight.h"
 #endif
 
 // Extern
