@@ -63,7 +63,7 @@
     navBarLayer.shadowOpacity = 0.4;
     navBarLayer.masksToBounds = NO;
     navBarLayer.shouldRasterize = YES;
-    navBarLayer.shadowRadius = 6;
+    navBarLayer.shadowRadius = 4;
     navBarLayer.shadowPath = [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, navBarLayer.frame.size.width, navBarLayer.frame.size.height * 1.0)] CGPath];
 }
 
@@ -112,6 +112,12 @@
 {
     [self _removeTSPopoverAnimated:NO];
     [self _setBackgroundShelfViewForInterfaceOrientation:toInterfaceOrientation];
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self applyNavBarShadow];
 }
 
 

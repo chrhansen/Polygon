@@ -34,11 +34,13 @@
         
         self.topContentView.layer.cornerRadius = CORNER_RADIUS;
         self.topContentView.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.topContentView.layer.shadowRadius = 6.0f;
+        self.topContentView.layer.shadowRadius = 5.0f;
         self.topContentView.layer.shadowOpacity = 0.8f;
         self.topContentView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
         self.topContentView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        self.topContentView.layer.shouldRasterize = YES;
+        self.topContentView.layer.shouldRasterize = YES;        
+        self.modelImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.modelImageView.layer.borderWidth = 0.5f;
     }
 }
 
