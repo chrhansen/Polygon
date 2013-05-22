@@ -506,6 +506,9 @@
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mgp-7q-hbZ">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="39" id="d5u-vG-BA0"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal" title="Button">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -526,7 +529,7 @@
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="500" translatesAutoresizingMaskIntoConstraints="NO" id="TTg-BK-IcF">
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="117" id="ET9-QH-svV"/>
+                                                <constraint firstAttribute="height" constant="116" id="M19-na-QeI"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -537,18 +540,17 @@
                                 </view>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Mgp-7q-hbZ" secondAttribute="trailing" constant="20" type="default" id="4p4-7u-hx6"/>
-                                    <constraint firstItem="0Ud-qV-KxQ" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="7h7-cb-oI5"/>
-                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TTg-BK-IcF" secondAttribute="bottom" constant="28" type="user" id="8UQ-53-tGs"/>
+                                    <constraint firstItem="TTg-BK-IcF" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="AU3-Nz-Yye"/>
                                     <constraint firstItem="0Ud-qV-KxQ" firstAttribute="top" secondItem="CAs-c1-jdN" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="IQ8-xf-Wah"/>
-                                    <constraint firstAttribute="trailing" secondItem="CAs-c1-jdN" secondAttribute="trailing" constant="20" type="default" id="Q1S-ZL-TJP"/>
-                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="top" secondItem="pXW-Tv-vk5" secondAttribute="top" constant="20" type="default" id="QHf-pi-3f9"/>
-                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="X6l-V1-eGA"/>
-                                    <constraint firstItem="TTg-BK-IcF" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="eaq-Zb-hHa"/>
-                                    <constraint firstAttribute="trailing" secondItem="TTg-BK-IcF" secondAttribute="trailing" constant="20" type="default" id="kZF-mi-X3i"/>
-                                    <constraint firstItem="Mgp-7q-hbZ" firstAttribute="top" secondItem="CAs-c1-jdN" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="m1k-1U-iVI"/>
-                                    <constraint firstItem="TTg-BK-IcF" firstAttribute="top" secondItem="Mgp-7q-hbZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="oXt-bo-ios"/>
+                                    <constraint firstAttribute="trailing" secondItem="TTg-BK-IcF" secondAttribute="trailing" constant="20" type="default" id="NKH-oH-1Cq"/>
+                                    <constraint firstAttribute="trailing" secondItem="Mgp-7q-hbZ" secondAttribute="trailing" constant="20" type="default" id="Vfi-c8-bcK"/>
+                                    <constraint firstAttribute="bottom" secondItem="TTg-BK-IcF" secondAttribute="bottom" constant="20" type="default" id="cdY-4g-tV6"/>
+                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="dRD-PY-tDh"/>
+                                    <constraint firstItem="0Ud-qV-KxQ" firstAttribute="leading" secondItem="pXW-Tv-vk5" secondAttribute="leading" constant="20" type="default" id="fDT-Nd-28d"/>
+                                    <constraint firstItem="CAs-c1-jdN" firstAttribute="top" secondItem="pXW-Tv-vk5" secondAttribute="top" constant="20" type="default" id="lex-3E-sD8"/>
                                     <constraint firstItem="0Ud-qV-KxQ" firstAttribute="baseline" secondItem="Mgp-7q-hbZ" secondAttribute="baseline" type="default" id="qIg-Qt-h54"/>
+                                    <constraint firstItem="TTg-BK-IcF" firstAttribute="top" secondItem="Mgp-7q-hbZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="u8R-C1-n82"/>
+                                    <constraint firstAttribute="trailing" secondItem="CAs-c1-jdN" secondAttribute="trailing" constant="20" type="default" id="zfm-gt-Ibw"/>
                                 </constraints>
                                 <size key="customSize" width="540" height="556"/>
                                 <connections>
@@ -1290,6 +1292,139 @@
         <image name="dropbox_bw.png" width="40" height="37"/>
         <image name="dropbox_logo.png" width="35" height="35"/>
     </resources>
+    <classes>
+        <class className="ListZipContentViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListZipContentViewController.h"/>
+        </class>
+        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
+        </class>
+        <class className="NGLView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NGLView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PG3DModelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PG3DModelViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGDropboxCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGDropboxCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="PGDropboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGDropboxViewController.h"/>
+        </class>
+        <class className="PGElementTypeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGElementTypeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="beamAction:"/>
+                <relationship kind="action" name="edgeAction:"/>
+                <relationship kind="action" name="shellAction:"/>
+                <relationship kind="action" name="solidAction:"/>
+                <relationship kind="outlet" name="beamElements" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="edges" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="shellElements" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="solidElements" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="PGFEModelViewController" superclassName="GLKViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGFEModelViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="doneBarButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGInfoTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGInfoTableViewController.h"/>
+        </class>
+        <class className="PGMasterViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGMasterViewController.h"/>
+        </class>
+        <class className="PGModelCollectionViewCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGModelCollectionViewCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="downloadProgressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="modelImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="topContentView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="PGModelsCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGModelsCollectionViewController.h"/>
+        </class>
+        <class className="PGStoreCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="PGStoreLayout" superclassName="UICollectionViewFlowLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreLayout.h"/>
+        </class>
+        <class className="PGStoreViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGStoreViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="restoreTapped:"/>
+                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="PGTransparencyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGTransparencyViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="transparencySlider" candidateClass="UISlider"/>
+            </relationships>
+        </class>
+        <class className="PGUploadViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGUploadViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="zipSwitch" candidateClass="UISwitch"/>
+            </relationships>
+        </class>
+        <class className="PGViewDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGViewDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="screenshotImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleTextView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="PGViewsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PGViewsTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addButtonItem" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

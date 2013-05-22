@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="atR-Kn-gdT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="atR-Kn-gdT">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -599,6 +599,7 @@
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="PSN-Oj-zDS">
                                             <constraints>
+                                                <constraint firstAttribute="height" constant="142" id="X2I-7a-iBN"/>
                                                 <constraint firstAttribute="height" priority="592" constant="122" type="user" id="bTg-o0-DXS"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -610,16 +611,16 @@
                                 </view>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="bottom" secondItem="Wt7-mu-PQt" secondAttribute="bottom" type="default" id="0Xd-F9-Ll6"/>
                                     <constraint firstAttribute="trailing" secondItem="g3x-pu-xHJ" secondAttribute="trailing" constant="10" type="user" id="2HX-cY-XzF"/>
                                     <constraint firstItem="PSN-Oj-zDS" firstAttribute="top" secondItem="clJ-jl-yKj" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="98v-eU-Opo"/>
                                     <constraint firstItem="clJ-jl-yKj" firstAttribute="baseline" secondItem="ok4-cS-r4i" secondAttribute="baseline" type="default" id="Gfa-5b-mxN"/>
                                     <constraint firstItem="g3x-pu-xHJ" firstAttribute="top" secondItem="Wt7-mu-PQt" secondAttribute="top" constant="10" type="user" id="Nho-mD-H6Z"/>
                                     <constraint firstItem="ok4-cS-r4i" firstAttribute="trailing" secondItem="PSN-Oj-zDS" secondAttribute="trailing" type="default" id="TCy-aW-gkV"/>
                                     <constraint firstItem="ok4-cS-r4i" firstAttribute="trailing" secondItem="g3x-pu-xHJ" secondAttribute="trailing" type="default" id="ZdF-ak-U9e"/>
-                                    <constraint firstItem="ok4-cS-r4i" firstAttribute="top" secondItem="g3x-pu-xHJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="b0z-qV-caT"/>
-                                    <constraint firstAttribute="bottom" secondItem="PSN-Oj-zDS" secondAttribute="bottom" constant="20" type="default" id="bgZ-IE-t4u"/>
                                     <constraint firstItem="clJ-jl-yKj" firstAttribute="leading" secondItem="g3x-pu-xHJ" secondAttribute="leading" type="default" id="fgs-q5-HHF"/>
                                     <constraint firstItem="g3x-pu-xHJ" firstAttribute="leading" secondItem="Wt7-mu-PQt" secondAttribute="leading" constant="10" type="user" id="kgs-9t-scP"/>
+                                    <constraint firstItem="ok4-cS-r4i" firstAttribute="top" secondItem="Wt7-mu-PQt" secondAttribute="top" constant="199" id="oFU-ft-xEW"/>
                                     <constraint firstItem="PSN-Oj-zDS" firstAttribute="leading" secondItem="clJ-jl-yKj" secondAttribute="leading" type="default" id="opI-BL-NAO"/>
                                     <constraint firstItem="clJ-jl-yKj" firstAttribute="top" secondItem="g3x-pu-xHJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="qgk-Fn-f1R"/>
                                 </constraints>
@@ -800,7 +801,7 @@
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="6BI-b2-TzL">
