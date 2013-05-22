@@ -571,8 +571,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="260" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3x-pu-xHJ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g3x-pu-xHJ">
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="161" id="YHZ-f4-mbA"/>
+                                            </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ok4-cS-r4i">
                                             <constraints>
@@ -611,18 +614,17 @@
                                 </view>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="bottom" secondItem="Wt7-mu-PQt" secondAttribute="bottom" type="default" id="0Xd-F9-Ll6"/>
                                     <constraint firstAttribute="trailing" secondItem="g3x-pu-xHJ" secondAttribute="trailing" constant="10" type="user" id="2HX-cY-XzF"/>
                                     <constraint firstItem="PSN-Oj-zDS" firstAttribute="top" secondItem="clJ-jl-yKj" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="98v-eU-Opo"/>
                                     <constraint firstItem="clJ-jl-yKj" firstAttribute="baseline" secondItem="ok4-cS-r4i" secondAttribute="baseline" type="default" id="Gfa-5b-mxN"/>
                                     <constraint firstItem="g3x-pu-xHJ" firstAttribute="top" secondItem="Wt7-mu-PQt" secondAttribute="top" constant="10" type="user" id="Nho-mD-H6Z"/>
+                                    <constraint firstItem="PSN-Oj-zDS" firstAttribute="bottom" secondItem="Wt7-mu-PQt" secondAttribute="bottom" type="default" id="ReV-BL-qpP"/>
                                     <constraint firstItem="ok4-cS-r4i" firstAttribute="trailing" secondItem="PSN-Oj-zDS" secondAttribute="trailing" type="default" id="TCy-aW-gkV"/>
                                     <constraint firstItem="ok4-cS-r4i" firstAttribute="trailing" secondItem="g3x-pu-xHJ" secondAttribute="trailing" type="default" id="ZdF-ak-U9e"/>
                                     <constraint firstItem="clJ-jl-yKj" firstAttribute="leading" secondItem="g3x-pu-xHJ" secondAttribute="leading" type="default" id="fgs-q5-HHF"/>
                                     <constraint firstItem="g3x-pu-xHJ" firstAttribute="leading" secondItem="Wt7-mu-PQt" secondAttribute="leading" constant="10" type="user" id="kgs-9t-scP"/>
                                     <constraint firstItem="ok4-cS-r4i" firstAttribute="top" secondItem="Wt7-mu-PQt" secondAttribute="top" constant="199" id="oFU-ft-xEW"/>
                                     <constraint firstItem="PSN-Oj-zDS" firstAttribute="leading" secondItem="clJ-jl-yKj" secondAttribute="leading" type="default" id="opI-BL-NAO"/>
-                                    <constraint firstItem="clJ-jl-yKj" firstAttribute="top" secondItem="g3x-pu-xHJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="qgk-Fn-f1R"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="buyButton" destination="ok4-cS-r4i" id="p1f-FA-IKs"/>

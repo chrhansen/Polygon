@@ -21,8 +21,8 @@
 {
     UIColor *customGray = [UIColor colorWithRed:219.0f/255.0f green:219.0f/255.0f  blue:219.0f/255.0f  alpha:1.0f];
     [[UINavigationBar appearance] setTintColor:customGray];
-    UIImage *image = [UIImage imageNamed:@"shadowimage"];
-    [[UINavigationBar appearance] setShadowImage:image];
+//    UIImage *image = [UIImage imageNamed:@"shadowimage"];
+//    [[UINavigationBar appearance] setShadowImage:image];
 }
 
 + (void)styleToolBar

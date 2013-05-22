@@ -21,6 +21,7 @@
 #import "ATAppRatingFlow.h"
 #import "PGUploadViewController.h"
 #import "MKStoreManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface PGModelsCollectionViewController () <NSFetchedResultsControllerDelegate, UIActionSheetDelegate, DownloadManagerProgressDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, PGModelViewControllerDelegate>
 
@@ -49,6 +50,21 @@
     [self _setLayoutItemSizes];
     self.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
     [self _configureBarButtonItemsForEditing:NO];
+    self.navigationController.navigationBar.clipsToBounds = NO;
+    [self applyNavBarShadow];
+}
+
+
+- (void)applyNavBarShadow {
+    // add the drop shadow
+    CALayer *navBarLayer = self.navigationController.navigationBar.layer;
+    navBarLayer.shadowColor = [[UIColor blackColor] CGColor];
+    navBarLayer.shadowOffset = CGSizeMake(0.0, 8);
+    navBarLayer.shadowOpacity = 0.4;
+    navBarLayer.masksToBounds = NO;
+    navBarLayer.shouldRasterize = YES;
+    navBarLayer.shadowRadius = 6;
+    navBarLayer.shadowPath = [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, navBarLayer.frame.size.width, navBarLayer.frame.size.height * 1.0)] CGPath];
 }
 
 

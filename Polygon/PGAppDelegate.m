@@ -24,14 +24,14 @@
     
     ATConnect *connection = [ATConnect sharedConnection];
     connection.apiKey = kApptentiveAPIKey;
-    
+    [PGStyleController applyAppearance];
     MSNavigationPaneViewController *navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;
     PGMasterViewController *masterViewController = (PGMasterViewController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
     masterViewController.navigationPaneViewController = navigationPaneViewController;
     navigationPaneViewController.masterViewController = masterViewController;
     [masterViewController transitionToViewController:PGPaneViewControllerTypeModels];
     
-    [PGStyleController applyAppearance];
+    
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL firstLaunch = ![userDefaults boolForKey:PGFirstLaunch];
