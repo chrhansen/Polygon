@@ -46,6 +46,13 @@ typedef enum {
     nglGlobalFPS(60);
 	nglGlobalFrontAndCullFace(NGLFrontFaceCCW, NGLCullFaceNone);
     nglGlobalMultithreading(NGLMultithreadingNone);
+    //TODO: add controls for lightning
+//    NGLLight *defaultLight = [NGLLight defaultLight];
+//    NSLog(@"(x,y,z) = (%f,%f,%f)\n%f", defaultLight.x, defaultLight.y, defaultLight.z, defaultLight.attenuation);
+//    defaultLight.attenuation = 4.0f;
+//    defaultLight.x = 4.0f;
+//    defaultLight.y = 0.0f;
+//    defaultLight.z = -1.0f;
     self.afterScreenShotState = PGAfterScreenShotStateStayAppeared;
     nglGlobalFlush();
 
