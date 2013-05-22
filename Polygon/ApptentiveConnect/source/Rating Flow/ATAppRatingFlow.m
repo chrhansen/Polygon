@@ -270,7 +270,7 @@ static ATAppRatingFlow *sharedRatingFlow = nil;
 			[self postNotification:ATAppRatingDidClickEnjoymentButtonNotification forButton:ATAppRatingEnjoymentButtonTypeNo];
 			[self setUserDislikesThisVersion];
 			if (!self.viewController) {
-				NSLog(@"No view controller to present feedback interface!!");
+//				NSLog(@"No view controller to present feedback interface!!");
 			} else {
 				[[ATBackend sharedBackend] setCurrentFeedback:nil];
 				ATConnect *connection = [ATConnect sharedConnection];
@@ -305,7 +305,7 @@ static ATAppRatingFlow *sharedRatingFlow = nil;
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	NSLog(@"ATAppRatingFlow dismissing alert view %@, %d", alertView, buttonIndex);
+//	NSLog(@"ATAppRatingFlow dismissing alert view %@, %d", alertView, buttonIndex);
 	if (alertView == enjoymentDialog) {
 		[enjoymentDialog release], enjoymentDialog = nil;
 		self.viewController = nil;
@@ -401,7 +401,7 @@ static ATAppRatingFlow *sharedRatingFlow = nil;
 		[vc loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:iTunesAppID} completionBlock:^(BOOL result, NSError *error) {
 			if (error) {
 				[self showUnableToOpenAppStoreDialog];
-				NSLog(@"Error loading product view: %@", error);
+//				NSLog(@"Error loading product view: %@", error);
 			} else {
 				UIViewController *presentingVC = [self rootViewControllerForCurrentWindow];
 				[presentingVC presentModalViewController:vc animated:YES];
@@ -410,7 +410,7 @@ static ATAppRatingFlow *sharedRatingFlow = nil;
 #endif
 	} else {
 		if (![[UIApplication sharedApplication] canOpenURL:url]) {
-			NSLog(@"No application can open the URL: %@", url);
+//			NSLog(@"No application can open the URL: %@", url);
 			[self showUnableToOpenAppStoreDialog];
 		}
 		[[UIApplication sharedApplication] openURL:url];
@@ -603,13 +603,13 @@ static ATAppRatingFlow *sharedRatingFlow = nil;
 }
 
 - (void)logDefaults {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSArray *keys = [NSArray arrayWithObjects:ATAppRatingFlowLastUsedVersionKey, ATAppRatingFlowLastUsedVersionFirstUseDateKey, ATAppRatingFlowDeclinedToRateThisVersionKey, ATAppRatingFlowUserDislikesThisVersionKey, ATAppRatingFlowLastPromptDateKey, ATAppRatingFlowUseCountKey, ATAppRatingFlowSignificantEventsCountKey, ATAppRatingFlowRatedAppKey, nil];
-	NSLog(@"-- BEGIN ATAppRatingFlow DEFAULTS --");
+//	NSLog(@"-- BEGIN ATAppRatingFlow DEFAULTS --");
 	for (NSString *key in keys) {
-		NSLog(@"%@ == %@", key, [defaults objectForKey:key]);
+//		NSLog(@"%@ == %@", key, [defaults objectForKey:key]);
 	}
-	NSLog(@"-- END ATAppRatingFlow DEFAULTS --");
+//	NSLog(@"-- END ATAppRatingFlow DEFAULTS --");
 }
 
 #if TARGET_OS_IPHONE

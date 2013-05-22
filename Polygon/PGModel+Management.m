@@ -129,14 +129,6 @@
 }
 
 
-#pragma mark - Custom import methods
-- (BOOL)importGlobalURL:(id)data
-{
-    self.globalURL = [SourceDropbox stringByAppendingPathComponent:data];
-    return YES;
-}
-
-
 - (BOOL)importModelSize:(id)data
 {
     unsigned long long size = 0;

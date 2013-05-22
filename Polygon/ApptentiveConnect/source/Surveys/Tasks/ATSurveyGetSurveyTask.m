@@ -105,7 +105,7 @@
 	@synchronized(self) {
 		[self retain];
 		if (request == checkSurveyRequest) {
-			NSLog(@"Survey request failed: %@: %@", request.errorTitle, request.errorMessage);
+//			NSLog(@"Survey request failed: %@: %@", request.errorTitle, request.errorMessage);
 			self.failed = YES;
 			[self stop];
 		}

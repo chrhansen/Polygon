@@ -168,9 +168,10 @@
     }
     NSString *relativePath = [directoryPath stringByAppendingPathComponent:metadata.filename];
     NSDictionary *objectDetails = @{
-    @"metadata" : metadata,
-    @"filePath" : relativePath,
-    @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
+                                    @"metadata" : metadata,
+                                    @"filePath" : relativePath,
+                                    @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]],
+                                    @"globalURL": metadata.path};
     PGModel *newModel = [[PGModel MR_importFromArray:@[objectDetails]] lastObject];
     self.sharableLinks[metadata.path] = newModel;
     [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
@@ -207,7 +208,7 @@
         } else {
             [self.restClient loadFile:child.path intoPath:[model.enclosingFolder stringByAppendingPathComponent:child.filename]];
         }
-    }  
+    }
 }
 
 
@@ -254,6 +255,7 @@
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata
 {
     PGModel *modelDownloaded = self.currentDownloads[destPath];
+    NSLog(@"Name: %@, GlobalURL: %@", modelDownloaded.modelName, modelDownloaded.globalURL);
     if (modelDownloaded) {
         [self.currentDownloads removeObjectForKey:destPath];
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
@@ -318,6 +320,7 @@
 {
     PGModel *model = self.sharableLinks[path];
     model.globalURL = link;
+    NSLog(@"Name: %@, GlobalURL: %@", model.modelName, model.globalURL);
     [self.sharableLinks removeObjectForKey:path];
 }
 
@@ -353,8 +356,8 @@
     
     NSError *error = nil;
     BOOL success = [URL setResourceValue:[NSNumber numberWithBool:YES] forKey: NSURLIsExcludedFromBackupKey error:&error];
-     if(!success) NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
-
+    if(!success) NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+    
     return success;
 }
 
