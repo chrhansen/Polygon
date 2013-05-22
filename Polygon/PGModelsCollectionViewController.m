@@ -210,10 +210,11 @@
     CGPoint buttonLocationInCollectionView = [infoButton.superview convertPoint:infoButton.center toView:self.collectionView];
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonLocationInCollectionView];
     PGModel *model = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    PGInfoTableViewController *infoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"infoTableViewController"];
+    UINavigationController *navCon = [self.storyboard instantiateViewControllerWithIdentifier:@"navigationInfoTableViewController"];
+    PGInfoTableViewController *infoViewController = (PGInfoTableViewController *)navCon.topViewController;//[self.storyboard instantiateViewControllerWithIdentifier:@"infoTableViewController"];
     infoViewController.model = model;
-    infoViewController.view.frame = CGRectMake(0,0, 320, 350);
-    self.tsPopoverController = [[TSPopoverController alloc] initWithContentViewController:infoViewController];
+    navCon.view.frame = CGRectMake(0,0, 320, 350);
+    self.tsPopoverController = [[TSPopoverController alloc] initWithContentViewController:navCon];
     if (!self.navigationController.navigationBar.hidden) popoverLocation.y += self.navigationController.navigationBar.bounds.size.height;
     popoverLocation.y += [UIApplication sharedApplication].statusBarFrame.size.height;
     self.tsPopoverController.arrowPosition =  TSPopoverArrowPositionVertical;

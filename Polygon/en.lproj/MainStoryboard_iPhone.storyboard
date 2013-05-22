@@ -235,7 +235,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="infoTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UIt-Gy-1J3" customClass="PGInfoTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="3IM-eP-9bg">
-                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -363,12 +363,19 @@
                             <outlet property="delegate" destination="UIt-Gy-1J3" id="p7f-1I-C4s"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="xhd-u5-YAs">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="UXn-ZT-Ww8">
+                            <connections>
+                                <action selector="showDropbox" destination="UIt-Gy-1J3" id="4Xr-d4-kUV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2rN-Kz-Ncf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11772" y="-9655"/>
+            <point key="canvasLocation" x="-10927" y="-8285"/>
         </scene>
         <!--Views Table View Controller - Saved Views-->
         <scene sceneID="aPQ-LS-dM5">
@@ -1254,6 +1261,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cB-dC-IXH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-11956" y="-10439"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="esE-z7-lqv">
+            <objects>
+                <navigationController storyboardIdentifier="navigationInfoTableViewController" id="U9H-U7-oqC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HZ8-Hk-Grz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="UIt-Gy-1J3" kind="relationship" relationship="rootViewController" id="W95-O1-VCh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RtG-zn-8aF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-11453" y="-8285"/>
         </scene>
     </scenes>
     <resources>

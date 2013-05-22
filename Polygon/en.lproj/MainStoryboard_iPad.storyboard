@@ -9,15 +9,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="dropboxViewController" modalPresentationStyle="currentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qBD-hu-24A" customClass="PGDropboxViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="pfF-G4-aDb">
-                        <rect key="frame" x="0.0" y="64" width="540" height="512"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="916"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Dropbox Cell" id="f6g-4J-B5V" customClass="PGDropboxCell">
-                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="768" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="wi9-oF-CXA">
@@ -297,7 +297,7 @@
                         <segue destination="WZp-nv-uHh" kind="modal" identifier="Show FE Model" id="7jr-j2-wkT"/>
                         <segue destination="mKd-hk-wiV" kind="modal" identifier="Show 3D Model" id="MxX-DU-q9a"/>
                         <segue destination="yHw-62-BfQ" kind="modal" identifier="Show Upload Dialog" modalPresentationStyle="formSheet" id="QMW-0Q-CnI"/>
-                        <segue destination="puY-Yb-3fH" kind="modal" identifier="Show Info Table View Controller" id="B0w-aE-yta"/>
+                        <segue destination="hI0-mh-2LI" kind="modal" identifier="Show Info Table View Controller" id="B0w-aE-yta"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0aB-1i-bHE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -327,7 +327,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="infoTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="puY-Yb-3fH" customClass="PGInfoTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="ix0-ec-QJ9">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -438,11 +438,11 @@
                                 </view>
                                 <constraints>
                                     <constraint firstItem="I5w-UC-Xzf" firstAttribute="centerY" secondItem="Twt-qR-hvJ" secondAttribute="centerY" type="default" id="1eI-1b-cDP"/>
+                                    <constraint firstItem="uGC-gZ-MeS" firstAttribute="top" secondItem="Twt-qR-hvJ" secondAttribute="top" constant="29" id="72N-pf-pQs"/>
                                     <constraint firstItem="uGC-gZ-MeS" firstAttribute="trailing" secondItem="LFQ-Q0-DIy" secondAttribute="trailing" type="default" id="Ejz-NM-ZxD"/>
-                                    <constraint firstItem="uGC-gZ-MeS" firstAttribute="top" secondItem="Twt-qR-hvJ" secondAttribute="top" constant="29" id="ZCR-Xp-ZfC"/>
+                                    <constraint firstAttribute="bottom" secondItem="LFQ-Q0-DIy" secondAttribute="bottom" constant="29" id="TPl-rH-ttz"/>
                                     <constraint firstItem="I5w-UC-Xzf" firstAttribute="leading" secondItem="Twt-qR-hvJ" secondAttribute="leading" constant="17" id="Zzl-cY-hL9"/>
                                     <constraint firstItem="uGC-gZ-MeS" firstAttribute="leading" secondItem="I5w-UC-Xzf" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="a8e-fJ-gbQ"/>
-                                    <constraint firstAttribute="bottom" secondItem="LFQ-Q0-DIy" secondAttribute="bottom" constant="29" id="gId-ZY-Re8"/>
                                     <constraint firstItem="HSy-aL-wH6" firstAttribute="top" secondItem="Twt-qR-hvJ" secondAttribute="top" constant="20" type="default" id="n7u-Dj-2lT"/>
                                     <constraint firstItem="LFQ-Q0-DIy" firstAttribute="leading" secondItem="I5w-UC-Xzf" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="xly-VI-ukE"/>
                                     <constraint firstItem="HSy-aL-wH6" firstAttribute="centerX" secondItem="I5w-UC-Xzf" secondAttribute="centerX" type="default" id="xqe-6i-Z4k"/>
@@ -455,12 +455,19 @@
                             <outlet property="delegate" destination="puY-Yb-3fH" id="ksZ-Kr-D1t"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="5gA-2l-c3l">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="CPn-46-Xq0">
+                            <connections>
+                                <action selector="showDropbox" destination="puY-Yb-3fH" id="Iz8-9Y-jvH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cIS-Ni-DuP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-20387" y="-25955"/>
+            <point key="canvasLocation" x="-19413" y="-25955"/>
         </scene>
         <!--Navigation Pane View Controller-->
         <scene sceneID="1JK-r3-uyF">
@@ -669,7 +676,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pzQ-gK-1gI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-19415" y="-25939"/>
+            <point key="canvasLocation" x="-18441" y="-25939"/>
         </scene>
         <!--Transparency View Controller-->
         <scene sceneID="Yy8-MN-htU">
@@ -712,7 +719,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="34j-Hx-owq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-18548" y="-25939"/>
+            <point key="canvasLocation" x="-17574" y="-25939"/>
         </scene>
         <!--Master View Controller-->
         <scene sceneID="MFU-Dw-8pj">
@@ -1282,6 +1289,25 @@
             </objects>
             <point key="canvasLocation" x="-18378" y="-24162"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="MeP-wI-buV">
+            <objects>
+                <navigationController storyboardIdentifier="navigationInfoTableViewController" id="hI0-mh-2LI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="L9s-OK-LSq">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="puY-Yb-3fH" kind="relationship" relationship="rootViewController" id="MQ3-ZS-c2b"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qfL-f3-gR7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-20387" y="-25955"/>
+        </scene>
     </scenes>
     <resources>
         <image name="08-chat.png" width="24" height="22"/>
@@ -1298,7 +1324,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="Myr-wD-Yda"/>
         <segue reference="UOu-JS-BHs"/>
-        <segue reference="dV4-UD-P5b"/>
     </inferredMetricsTieBreakers>
 </document>

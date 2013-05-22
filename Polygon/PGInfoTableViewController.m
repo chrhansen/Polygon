@@ -11,6 +11,7 @@
 #import "NSString+_Format.h"
 #import "PGView+Management.h"
 #import "UIImage+Resize.h"
+#import "PGDropboxViewController.h"
 
 @interface PGInfoTableViewController ()
 
@@ -37,6 +38,7 @@
     [super viewDidLoad];
     self.imageQueue = dispatch_queue_create("it.calcul8.imageQueue", NULL);
     self.images = [NSMutableDictionary new];
+    self.title = self.model.modelName;
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,18 +66,23 @@
 }
 
 
+- (IBAction)showDropbox
+{
+    PGDropboxViewController *dropboxViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
+    UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:dropboxViewController];
+    navCon.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:navCon animated:YES completion:nil];
+}
+
+
 - (void)configureBasicCell:(UITableViewCell *)cell atRow:(NSUInteger)row
 {
     switch (row) {
         case 0:
-            cell.textLabel.text = NSLocalizedString(@"File", nil);
-            cell.detailTextLabel.text = self.model.modelName;
-            break;
-        case 1:
             cell.textLabel.text = NSLocalizedString(@"Added", nil);
             cell.detailTextLabel.text = self.model.dateAddedAsLocalizedString.capitalizedString;
             break;
-        case 2:
+        case 1:
             cell.textLabel.text = NSLocalizedString(@"Size", nil);
             cell.detailTextLabel.text = [NSString humanReadableFileSize:self.model.modelSize];
             break;
@@ -158,7 +165,7 @@
     switch (section)
     {
         case 0:
-            return 3;
+            return 2;
             break;
             
         case 1:
