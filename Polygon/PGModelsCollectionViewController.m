@@ -60,11 +60,11 @@
     CALayer *navBarLayer = self.navigationController.navigationBar.layer;
     navBarLayer.shadowColor = [[UIColor blackColor] CGColor];
     navBarLayer.shadowOffset = CGSizeMake(0.0, 8);
-    navBarLayer.shadowOpacity = 0.4;
+    navBarLayer.shadowOpacity = 0.3;
     navBarLayer.masksToBounds = NO;
     navBarLayer.shouldRasterize = YES;
-    navBarLayer.shadowRadius = 4;
-    navBarLayer.shadowPath = [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, navBarLayer.frame.size.width, navBarLayer.frame.size.height * 1.0)] CGPath];
+    navBarLayer.shadowRadius = 7;
+    navBarLayer.shadowPath = [[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, navBarLayer.frame.size.width, navBarLayer.frame.size.height)] CGPath];
 }
 
 
