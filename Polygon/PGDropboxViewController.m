@@ -27,14 +27,6 @@
 
 @implementation PGDropboxViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -67,6 +59,13 @@
     [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
+-(NSUInteger)supportedInterfaceOrientations
+{
+    if (IS_IPAD) {
+        return UIInterfaceOrientationMaskAll;
+    }
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 - (void)showUploadInterface
 {

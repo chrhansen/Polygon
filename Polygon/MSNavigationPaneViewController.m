@@ -83,14 +83,9 @@ const CGFloat MSNavigationPaneAppearanceTypeParallaxOffsetFraction = 0.35;
     [self initialize];
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+-(NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskAll;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;//UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    return [[self.childViewControllers lastObject] supportedInterfaceOrientations];
 }
 
 #pragma mark - ERNavigationPaneViewController

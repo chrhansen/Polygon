@@ -32,28 +32,14 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[MKStoreManager sharedManager] reloadProducts];
-    if ([[self purchases] count] == 0) {
-        [self.view addSubview:self.progressHUD];
-    }
-}
-
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.progressHUD show:NO];
-    //    [self.collectionView reloadData];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [[MKStoreManager sharedManager] reloadProducts];
+    if ([[self purchases] count] == 0) {
+        [self.view addSubview:self.progressHUD];
+        [self.progressHUD show:YES];
+    }
 }
 
 
@@ -63,6 +49,13 @@
 }
 
 
+-(NSUInteger)supportedInterfaceOrientations
+{
+    if (IS_IPAD) {
+        return UIInterfaceOrientationMaskAll;
+    }
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 - (void)_addNoiseBackground
 {
@@ -78,15 +71,15 @@
 - (MBProgressHUD *)progressHUD
 {
     if (_progressHUD == nil) {
-        _progressHUD = [MBProgressHUD.alloc initWithView:self.view];
+        _progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
         _progressHUD.dimBackground = YES;
+        _progressHUD.removeFromSuperViewOnHide = YES;
     }
     return _progressHUD;
 }
 
 - (void)buyButtonTapped:(id)sender
 {
-    [self.progressHUD show:YES];
     NSInteger productIndex = [(UIButton *)sender tag];
     [[MKStoreManager sharedManager] buyFeature:[[self purchases][productIndex] productIdentifier] onComplete:^(NSString *purchasedFeature, NSData *purchasedReceipt, NSArray *availableDownloads) {
         [self.progressHUD hide:YES];
@@ -102,12 +95,13 @@
 
 - (IBAction)restoreTapped:(id)sender
 {
-    [self.progressHUD show:YES];
     [[MKStoreManager sharedManager] restorePreviousTransactionsOnComplete:^{
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
         [self.progressHUD hide:YES];
         [self loadBatchPurchases];
-        [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
+        if ([[self purchases] count]) {
+            [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
+        }
     } onError:^(NSError *error) {
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
         [self.progressHUD hide:YES];

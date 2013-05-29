@@ -201,6 +201,7 @@
 		E5D3148D16CDAA9300700F57 /* PGStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3148C16CDAA9300700F57 /* PGStoreViewController.m */; };
 		E5D3149016CDAB3800700F57 /* PGStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3148F16CDAB3800700F57 /* PGStoreCell.m */; };
 		E5D3149316CDAC0900700F57 /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3149216CDAC0900700F57 /* SKProduct+PriceAsString.m */; };
+		E5D8662717557D8200E68AAA /* UINavigationController+Rotations.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D8662617557D8200E68AAA /* UINavigationController+Rotations.m */; };
 		E5DE7FB416CE7854008D2F30 /* PGStoreLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E5DE7FB316CE7854008D2F30 /* PGStoreLayout.m */; };
 		E5EA5B0816852523008729C3 /* PGView+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EA5B0716852523008729C3 /* PGView+Management.m */; };
 		E5EA5B1716852707008729C3 /* PGModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EA5B1616852707008729C3 /* PGModel.m */; };
@@ -556,6 +557,8 @@
 		E5D3148F16CDAB3800700F57 /* PGStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStoreCell.m; sourceTree = "<group>"; };
 		E5D3149116CDAC0900700F57 /* SKProduct+PriceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+PriceAsString.h"; sourceTree = "<group>"; };
 		E5D3149216CDAC0900700F57 /* SKProduct+PriceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+PriceAsString.m"; sourceTree = "<group>"; };
+		E5D8662517557D8200E68AAA /* UINavigationController+Rotations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Rotations.h"; sourceTree = "<group>"; };
+		E5D8662617557D8200E68AAA /* UINavigationController+Rotations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Rotations.m"; sourceTree = "<group>"; };
 		E5DE7FB216CE7854008D2F30 /* PGStoreLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGStoreLayout.h; sourceTree = "<group>"; };
 		E5DE7FB316CE7854008D2F30 /* PGStoreLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGStoreLayout.m; sourceTree = "<group>"; };
 		E5EA5B0616852523008729C3 /* PGView+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PGView+Management.h"; path = "Polygon/PGView+Management.h"; sourceTree = "<group>"; };
@@ -849,6 +852,8 @@
 		E5376C39167B643600738979 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E5D8662517557D8200E68AAA /* UINavigationController+Rotations.h */,
+				E5D8662617557D8200E68AAA /* UINavigationController+Rotations.m */,
 				E53E31C116D3CDFC0075DBA3 /* NSData+MD5Hash.h */,
 				E53E31C216D3CDFC0075DBA3 /* NSData+MD5Hash.m */,
 				E5D3149116CDAC0900700F57 /* SKProduct+PriceAsString.h */,
@@ -1757,6 +1762,7 @@
 				E53E326216D6E9B80075DBA3 /* ListZipContentViewController.m in Sources */,
 				E53E326816D7D7840075DBA3 /* PGUploadManager.m in Sources */,
 				E570CCD116DA92EE00418413 /* PGFirstLaunchTasks.m in Sources */,
+				E5D8662717557D8200E68AAA /* UINavigationController+Rotations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
