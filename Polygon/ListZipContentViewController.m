@@ -45,15 +45,20 @@
 #pragma mark - unzip from selection and save to separate folder
 - (void)extractFiles:(NSArray *)fileInfoList
 {
+    __block NSInteger fileCount = [fileInfoList count];
     for (FileInZipInfo *fileInfo in fileInfoList) {
         [self showUnzippingProgressHUDForFile:fileInfo.name];
         [ZipHelper unzipFile:fileInfo.name inZipFile:self.filePathForZip intoDirectory:TEMP_DIR delegate:self completion:^(NSError *error) {
-            if (!error) {
+            if (!error && fileInfo.name) {
                 self.progressHUD.progress = 1.0;
                 [self.progressHUD hide:YES];
                 [[PGDownloadManager sharedInstance] importModelFileFromPath:[TEMP_DIR stringByAppendingPathComponent:fileInfo.name]];
             } else {
                 self.progressHUD.labelText = [NSString stringWithFormat:@"%@ %@", fileInfo.name, NSLocalizedString(@"extraction failed", nil)];
+            }
+            fileCount--;
+            if (fileCount == 0) {
+                [self.delegate listZipContentViewController:self extractedZipPath:self.filePathForZip];
             }
         }];
     }
@@ -74,10 +79,11 @@
     
     FileInZipInfo *zipInfo = [self.zipFileContents objectAtIndex:indexPath.row];
     cell.textLabel.text = [zipInfo.name fitToLength:50];
-    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Unzipped Size", nil), [NSString humanReadableFileSize:[NSNumber numberWithInteger:zipInfo.length]]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Unzipped Size", nil), [NSString humanReadableFileSize:[NSNumber numberWithInteger:zipInfo.length]]];
     cell.accessoryType = [self.selectedFiles containsObject:zipInfo] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
-    if ([PGModel modelTypeForFileName:zipInfo.name] != ModelTypeUnknown) {
+    if ([PGModel modelTypeForFileName:zipInfo.name] != ModelTypeUnknown
+        && [zipInfo.name rangeOfString:@"/"].location == NSNotFound) {
         cell.userInteractionEnabled = YES;
         cell.textLabel.textColor = [UIColor darkTextColor];
     } else  {

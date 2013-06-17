@@ -34,6 +34,7 @@
 - (PGModel *)downloadFilesAndDirectories:(NSArray *)metadatas rootFile:(DBMetadata *)rootMetadata;
 - (void)downloadFilesAndDirectories:(NSArray *)metadatas toModel:(PGModel *)model;
 - (PGModel *)importModelFileFromPath:(NSString *)filePath;
+- (BOOL)isCompressedFile:(NSString *)filenameWithExtension;
 
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<DownloadManagerDelegate> delegate;

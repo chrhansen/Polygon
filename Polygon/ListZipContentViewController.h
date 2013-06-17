@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ListZipContentViewController;
+
+@protocol ListZipContentViewControllerDelegate <NSObject>
+
+- (void)listZipContentViewController:(ListZipContentViewController *)sender extractedZipPath:(NSString *)filepath;
+
+@end
 
 @interface ListZipContentViewController : UITableViewController
 
 @property (nonatomic,strong) NSString *filePathForZip;
+@property (nonatomic, weak) id<ListZipContentViewControllerDelegate> delegate;
 
 @end

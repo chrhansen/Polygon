@@ -12,7 +12,7 @@
 #import "ListZipContentViewController.h"
 #import "PGModel+Management.h"
 
-@interface PGMasterViewController ()
+@interface PGMasterViewController () <ListZipContentViewControllerDelegate>
 
 @property (nonatomic, strong) NSDictionary *paneViewControllerTitles;
 @property (nonatomic, strong) NSDictionary *paneViewControllerIdentifiers;
@@ -80,6 +80,7 @@
     UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"listZipNavigationController"];
     ListZipContentViewController *listZipViewController = (ListZipContentViewController *)navigationController.topViewController;
     listZipViewController.filePathForZip = notification.userInfo[@"filePath"];
+    listZipViewController.delegate = self;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     if (self.presentedViewController) {
         [self dismissViewControllerAnimated:YES completion:^{
@@ -93,6 +94,13 @@
 - (void)notPurchased:(NSNotification *)notification
 {
     [self transitionToViewController:PGPaneViewControllerTypeStore];
+}
+
+
+#pragma mark - ListZipContentViewControllerDelegate methods
+- (void)listZipContentViewController:(ListZipContentViewController *)sender extractedZipPath:(NSString *)filepath
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

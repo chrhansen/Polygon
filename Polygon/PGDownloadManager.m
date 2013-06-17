@@ -86,14 +86,18 @@
 }
 
 
-- (BOOL)isCompressedFile:(NSString *)filePath
+- (BOOL)isCompressedFile:(NSString *)filenameWithExtension
 {
-    NSString *extension = [filePath.lastPathComponent.pathExtension lowercaseString];
-    if ([extension isEqualToString:@"zip"]
-        || [extension isEqualToString:@"rar"]) {
+    NSString *extension = [filenameWithExtension.pathExtension lowercaseString];
+    if ([extension isEqualToString:@"zip"]) {
         return YES;
     }
     return NO;
+}
+
+- (BOOL)isCompressedFileAtPath:(NSString *)filePath
+{
+    return [self isCompressedFile:filePath.lastPathComponent];
 }
 
 
@@ -102,7 +106,7 @@
     NSString *filePath = [notification.userInfo[@"fileURL"] path];
     if ([PGModel modelTypeForFileName:filePath.lastPathComponent] != ModelTypeUnknown) {
         [self importModelFileFromPath:filePath];
-    } else if ([self isCompressedFile:filePath]) {
+    } else if ([self isCompressedFileAtPath:filePath]) {
         [self handleZIPFileImport:filePath];
     } else {
         NSError *error;
@@ -153,22 +157,21 @@
 
 - (PGModel *)downloadFile:(DBMetadata *)metadata
 {
+    if ([self isCompressedFile:metadata.filename]) {
+        [self downloadCompressedFile:metadata];
+        return nil;
+    }
     PGModel *model = [PGModel findFirstByAttribute:@"pGModelID" withValue:metadata.rev];
     if (model.isDownloaded) {
         self.sharableLinks[metadata.path] = model;
         [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
         return model;
     }
-    NSError *error;
-    NSString *directoryPath = [@"tmp" stringByAppendingPathComponent:[NSString getUUID]];
-    [NSFileManager.defaultManager createDirectoryAtPath:[HOME_DIR stringByAppendingPathComponent:directoryPath] withIntermediateDirectories:NO attributes:nil error:&error];
-    if (error) {
-        NSLog(@"Error: %@", error.localizedDescription);
-        return nil;
-    }
+    NSString *directoryPath = [self createTempDir];
+    if (!directoryPath) return nil;
+    
     NSString *relativePath = [directoryPath stringByAppendingPathComponent:metadata.filename];
-    NSDictionary *objectDetails = @{
-                                    @"metadata" : metadata,
+    NSDictionary *objectDetails = @{@"metadata" : metadata,
                                     @"filePath" : relativePath,
                                     @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]],
                                     @"globalURL": metadata.path};
@@ -197,6 +200,28 @@
     return model;
 }
 
+
+- (void)downloadCompressedFile:(DBMetadata *)metadata
+{
+    NSString *directoryPath = [self createTempDir];
+    if (!directoryPath) return;
+    
+    NSString *fullDestinationPath = [HOME_DIR stringByAppendingPathComponent:[directoryPath stringByAppendingPathComponent:metadata.filename]];
+    [self.restClient loadFile:metadata.path intoPath:fullDestinationPath];
+}
+
+
+- (NSString *)createTempDir
+{
+    NSError *error;
+    NSString *directoryPath = [@"tmp" stringByAppendingPathComponent:[NSString getUUID]];
+    [[NSFileManager defaultManager] createDirectoryAtPath:[HOME_DIR stringByAppendingPathComponent:directoryPath] withIntermediateDirectories:NO attributes:nil error:&error];
+    if (error) {
+        NSLog(@"Error: %@", error.localizedDescription);
+        return nil;
+    }
+    return directoryPath;
+}
 
 - (void)downloadFilesAndDirectories:(NSArray *)metadatas toModel:(PGModel *)model
 {
@@ -275,6 +300,8 @@
             NSArray *subItemsToDownload = self.waitingSubItems[modelDownloaded.enclosingFolder.lastPathComponent];
             if (subItemsToDownload) [self downloadFilesAndDirectories:subItemsToDownload toModel:modelDownloaded];
         }];
+    } else if ([self isCompressedFileAtPath:destPath]) {
+        [self handleZIPFileImport:destPath];
     }
 }
 

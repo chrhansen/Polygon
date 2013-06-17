@@ -338,9 +338,10 @@
     switch (self.dropboxViewControllerType) {
         case PGDropboxViewControllerTypeDownload:
             
-            if (self.selectedItems.count == 0) {
+            if ([self.selectedItems count] == 0) {
                 if (!metadata.isDirectory) {
-                    if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown) {
+                    if ([PGModel modelTypeForFileName:metadata.filename] == ModelTypeUnknown
+                        && ![[PGDownloadManager sharedInstance] isCompressedFile:metadata.filename]) {
                         [dropboxCell setUnselectable];
                     }
                 }
@@ -400,7 +401,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DBMetadata *pickedItem = self.directoryContents[indexPath.row];
-    if (self.selectedItems.count == 0) {
+    if ([self.selectedItems count] == 0) {
         if (pickedItem.isDirectory) {
             [self _showSubDirectory:pickedItem];
         } else {
@@ -409,7 +410,7 @@
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
                 [self _toggleSelectSubitemsState];
             } else {
-                [self _selectedPrimaryFile:self.directoryContents[indexPath.row] atIndexPath:indexPath];
+                [self _selectedPrimaryFile:pickedItem atIndexPath:indexPath];
             }
         }
     } else {
@@ -433,7 +434,9 @@
 
 - (void)_selectedPrimaryFile:(DBMetadata *)primaryItem atIndexPath:(NSIndexPath *)indexPath
 {
-    if ([PGModel modelTypeForFileName:primaryItem.filename] == ModelTypeUnknown) {
+    if ([[PGDownloadManager sharedInstance] isCompressedFile:primaryItem.filename]) {
+        // do nothing
+    } else if ([PGModel modelTypeForFileName:primaryItem.filename] == ModelTypeUnknown) {
         return;
     }
     [self.selectedItems addObject:primaryItem];
