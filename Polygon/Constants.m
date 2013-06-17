@@ -16,6 +16,7 @@ NSString *const DropboxZipFileDownLoaded = @"DropboxZipFileDownLoaded";
 NSString *const DropboxNewFileUpLoaded = @"DropboxNewFileUpLoaded";
 NSString *const DropboxUpLoadedError = @"DropboxUpLoadedError";
 NSString *const DropboxUploadFolderSelected = @"DropboxUploadFolderSelected";
+NSString *const DownloadManagerError = @"DownloadManagerError";
 
 NSString *const FileOpenFromEmailNotification = @"FileOpenFromEmailNotification";
 NSString *const CompressedFileContainsMultipleItemsNotification = @"CompressedFileContainsMultipleItemsNotification";

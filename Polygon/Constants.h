@@ -54,6 +54,7 @@ extern NSString * const DropboxUploadFolderSelected;
 
 extern NSString * const DropboxNewFileUpLoaded;
 extern NSString * const DropboxUpLoadedError;
+extern NSString * const DownloadManagerError;
 
 //extern NSString * const kReachabilityChangedNotification;
 

@@ -258,6 +258,12 @@
 }
 
 
+- (void)downloadManager:(PGDownloadManager *)downloadManager failedWithError:(NSError *)error
+{
+    [self showHUDMessage:error.localizedDescription];
+}
+
+
 #pragma mark - Upload manager delegate methods
 - (void)uploadManager:(PGUploadManager *)uploadManager uploadProgress:(CGFloat)progress forModel:(PGModel *)model
 {

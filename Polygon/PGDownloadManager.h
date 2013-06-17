@@ -17,6 +17,7 @@
 - (void)downloadManager:(PGDownloadManager *)downloadManager didLoadDirectoryContents:(NSArray *)contents;
 - (void)downloadManager:(PGDownloadManager *)downloadManager failedLoadingDirectoryContents:(NSError *)error;
 - (void)downloadManager:(PGDownloadManager *)downloadManager didLoadThumbnail:(DBMetadata *)metadata;
+- (void)downloadManager:(PGDownloadManager *)downloadManager failedWithError:(NSError *)error;
 @end
 
 @protocol DownloadManagerProgressDelegate <NSObject>

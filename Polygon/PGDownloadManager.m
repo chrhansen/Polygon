@@ -131,6 +131,8 @@
 
 - (PGModel *)importModelFileFromPath:(NSString *)filePath
 {
+    if (!filePath) return nil;
+    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
     NSString *directoryPath = [DOCUMENTS_DIR stringByAppendingPathComponent:[NSString getUUID]];
@@ -145,6 +147,14 @@
     }
     NSString *md5Hash = [NSData md5HashForFile:destinationPath];
     NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:destinationPath error:&error];
+    if (!md5Hash || !fileAttributes[NSFileSize]) {
+        if ([self.delegate respondsToSelector:@selector(downloadManager:failedWithError:)]) {
+            NSString *localizedDescription = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Could not import file:\n", nil), filePath.lastPathComponent];
+            error = [NSError errorWithDomain:DownloadManagerError code:-1 userInfo:@{NSLocalizedDescriptionKey: localizedDescription}];
+            [self.delegate downloadManager:self failedWithError:error];
+        }
+        return nil;
+    }
     NSArray *components = destinationPath.pathComponents;
     NSString *relativePath = [[components[components.count - 3] stringByAppendingPathComponent:components[components.count - 2]] stringByAppendingPathComponent:components.lastObject];
     NSDictionary *objectDetails = @{@"modelName": relativePath.lastPathComponent,
