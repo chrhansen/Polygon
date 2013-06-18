@@ -28,24 +28,13 @@
     self.images = [NSMutableDictionary new];
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped:)];
+    if (!IS_IPAD) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped:)];
+    }
 }
 
 
@@ -63,17 +52,14 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Show Add View"]) 
-    {
+    if ([segue.identifier isEqualToString:@"Show Add View"]) {
         UINavigationController *navigationController = segue.destinationViewController;
         PGViewDetailTableViewController *viewDetailTableViewController = (PGViewDetailTableViewController *)navigationController.topViewController;
         viewDetailTableViewController.delegate = self;
         viewDetailTableViewController.editing = YES;
         viewDetailTableViewController.savedView = self.currentView;
         viewDetailTableViewController.isEditingExistingViewViewController = NO;
-    }
-    else if ([segue.identifier isEqualToString:@"Show View"]) 
-    {
+    } else if ([segue.identifier isEqualToString:@"Show View"]) {
         PGViewDetailTableViewController *viewDetailTableViewController = segue.destinationViewController;
         viewDetailTableViewController.savedView = [self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedAccessoryView];
         viewDetailTableViewController.delegate = self;
@@ -95,6 +81,14 @@
     if (permanentIDError) NSLog(@"Error: Couldn't obtain permanent ID for view: %@", self.currentView);
 }
 
+
+- (void)_configureLabelFrame:(UILabel *)label
+{
+    CGPoint origin = CGPointMake(118, 16);
+    CGSize size = CGSizeMake(190, 90);
+    label.frame = CGRectMake(origin.x, origin.y, size.width, size.height);
+}
+
 #pragma mark - PGViewDetailTableViewController delegate
 - (void)viewDetailTableViewController:(PGViewDetailTableViewController *)viewDetailTableViewController didSaveView:(PGView *)savedView
 {
@@ -109,6 +103,7 @@
     PGView *savedView = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     UILabel *titleLabel = (UILabel *)[cell viewWithTag:1];
+//    [self _configureLabelFrame:titleLabel];
     UIImageView *snapshotImageView = (UIImageView *)[cell viewWithTag:3];
     
     titleLabel.text = savedView.title;

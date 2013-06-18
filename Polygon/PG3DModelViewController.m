@@ -18,7 +18,7 @@ typedef enum {
 #import "TSPopoverController.h"
 #import "PGView+Management.h"
 
-@interface PG3DModelViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface PG3DModelViewController () <NGLViewDelegate, NGLMeshDelegate, ViewsTableViewControllerDelegate, UIGestureRecognizerDelegate, UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) NGLCamera *camera;
 @property (nonatomic) BOOL shouldCreateScreenShot;
@@ -29,6 +29,7 @@ typedef enum {
 @property (nonatomic) CGFloat pinchScale;
 @property (nonatomic) CGFloat initialCameraDistanceZ;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
+@property (nonatomic, strong) UIPopoverController *thePopoverController;
 
 @end
 
@@ -84,12 +85,6 @@ typedef enum {
     [self _hideStatusBar];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-
 - (NGLMesh *)_loadMesh
 {
 	NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -142,24 +137,44 @@ typedef enum {
     [self _resetTranslationsAndRotations];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Show Views"]) {
+        if ([segue isKindOfClass:[UIStoryboardPopoverSegue class]]) {
+            UIStoryboardPopoverSegue *popoverSegue = (UIStoryboardPopoverSegue *)segue;
+            self.thePopoverController = popoverSegue.popoverController;
+            self.thePopoverController.delegate = self;
+        }
         UINavigationController *navigationController = segue.destinationViewController;
-        [(PGViewsTableViewController *)navigationController.topViewController setModel:self.model];
         [(PGViewsTableViewController *)navigationController.topViewController setDelegate:self];
+        [(PGViewsTableViewController *)navigationController.topViewController setModel:self.model];
     }
 }
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"Show Views"]) {
+        if (self.thePopoverController.isPopoverVisible) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+#pragma mark - UIPopoverControllerDelegate methods
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    self.thePopoverController = nil;
+}
+
+
 - (IBAction)doneTapped:(UIBarButtonItem *)sender
 {
+    if (self.thePopoverController.isPopoverVisible) {
+        [self.thePopoverController dismissPopoverAnimated:YES];
+        self.thePopoverController = nil;
+    }
     NGLView *nglView = (NGLView *)self.view;
     nglView.antialias = NGLAntialiasNone;
     self.afterScreenShotState = PGAfterScreenShotStateDone;
@@ -256,13 +271,6 @@ typedef enum {
     singleTapGesture.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer:singleTapGesture];
     [singleTapGesture setDelegate:self];
-    
-    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
-    doubleTapGesture.numberOfTapsRequired = 2;
-    [self.view addGestureRecognizer:doubleTapGesture];
-    [doubleTapGesture setDelegate:self];
-    
-    [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
 }
 
 # pragma mark - Gesture actions
@@ -355,14 +363,6 @@ typedef enum {
     }
 }
 
-
-- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)doubleTapGesture
-{
-    if (doubleTapGesture.state == UIGestureRecognizerStateEnded)
-    {
-        NSLog(@"double tap gesture");
-    }
-}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {

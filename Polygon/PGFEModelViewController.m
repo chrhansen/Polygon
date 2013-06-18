@@ -209,12 +209,33 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Show Views"]) {
+        if ([segue isKindOfClass:[UIStoryboardPopoverSegue class]]) {
+            UIStoryboardPopoverSegue *popoverSegue = (UIStoryboardPopoverSegue *)segue;
+            self.thePopoverController = popoverSegue.popoverController;
+            self.thePopoverController.delegate = self;
+        }
         UINavigationController *navigationController = segue.destinationViewController;
         [(PGViewsTableViewController *)navigationController.topViewController setDelegate:self];
         [(PGViewsTableViewController *)navigationController.topViewController setModel:self.model];
     }
 }
 
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"Show Views"]) {
+        if (self.thePopoverController.isPopoverVisible) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+#pragma mark - UIPopoverControllerDelegate methods
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    self.thePopoverController = nil;
+}
 
 - (void)_configureToolBarButtonItems
 {
@@ -648,13 +669,6 @@
     singleTapGesture.numberOfTapsRequired = 1;
     [self.view  addGestureRecognizer:singleTapGesture];
     [singleTapGesture setDelegate:self];
-    
-    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
-    doubleTapGesture.numberOfTapsRequired = 2;
-    [self.view  addGestureRecognizer:doubleTapGesture];
-    [doubleTapGesture setDelegate:self];
-    
-    [singleTapGesture requireGestureRecognizerToFail:doubleTapGesture];
 }
 
 # pragma mark - Gesture actions
@@ -764,13 +778,6 @@
     }];
 }
 
-
-
-
-- (void)handleDoubleTapGesture:(UITapGestureRecognizer *)doubleTapGesture
-{
-    if (doubleTapGesture.state == UIGestureRecognizerStateEnded) NSLog(@"double tap gesture");
-}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
