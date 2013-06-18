@@ -1869,7 +1869,7 @@
 		E5376B9B167B5C6200738979 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Christian Hansen (H98KB8LZJ2)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christian Hansen (H98KB8LZJ2)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1886,8 +1886,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5BD180CA-9582-4F4C-AF53-BDDFA2D028E3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5BD180CA-9582-4F4C-AF53-BDDFA2D028E3";
+				PROVISIONING_PROFILE = "FF46038F-A345-4A32-86A4-5595667F0523";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FF46038F-A345-4A32-86A4-5595667F0523";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
