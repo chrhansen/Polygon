@@ -13,8 +13,11 @@
 
 @protocol ViewsTableViewControllerDelegate <NSObject>
 
-- (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model;
 - (void)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView;
+
+@optional
+- (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model;
+- (void)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model completion:(void (^)(PGView *currenView))completion;
 
 @end
 

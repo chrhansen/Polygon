@@ -76,10 +76,19 @@
 - (void)_getCurrentView
 {
     if (!self.currentView) {
-        self.currentView = [self.delegate viewsTableViewController:self currentViewForModel:self.model];
-        NSError *permanentIDError;
-        [self.currentView.managedObjectContext obtainPermanentIDsForObjects:@[self.currentView] error:&permanentIDError];
-        if (permanentIDError) NSLog(@"Error: Couldn't obtain permanent ID for view: %@", self.currentView);
+        if ([self.delegate respondsToSelector:@selector(viewsTableViewController:currentViewForModel:)]) {
+            self.currentView = [self.delegate viewsTableViewController:self currentViewForModel:self.model];
+            NSError *permanentIDError;
+            [self.currentView.managedObjectContext obtainPermanentIDsForObjects:@[self.currentView] error:&permanentIDError];
+            if (permanentIDError) NSLog(@"Error: Couldn't obtain permanent ID for view: %@", self.currentView);
+        } else if ([self.delegate respondsToSelector:@selector(viewsTableViewController:currentViewForModel:completion:)]) {
+            [self.delegate viewsTableViewController:self currentViewForModel:self.model completion:^(PGView *currentView) {
+                self.currentView = currentView;
+                NSError *permanentIDError;
+                [self.currentView.managedObjectContext obtainPermanentIDsForObjects:@[self.currentView] error:&permanentIDError];
+                if (permanentIDError) NSLog(@"Error: Couldn't obtain permanent ID for view: %@", self.currentView);
+            }];
+        }
     }
 }
 
@@ -101,33 +110,9 @@
     UIImageView *snapshotImageView = (UIImageView *)[cell viewWithTag:3];
     
     titleLabel.text = savedView.title;
-    
-    UIImage *image = self.images[[indexPath description]];
-    snapshotImageView.image = image;
-    if (!image) {
-        [self loadViewImage:savedView forIndexPath:indexPath];
-    }
+    snapshotImageView.image = savedView.image;
 }
 
-
-- (void)loadViewImage:(PGView *)savedView forIndexPath:(NSIndexPath *)indexPath
-{
-//    NSManagedObjectID *viewID = [savedView objectID];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//        NSManagedObjectContext *localContext = [NSManagedObjectContext contextForCurrentThread];
-//        PGView *localView = (PGView *)[localContext objectWithID:viewID];
-//        UIImage *image = localView.image;
-    UIImage *image = savedView.image;
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (image) {
-                [self.images setValue:image forKey:[indexPath description]];
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                [self configureCell:cell atIndexPath:indexPath];
-            }
-        });
-//    });
-}
 
 #pragma mark - Table view data source
 

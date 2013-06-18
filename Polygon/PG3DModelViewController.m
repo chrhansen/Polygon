@@ -8,7 +8,8 @@
 
 typedef enum {
     PGAfterScreenShotStateDone,
-    PGAfterScreenShotStateStayAppeared,
+    PGAfterScreenShotStateNormal,
+    PGAfterScreenShotStateCurrentView,
 } PGAfterScreenShotState;
 
 #import "PG3DModelViewController.h"
@@ -30,6 +31,8 @@ typedef enum {
 @property (nonatomic) CGFloat initialCameraDistanceZ;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 @property (nonatomic, strong) UIPopoverController *thePopoverController;
+@property (nonatomic) BOOL needsScreenshotForCurrentView;
+@property (nonatomic, copy) void (^viewCompletionBlock)(PGView *currentView);
 
 @end
 
@@ -54,7 +57,7 @@ typedef enum {
 //    defaultLight.x = 4.0f;
 //    defaultLight.y = 0.0f;
 //    defaultLight.z = -1.0f;
-    self.afterScreenShotState = PGAfterScreenShotStateStayAppeared;
+    self.afterScreenShotState = PGAfterScreenShotStateNormal;
     nglGlobalFlush();
 
 	self.view = nglView;
@@ -66,7 +69,8 @@ typedef enum {
     [super viewDidLoad];
     [self.navigationController.navigationBar setTranslucent:YES];
     self.title = self.model.filePath.lastPathComponent;
-    _shouldCreateScreenShot = NO;
+    self.shouldCreateScreenShot = NO;
+    self.needsScreenshotForCurrentView = NO;
     [self _addGestureRecognizers];
     if (!_camera) {
         NGLMesh *mesh = [self _loadMesh];
@@ -178,7 +182,7 @@ typedef enum {
     NGLView *nglView = (NGLView *)self.view;
     nglView.antialias = NGLAntialiasNone;
     self.afterScreenShotState = PGAfterScreenShotStateDone;
-    _shouldCreateScreenShot = YES;
+    self.shouldCreateScreenShot = YES;
 }
 
 
@@ -186,13 +190,27 @@ typedef enum {
 - (void)ninevehGLDidCreateScreenshot:(UIImage *)screenshot
 {
     switch (self.afterScreenShotState) {
-        case PGAfterScreenShotStateStayAppeared:
+        case PGAfterScreenShotStateNormal:
             // Do nothing
             break;
             
         case PGAfterScreenShotStateDone:
             [(NGLView *)self.view setDelegate:nil];
             [self.modelViewDelegate modelViewController:self didTapDone:screenshot model:self.model];
+            break;
+            
+        case PGAfterScreenShotStateCurrentView:
+        {
+            NGLvec3 *position = _camera.position;
+            NGLvec3 *rotation = _camera.rotation;
+            
+            PGView *currentView = [PGView createWithLocationX:position->x locationY:position->y locationZ:position->z
+                                                  quaternionX:rotation->x quaternionY:rotation->y quaternionZ:rotation->z quaternionW:-1.0f
+                                                   screenShot:screenshot
+                                                    inContext:self.model.managedObjectContext];
+            self.viewCompletionBlock(currentView);
+        }
+            self.afterScreenShotState = PGAfterScreenShotStateNormal;
             break;
             
         default:
@@ -231,18 +249,18 @@ typedef enum {
 
 
 #pragma mark - Views Table View Controller Delegate
-- (PGView *)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model
+- (void)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController currentViewForModel:(PGModel *)model completion:(void (^)(PGView *))completion
 {
-    NGLvec3 *position = _camera.position;
-    NGLvec3 *rotation = _camera.rotation;
-    
-    PGView *currentView = [PGView createWithLocationX:position->x locationY:position->y locationZ:position->z
-                                          quaternionX:rotation->x quaternionY:rotation->y quaternionZ:rotation->z quaternionW:-1.0f
-                                           screenShot:nil
-                                            inContext:model.managedObjectContext];
-    // TODO: create callback/selector or equiv. to get screenshot for saved views
-    return currentView;
+    self.viewCompletionBlock = completion;
+
+    NGLView *nglView = (NGLView *)self.view;
+    nglView.antialias = NGLAntialiasNone;
+    self.afterScreenShotState = PGAfterScreenShotStateCurrentView;
+    self.shouldCreateScreenShot = YES;
 }
+
+
+
 
 
 - (void)viewsTableViewController:(PGViewsTableViewController *)viewsTableViewController didSelectView:(PGView *)savedView
