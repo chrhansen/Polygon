@@ -238,7 +238,9 @@ typedef enum {
     
     PGView *currentView = [PGView createWithLocationX:position->x locationY:position->y locationZ:position->z
                                           quaternionX:rotation->x quaternionY:rotation->y quaternionZ:rotation->z quaternionW:-1.0f
-                                           screenShot:nil]; // TODO: create callback/selector or equiv. to get screenshot for saved views
+                                           screenShot:nil
+                                            inContext:model.managedObjectContext];
+    // TODO: create callback/selector or equiv. to get screenshot for saved views
     return currentView;
 }
 

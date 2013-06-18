@@ -800,24 +800,6 @@
     [self.modelViewDelegate modelViewController:self didTapDone:[self currentViewAsModelScreenshot] model:self.model];
 }
 
-- (IBAction)viewsTapped:(UIBarButtonItem *)sender
-{
-    [self dismissPopopoverIfVisible];
-    if (!self.thePopoverController.isPopoverVisible) {
-        NSLog(@"IMplement show the views table view controller popover");
-        //        ViewsTableViewController *viewsTableViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Views Table View Controller"];
-        //        viewsTableViewController.delegate = self;
-        //        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewsTableViewController];
-        //        self.thePopoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
-//        self.thePopoverController.delegate = self;
-//        [self.thePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:NO];
-    } else {
-        [self.thePopoverController dismissPopoverAnimated:NO];
-        self.thePopoverController = nil;
-    }
-    
-}
-
 
 #pragma mark - ElementTypeTableViewControllerDelegate methods
 - (void)solidTypeWasChanged:(UISwitch *)sender
@@ -1044,7 +1026,7 @@
     GLKVector3 currentPosition = GLKVector3Make(viewTranslateMatrix.m30, viewTranslateMatrix.m31, viewTranslateMatrix.m32);
     GLKQuaternion currentOrientation = GLKQuaternionMakeWithMatrix4(viewRotationMatrix);
     PGView *currentView = [PGView createWithLocationX:currentPosition.x locationY:currentPosition.y locationZ:currentPosition.z
-                                          quaternionX:currentOrientation.x quaternionY:currentOrientation.y quaternionZ:currentOrientation.z quaternionW:currentOrientation.w screenShot:[self currentViewAsModelScreenshot]];
+                                          quaternionX:currentOrientation.x quaternionY:currentOrientation.y quaternionZ:currentOrientation.z quaternionW:currentOrientation.w screenShot:[self currentViewAsModelScreenshot] inContext:model.managedObjectContext];
     return currentView;
 }
 

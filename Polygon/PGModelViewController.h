@@ -19,6 +19,5 @@
 @protocol PGModelViewControllerProtocol <NSObject>
 
 - (IBAction)doneTapped:(UIBarButtonItem *)sender;
-- (IBAction)viewsTapped:(UIBarButtonItem *)sender;
 
 @end

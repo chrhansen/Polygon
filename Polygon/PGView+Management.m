@@ -18,8 +18,9 @@
                     quaternionZ:(CGFloat)zComponent
                     quaternionW:(CGFloat)wAngle
                      screenShot:(UIImage *)image
+                      inContext:(NSManagedObjectContext *)context
 {
-    PGView *newView = [PGView createEntity];
+    PGView *newView = [PGView createInContext:context];
     newView.xLocation = [NSNumber numberWithFloat:xLocation];
     newView.yLocation = [NSNumber numberWithFloat:yLocation];
     newView.zLocation = [NSNumber numberWithFloat:zLocation];

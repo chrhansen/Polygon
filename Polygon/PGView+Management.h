@@ -17,7 +17,8 @@
                     quaternionY:(CGFloat)yComponent
                     quaternionZ:(CGFloat)zComponent
                     quaternionW:(CGFloat)wAngle
-                     screenShot:(UIImage *)image;
+                     screenShot:(UIImage *)image
+                      inContext:(NSManagedObjectContext *)context;
 
 - (PGView *)copyEntity;
 
