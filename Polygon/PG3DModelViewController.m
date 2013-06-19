@@ -72,7 +72,19 @@ typedef enum {
     self.shouldCreateScreenShot = NO;
     self.needsScreenshotForCurrentView = NO;
     [self _addGestureRecognizers];
-    if (!_camera) {
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self _hideStatusBar];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (!self.camera) {
         NGLMesh *mesh = [self _loadMesh];
         if (mesh) {
             [self _startCameraWithMesh:mesh];
@@ -80,13 +92,6 @@ typedef enum {
             NSLog(@"Error: Couldn't initialize mesh");
         }
     }
-
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self _hideStatusBar];
 }
 
 - (NGLMesh *)_loadMesh
