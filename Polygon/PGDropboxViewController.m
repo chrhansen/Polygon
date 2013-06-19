@@ -454,13 +454,13 @@
 - (void)_downloadSelectedItems
 {
     if (self.addToModel) {
-        [PGDownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy toModel:self.addToModel];
+        [PGDownloadManager.sharedInstance downloadFilesAndDirectories:[self.selectedItems copy] toModel:self.addToModel];
         [self.selectedItems removeAllObjects];
         [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         DBMetadata *rootModel = self.selectedItems[0];
         [self.selectedItems removeObjectAtIndex:0];
-        [PGDownloadManager.sharedInstance downloadFilesAndDirectories:self.selectedItems.copy rootFile:rootModel];
+        [PGDownloadManager.sharedInstance downloadFilesAndDirectories:[self.selectedItems copy] rootFile:rootModel];
         [self.selectedItems removeAllObjects];
         [self _toggleSelectSubitemsState];
         [self.tableView reloadData];

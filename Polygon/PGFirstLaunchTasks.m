@@ -38,6 +38,7 @@
 {
     if (!model) {
         NSLog(@"model is nil: %s, main thread? :%d", __PRETTY_FUNCTION__, [NSThread isMainThread]);
+        return;
     }
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *subItems = [fileManager contentsOfDirectoryAtPath:directoryPath error:nil];

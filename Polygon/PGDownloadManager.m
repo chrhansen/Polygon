@@ -186,7 +186,14 @@
                                     @"filePath" : relativePath,
                                     @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]],
                                     @"globalURL": metadata.path};
-    PGModel *newModel = [[PGModel MR_importFromArray:@[objectDetails]] lastObject];
+    PGModel *newModel = [PGModel MR_importFromObject:objectDetails];
+    if (!newModel) {
+        if ([self.delegate respondsToSelector:@selector(downloadManager:failedWithError:)]) {
+            NSError *error = [NSError errorWithDomain:DownloadManagerError code:-1 userInfo:@{NSLocalizedDescriptionKey: @"Internal error, could not import model data"}];
+            [self.delegate downloadManager:self failedWithError:error];
+        }
+        return nil;
+    }
     self.sharableLinks[metadata.path] = newModel;
     [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
     if (!newModel.isDownloaded) {
