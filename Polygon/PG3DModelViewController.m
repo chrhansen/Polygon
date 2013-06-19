@@ -178,6 +178,7 @@ typedef enum {
 }
 
 
+
 - (IBAction)doneTapped:(UIBarButtonItem *)sender
 {
     if (self.thePopoverController.isPopoverVisible) {
@@ -232,7 +233,7 @@ typedef enum {
 
 
 #pragma mark NGLMeshloading Delegate
-- (void) meshLoadingWillStart:(NGLParsing)parsing
+- (void)meshLoadingWillStart:(NGLParsing)parsing
 {
     self.progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
     self.progressHUD.progress = 0.0f;
@@ -241,12 +242,12 @@ typedef enum {
     [self.view addSubview:self.progressHUD];
 }
 
-- (void) meshLoadingProgress:(NGLParsing)parsing
+- (void)meshLoadingProgress:(NGLParsing)parsing
 {
     self.progressHUD.progress = parsing.progress;
 }
 
-- (void) meshLoadingDidFinish:(NGLParsing)parsing
+- (void)meshLoadingDidFinish:(NGLParsing)parsing
 {
     self.progressHUD.progress = parsing.progress;
 	[self.progressHUD hide:YES];
