@@ -35,7 +35,6 @@
     GLKMatrix4 _backgroundModelViewMatrix;
     GLKMatrix4 _modelMatrix;
     GLKMatrix4 _viewMatrix;
-    GLKMatrix4 viewRotationOffsetMatrix;
     GLKMatrix4 viewRotationMatrix;
     GLKMatrix4 viewTranslateMatrix;
     GLKVector3 _cameraPosition;
@@ -199,13 +198,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    NSLog(@"Memory warning for model: %@", self.model.fullModelFilePath);
-    [super didReceiveMemoryWarning];
-}
-
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Show Views"]) {
@@ -254,7 +246,8 @@
     self.readingModelData = YES;
     [self showAnnularProgressHUD];
     self.elementTransparency = 1.0;
-    NSDictionary *initialSettings = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:self.elementTransparency], @"transparency", nil];
+    NSDictionary *initialSettings = @{@"transparency" : [NSNumber numberWithFloat:self.elementTransparency],
+                                      @"DemoModel" : [NSNumber numberWithBool:[self.model.pGModelID isEqualToString:BUNDLED_MD5_ID_2]]};
     if (!self.model.fullModelFilePath) {
         return;
     }
@@ -308,7 +301,6 @@
     self.pinchScale = 1.0;
     self.panTranslation = CGPointZero;
     rotVector = GLKVector3Make(1.0, 1.0, 1.0);
-    viewRotationOffsetMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, 0.0f); 
     viewRotationMatrix = GLKMatrix4Identity;
     boundingBox.lengthMax = 10.0;
     _backgroundModelViewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, 0.0f, 0.0f, -5.0f);
@@ -483,6 +475,7 @@
                                                   -self.panTranslation.y / self.view.bounds.size.height * 2.0f *  cameraDistance,
                                                   (self.pinchScale-lastPinch)* 1.0f * cameraDistance);
     }
+    
     if (_runRotationAnimation) {
         _slerpCur += self.timeSinceLastUpdate;
         float slerpAmt = _slerpCur / _slerpMax;
@@ -498,7 +491,7 @@
         viewRotationMatrix = GLKMatrix4Multiply(GLKMatrix4Multiply(viewZRot, GLKMatrix4Multiply(viewYRot, viewXRot)), viewRotationMatrix);
     }
     
-    _viewMatrix = GLKMatrix4Multiply(GLKMatrix4Multiply(viewTranslateMatrix, viewRotationMatrix), viewRotationOffsetMatrix);
+    _viewMatrix = GLKMatrix4Multiply(viewTranslateMatrix, viewRotationMatrix);
     
     self.myRotation = CGPointZero;
     self.panTranslation = CGPointZero;

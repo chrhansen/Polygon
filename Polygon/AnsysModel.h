@@ -70,6 +70,7 @@
 @property (nonatomic) NSUInteger numOfSecProperties;
 @property (nonatomic) ColorMode colorMode; 
 @property (nonatomic) BOOL isAnsysParsingPurchased;
+@property (nonatomic) BOOL isAnsysDemoModel;
 
 
 @end

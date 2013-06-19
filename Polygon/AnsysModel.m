@@ -31,7 +31,7 @@
     NSUInteger fileSize = [[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] objectForKey:NSFileSize] integerValue];
     AnsysModel *_ansysModel = [[super alloc] init];
     _ansysModel.delegate = delegatingObject;
-    
+    _ansysModel.isAnsysDemoModel = [settings[@"DemoModel"] boolValue];
     _ansysModel.readMode = [[settings valueForKey:@"MemoryReadFormat"] intValue];
     _ansysModel.readMode = kFullMem;
     
@@ -181,7 +181,9 @@
                         //NSLog(@"self.vertexPositions[vertexCount].vertex: %@", NSStringFromGLKVector3(self.vertexPositions[vertexCount].vertex));
                         vertexCount++;
                         if (!_purchaseChecked && vertexCount > BIG_MODEL_LIMIT) {
-                            self.isAnsysParsingPurchased = ([MKStoreManager isFeaturePurchased:InAppIdentifierUnlimitedModels] || [MKStoreManager isFeaturePurchased:InAppIdentifierAnsys]);
+                            self.isAnsysParsingPurchased = ([MKStoreManager isFeaturePurchased:InAppIdentifierUnlimitedModels]
+                                                            || [MKStoreManager isFeaturePurchased:InAppIdentifierAnsys]
+                                                            || _isAnsysDemoModel);
                             _purchaseChecked = YES;
                         }
                     }

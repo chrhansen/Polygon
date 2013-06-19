@@ -61,4 +61,5 @@ NSString * const InAppIdentifierDAEModels       = @"it.calcul8.polygon.daemodels
 NSString * const InAppNotPurchasedNotification  = @"InAppNotPurchasedNotification";
 
 
-NSString * const BUNDLED_MD5_ID_1 = @"3175843bcff1e3ae90a21725c089807c";
+NSString * const BUNDLED_MD5_ID_1 = @"3175843bcff1e3ae90a21725c089807c"; // Barrel OBJ model
+NSString * const BUNDLED_MD5_ID_2 = @"41af218364950bca5d66740f6355732c"; // Partial beam Ansys model
