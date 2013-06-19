@@ -152,17 +152,7 @@
 
 - (void)_showSpinner:(BOOL)shouldShow
 {
-    UIBarButtonItem *barbuttonItem;
-    if (shouldShow) {
-        UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        [spinner startAnimating];
-        barbuttonItem = [UIBarButtonItem.alloc initWithCustomView:spinner];
-        self.tempBarButtonItem = self.navigationItem.rightBarButtonItem;
-    } else {
-        barbuttonItem = self.tempBarButtonItem;
-        self.tempBarButtonItem = nil;
-    }
-    [self.navigationItem setRightBarButtonItem:barbuttonItem animated:YES];
+    shouldShow ? [self.refreshControl beginRefreshing] : [self.refreshControl endRefreshing];
 }
 
 
@@ -453,6 +443,12 @@
 
 - (void)_downloadSelectedItems
 {
+    if (![self.selectedItems count]) {
+        [self.selectedItems removeAllObjects];
+        [self _toggleSelectSubitemsState];
+        [self.tableView reloadData];
+        return;
+    }
     if (self.addToModel) {
         [PGDownloadManager.sharedInstance downloadFilesAndDirectories:[self.selectedItems copy] toModel:self.addToModel];
         [self.selectedItems removeAllObjects];
