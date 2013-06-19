@@ -162,7 +162,8 @@
                                     @"modelSize": fileAttributes[NSFileSize],
                                     @"filePath" : relativePath,
                                     @"dateAdded": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
-    return [[PGModel MR_importFromArray:@[objectDetails]] lastObject];
+    PGModel *model = [PGModel MR_importFromObject:objectDetails];
+    return model;
 }
 
 - (PGModel *)downloadFile:(DBMetadata *)metadata

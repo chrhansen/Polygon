@@ -36,6 +36,9 @@
 
 + (void)moveSubitemsAtDirectory:(NSString *)directoryPath toModelDirectory:(PGModel *)model
 {
+    if (!model) {
+        NSLog(@"model is nil: %s, main thread? :%d", __PRETTY_FUNCTION__, [NSThread isMainThread]);
+    }
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSArray *subItems = [fileManager contentsOfDirectoryAtPath:directoryPath error:nil];
     for (NSString *subItemPath in subItems) {
